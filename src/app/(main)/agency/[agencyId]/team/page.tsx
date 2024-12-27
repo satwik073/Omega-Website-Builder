@@ -7,34 +7,38 @@ import { columns } from './columns'
 import SendInvitation from '@/components/forms/send-invitation'
 
 type Props = {
-  params: { agencyId: string }
+  params: Promise<{ agencyId: string }>
 }
 
 const TeamPage = async ({ params }: Props) => {
+  const resolvedParams = await params
+
   const authUser = await currentUser()
-  const teamMembers = await db.user.findMany({
-    where: {
-      Agency: {
-        id: params.agencyId,
-      },
-    },
-    include: {
-      Agency: { include: { SubAccount: true } },
-      Permissions: { include: { SubAccount: true } },
-    },
-  })
-
   if (!authUser) return null
-  const agencyDetails = await db.agency.findUnique({
-    where: {
-      id: params.agencyId,
-    },
-    include: {
-      SubAccount: true,
-    },
-  })
 
-  if (!agencyDetails) return
+  const [teamMembers, agencyDetails] = await Promise.all([
+    db.user.findMany({
+      where: {
+        Agency: {
+          id: resolvedParams.agencyId,
+        },
+      },
+      include: {
+        Agency: { include: { SubAccount: true } },
+        Permissions: { include: { SubAccount: true } },
+      },
+    }),
+    db.agency.findUnique({
+      where: {
+        id: resolvedParams.agencyId,
+      },
+      include: {
+        SubAccount: true,
+      },
+    }),
+  ])
+
+  if (!agencyDetails) return null
 
   return (
     <DataTable

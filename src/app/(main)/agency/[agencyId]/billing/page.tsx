@@ -16,51 +16,50 @@ import clsx from 'clsx'
 import SubscriptionHelper from './_components/subscription-helper'
 
 type Props = {
-  params: { agencyId: string }
+  params: Promise<{ agencyId: string }>
 }
 
 const page = async ({ params }: Props) => {
-  //CHALLENGE : Create the add on  products
-  const addOns = await stripe.products.list({
-    ids: addOnProducts.map((product) => product.id),
-    expand: ['data.default_price'],
-  })
+  // Resolve the `Promise` for `params`
+  const resolvedParams = await params
 
-  const agencySubscription = await db.agency.findUnique({
-    where: {
-      id: params.agencyId,
-    },
-    select: {
-      customerId: true,
-      Subscription: true,
-    },
-  })
+  // Use Promises explicitly for asynchronous data fetching
+  const [addOns, agencySubscription, prices, charges] = await Promise.all([
+    stripe.products.list({
+      ids: addOnProducts.map((product) => product.id),
+      expand: ['data.default_price'],
+    }),
+    db.agency.findUnique({
+      where: { id: resolvedParams.agencyId },
+      select: { customerId: true, Subscription: true },
+    }),
+    stripe.prices.list({
+      product: process.env.NEXT_PLURA_PRODUCT_ID!,
+      active: true,
+    }),
+    stripe.charges.list({
+      limit: 50,
+      customer: (await db.agency.findUnique({
+        where: { id: resolvedParams.agencyId },
+      }))?.customerId,
+    }),
+  ])
 
-  const prices = await stripe.prices.list({
-    product: process.env.NEXT_PLURA_PRODUCT_ID,
-    active: true,
-  })
-
+  // Extract data for the current plan
   const currentPlanDetails = pricingCards.find(
     (c) => c.priceId === agencySubscription?.Subscription?.priceId
   )
 
-  const charges = await stripe.charges.list({
-    limit: 50,
-    customer: agencySubscription?.customerId,
-  })
-
-  const allCharges = [
-    ...charges.data.map((charge) => ({
-      description: charge.description,
-      id: charge.id,
-      date: `${new Date(charge.created * 1000).toLocaleTimeString()} ${new Date(
-        charge.created * 1000
-      ).toLocaleDateString()}`,
-      status: 'Paid',
-      amount: `$${charge.amount / 100}`,
-    })),
-  ]
+  // Map charges for rendering
+  const allCharges = charges.data.map((charge) => ({
+    description: charge.description,
+    id: charge.id,
+    date: `${new Date(charge.created * 1000).toLocaleTimeString()} ${new Date(
+      charge.created * 1000
+    ).toLocaleDateString()}`,
+    status: 'Paid',
+    amount: `$${charge.amount / 100}`,
+  }))
 
   return (
     <>

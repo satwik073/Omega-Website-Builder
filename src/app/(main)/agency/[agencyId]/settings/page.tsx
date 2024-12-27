@@ -5,44 +5,73 @@ import { currentUser } from '@clerk/nextjs'
 import React from 'react'
 
 type Props = {
-  params: { agencyId: string }
+  params: Promise<{ agencyId: string }>
 }
 
 const SettingsPage = async ({ params }: Props) => {
-  const authUser = await currentUser()
-  if (!authUser) return null
+  try {
+    // Resolve the Promise for params
+    const resolvedParams = await params
 
-  const userDetails = await db.user.findUnique({
-    where: {
-      email: authUser.emailAddresses[0].emailAddress,
-    },
-  })
+    // Fetch current authenticated user
+    const authUserPromise = currentUser()
 
-  if (!userDetails) return null
-  const agencyDetails = await db.agency.findUnique({
-    where: {
-      id: params.agencyId,
-    },
-    include: {
-      SubAccount: true,
-    },
-  })
+    // Fetch user details from the database
+    const userDetailsPromise = authUserPromise.then(async (authUser) => {
+      if (!authUser) return null
+      return await db.user.findUnique({
+        where: {
+          email: authUser.emailAddresses[0]?.emailAddress,
+        },
+      })
+    })
 
-  if (!agencyDetails) return null
+    // Fetch agency details from the database
+    const agencyDetailsPromise = userDetailsPromise.then(async (userDetails) => {
+      if (!userDetails) return null
+      return await db.agency.findUnique({
+        where: {
+          id: resolvedParams.agencyId,
+        },
+        include: {
+          SubAccount: true, // Include related SubAccounts
+        },
+      })
+    })
 
-  const subAccounts = agencyDetails.SubAccount
+    // Resolve all promises
+    const [authUser, userDetails, agencyDetails] = await Promise.all([
+      authUserPromise,
+      userDetailsPromise,
+      agencyDetailsPromise,
+    ])
 
-  return (
-    <div className="flex lg:!flex-row flex-col gap-4">
-      <AgencyDetails data={agencyDetails} />
-      <UserDetails
-        type="agency"
-        id={params.agencyId}
-        subAccounts={subAccounts}
-        userData={userDetails}
-      />
-    </div>
-  )
+    // Handle missing data
+    if (!authUser) return <p>Authentication required</p>
+    if (!userDetails) return <p>User details not found</p>
+    if (!agencyDetails) return <p>Agency details not found</p>
+
+    // Extract sub-accounts for rendering
+    const subAccounts = agencyDetails.SubAccount
+
+    return (
+      <div className="flex lg:!flex-row flex-col gap-4">
+        {/* Render agency details */}
+        <AgencyDetails data={agencyDetails} />
+
+        {/* Render user details with sub-accounts */}
+        <UserDetails
+          type="agency"
+          id={resolvedParams.agencyId}
+          subAccounts={subAccounts}
+          userData={userDetails}
+        />
+      </div>
+    )
+  } catch (error) {
+    console.error('Error loading settings page:', error)
+    return <p>An error occurred while loading the settings. Please try again later.</p>
+  }
 }
 
 export default SettingsPage
