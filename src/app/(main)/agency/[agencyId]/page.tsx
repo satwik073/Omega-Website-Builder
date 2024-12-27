@@ -22,12 +22,14 @@ import {
 import Link from 'next/link'
 import React from 'react'
 
-const Page = async ({
-  params,
-}: {
-  params: { agencyId: string }
-  searchParams: { code: string }
-}) => {
+type Props = {
+  params: Promise<{ agencyId: string }>
+  searchParams: Promise<{ code: string }>
+}
+
+const Page = async ({ params }: Props) => {
+  const resolvedParams = await params
+
   let currency = 'USD'
   let sessions
   let totalClosedSessions
@@ -41,15 +43,15 @@ const Page = async ({
 
   const agencyDetails = await db.agency.findUnique({
     where: {
-      id: params.agencyId,
+      id: resolvedParams.agencyId,
     },
   })
 
-  if (!agencyDetails) return
+  if (!agencyDetails) return null
 
   const subaccounts = await db.subAccount.findMany({
     where: {
-      agencyId: params.agencyId,
+      agencyId: resolvedParams.agencyId,
     },
   })
 
@@ -71,7 +73,7 @@ const Page = async ({
       .filter((session) => session.status === 'complete')
       .map((session) => ({
         ...session,
-        created: new Date(session.created).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString(),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
 
@@ -79,7 +81,7 @@ const Page = async ({
       .filter((session) => session.status === 'open')
       .map((session) => ({
         ...session,
-        created: new Date(session.created).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString(),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
     net = +totalClosedSessions
@@ -198,10 +200,7 @@ const Page = async ({
             </CardHeader>
             <AreaChart
               className="text-sm stroke-primary"
-              data={[
-                ...(totalClosedSessions || []),
-                ...(totalPendingSessions || []),
-              ]}
+              data={[...(totalClosedSessions || []), ...(totalPendingSessions || [])]}
               index="created"
               categories={['amount_total']}
               colors={['primary']}
