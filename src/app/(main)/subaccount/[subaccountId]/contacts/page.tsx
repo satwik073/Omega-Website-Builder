@@ -11,12 +11,12 @@ import {
 } from '@/components/ui/table'
 import { db } from '@/lib/db'
 import { Contact, SubAccount, Ticket } from '@prisma/client'
-import format from 'date-fns/format'
+import { format } from 'date-fns/format'
 import React from 'react'
 import CraeteContactButton from './_components/create-contact-btn'
 
 type Props = {
-  params: { subaccountId: string }
+  params: Promise<{ subaccountId: string }>
 }
 
 const ContactPage = async ({ params }: Props) => {
@@ -24,11 +24,12 @@ const ContactPage = async ({ params }: Props) => {
     Contact: (Contact & { Ticket: Ticket[] })[]
   }
 
+  const resolvedParams = await params
+
   const contacts = (await db.subAccount.findUnique({
     where: {
-      id: params.subaccountId,
+      id: resolvedParams.subaccountId,
     },
-
     include: {
       Contact: {
         include: {
@@ -44,6 +45,8 @@ const ContactPage = async ({ params }: Props) => {
       },
     },
   })) as SubAccountWithContacts
+
+  if (!contacts) return null
 
   const allContacts = contacts.Contact
 
@@ -61,10 +64,11 @@ const ContactPage = async ({ params }: Props) => {
 
     return amt.format(laneAmt)
   }
+
   return (
     <BlurPage>
       <h1 className="text-4xl p-4">Contacts</h1>
-      <CraeteContactButton subaccountId={params.subaccountId} />
+      <CraeteContactButton subaccountId={resolvedParams.subaccountId} />
       <Table>
         <TableHeader>
           <TableRow>
@@ -80,7 +84,7 @@ const ContactPage = async ({ params }: Props) => {
             <TableRow key={contact.id}>
               <TableCell>
                 <Avatar>
-                  <AvatarImage alt="@shadcn" />
+                  <AvatarImage alt={contact.name} />
                   <AvatarFallback className="bg-primary text-white">
                     {contact.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>

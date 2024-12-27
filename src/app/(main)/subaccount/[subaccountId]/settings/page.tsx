@@ -6,30 +6,34 @@ import { currentUser } from '@clerk/nextjs'
 import React from 'react'
 
 type Props = {
-  params: { subaccountId: string }
+  params: Promise<{ subaccountId: string }>
 }
 
 const SubaccountSettingPage = async ({ params }: Props) => {
+  const resolvedParams = await params
+
   const authUser = await currentUser()
-  if (!authUser) return
+  if (!authUser) return null
+
   const userDetails = await db.user.findUnique({
     where: {
-      email: authUser.emailAddresses[0].emailAddress,
+      email: authUser.emailAddresses[0]?.emailAddress,
     },
   })
-  if (!userDetails) return
+  if (!userDetails) return null
 
   const subAccount = await db.subAccount.findUnique({
-    where: { id: params.subaccountId },
+    where: { id: resolvedParams.subaccountId },
   })
-  if (!subAccount) return
+  if (!subAccount) return null
 
   const agencyDetails = await db.agency.findUnique({
     where: { id: subAccount.agencyId },
     include: { SubAccount: true },
   })
 
-  if (!agencyDetails) return
+  if (!agencyDetails) return null
+
   const subAccounts = agencyDetails.SubAccount
 
   return (
@@ -43,7 +47,7 @@ const SubaccountSettingPage = async ({ params }: Props) => {
         />
         <UserDetails
           type="subaccount"
-          id={params.subaccountId}
+          id={resolvedParams.subaccountId}
           subAccounts={subAccounts}
           userData={userDetails}
         />

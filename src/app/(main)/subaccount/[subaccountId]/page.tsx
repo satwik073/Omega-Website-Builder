@@ -28,13 +28,16 @@ import Link from 'next/link'
 import React from 'react'
 
 type Props = {
-  params: { subaccountId: string }
-  searchParams: {
-    code: string
-  }
+  params: Promise<{ subaccountId: string }>
+  searchParams: Promise<{ code: string }>
 }
 
 const SubaccountPageId = async ({ params, searchParams }: Props) => {
+  const [resolvedParams, resolvedSearchParams] = await Promise.all([
+    params,
+    searchParams,
+  ])
+
   let currency = 'USD'
   let sessions
   let totalClosedSessions
@@ -45,7 +48,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
 
   const subaccountDetails = await db.subAccount.findUnique({
     where: {
-      id: params.subaccountId,
+      id: resolvedParams.subaccountId,
     },
   })
 
@@ -53,7 +56,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
   const startDate = new Date(`${currentYear}-01-01T00:00:00Z`).getTime() / 1000
   const endDate = new Date(`${currentYear}-12-31T23:59:59Z`).getTime() / 1000
 
-  if (!subaccountDetails) return
+  if (!subaccountDetails) return null
 
   if (subaccountDetails.connectAccountId) {
     const response = await stripe.accounts.retrieve({
@@ -106,7 +109,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
 
   const funnels = await db.funnel.findMany({
     where: {
-      subAccountId: params.subaccountId,
+      subAccountId: resolvedParams.subaccountId,
     },
     include: {
       FunnelPages: true,
@@ -177,7 +180,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
               </CardContent>
               <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
             </Card>
-            <PipelineValue subaccountId={params.subaccountId} />
+            <PipelineValue subaccountId={resolvedParams.subaccountId} />
 
             <Card className="xl:w-fit">
               <CardHeader>
