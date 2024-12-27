@@ -28,20 +28,21 @@ import DeleteButton from './_components/delete-button'
 import CreateSubaccountButton from './_components/create-subaccount-btn'
 
 type Props = {
-  params: { agencyId: string }
+  params: Promise<{ agencyId: string }>
 }
 
-// Ensure `getServerSideProps` or `generateStaticParams` is used to fetch `params` correctly
 const AllSubaccountsPage = async ({ params }: Props) => {
+  // Resolve the Promise for params
+  const resolvedParams = await params
   const user = await getAuthUserDetails()
-  if (!user) return null // Return null or a meaningful fallback if no user is authenticated
+  if (!user) return null // Return null or a fallback UI if no user is authenticated
 
   return (
     <AlertDialog>
       <div className="flex flex-col">
         <CreateSubaccountButton
           user={user}
-          id={params.agencyId}
+          id={resolvedParams.agencyId}
           className="w-[200px] self-end m-6"
         />
         <Command className="rounded-lg bg-transparent">
