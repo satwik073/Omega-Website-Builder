@@ -31,13 +31,14 @@ type Props = {
   params: { agencyId: string }
 }
 
+// Ensure `getServerSideProps` or `generateStaticParams` is used to fetch `params` correctly
 const AllSubaccountsPage = async ({ params }: Props) => {
   const user = await getAuthUserDetails()
-  if (!user) return
+  if (!user) return null // Return null or a meaningful fallback if no user is authenticated
 
   return (
     <AlertDialog>
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <CreateSubaccountButton
           user={user}
           id={params.agencyId}
@@ -87,10 +88,10 @@ const AllSubaccountsPage = async ({ params }: Props) => {
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle className="text-left">
-                          Are your absolutely sure
+                          Are you absolutely sure?
                         </AlertDialogTitle>
                         <AlertDescription className="text-left">
-                          This action cannot be undon. This will delete the
+                          This action cannot be undone. This will delete the
                           subaccount and all data related to the subaccount.
                         </AlertDescription>
                       </AlertDialogHeader>
