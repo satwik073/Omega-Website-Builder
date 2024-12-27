@@ -16,20 +16,22 @@ import { stripe } from '@/lib/stripe'
 
 type Props = {
   params: Promise<{ agencyId: string }>
-  searchParams: { code: string }
+  searchParams: Promise<{ code: string }>
 }
 
 const LaunchPadPage = async ({ params, searchParams }: Props) => {
-  const resolvedParams = await params
+  const [resolvedParams, resolvedSearchParams] = await Promise.all([
+    params,
+    searchParams,
+  ])
 
   const agencyDetails = await db.agency.findUnique({
     where: { id: resolvedParams.agencyId },
   })
 
-  if (!agencyDetails) return
+  if (!agencyDetails) return null
 
   const allDetailsExist =
-    agencyDetails.address &&
     agencyDetails.address &&
     agencyDetails.agencyLogo &&
     agencyDetails.city &&
@@ -47,12 +49,12 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
 
   let connectedStripeAccount = false
 
-  if (searchParams.code) {
+  if (resolvedSearchParams.code) {
     if (!agencyDetails.connectAccountId) {
       try {
         const response = await stripe.oauth.token({
           grant_type: 'authorization_code',
-          code: searchParams.code,
+          code: resolvedSearchParams.code,
         })
         await db.agency.update({
           where: { id: resolvedParams.agencyId },
@@ -60,7 +62,7 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
         })
         connectedStripeAccount = true
       } catch (error) {
-        console.log('🔴 Could not connect stripe account')
+        console.error('🔴 Could not connect Stripe account:', error)
       }
     }
   }
@@ -70,7 +72,7 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
       <div className="w-full h-full max-w-[800px]">
         <Card className="border-none">
           <CardHeader>
-            <CardTitle>Lets get started!</CardTitle>
+            <CardTitle>Let's get started!</CardTitle>
             <CardDescription>
               Follow the steps below to get your account setup.
             </CardDescription>
@@ -85,7 +87,7 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
                   width={80}
                   className="rounded-md object-contain"
                 />
-                <p> Save the website as a shortcut on your mobile device</p>
+                <p>Save the website as a shortcut on your mobile device</p>
               </div>
               <Button>Start</Button>
             </div>
@@ -93,20 +95,20 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
               <div className="flex md:items-center gap-4 flex-col md:!flex-row">
                 <Image
                   src="/stripelogo.png"
-                  alt="app logo"
+                  alt="Stripe logo"
                   height={80}
                   width={80}
                   className="rounded-md object-contain"
                 />
                 <p>
-                  Connect your stripe account to accept payments and see your
+                  Connect your Stripe account to accept payments and see your
                   dashboard.
                 </p>
               </div>
               {agencyDetails.connectAccountId || connectedStripeAccount ? (
                 <CheckCircleIcon
                   size={50}
-                  className=" text-primary p-2 flex-shrink-0"
+                  className="text-primary p-2 flex-shrink-0"
                 />
               ) : (
                 <Link
@@ -121,12 +123,12 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
               <div className="flex md:items-center gap-4 flex-col md:!flex-row">
                 <Image
                   src={agencyDetails.agencyLogo}
-                  alt="app logo"
+                  alt="Agency logo"
                   height={80}
                   width={80}
                   className="rounded-md object-contain"
                 />
-                <p> Fill in all your business details</p>
+                <p>Fill in all your business details</p>
               </div>
               {allDetailsExist ? (
                 <CheckCircleIcon
