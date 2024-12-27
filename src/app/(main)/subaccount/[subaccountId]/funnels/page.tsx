@@ -6,8 +6,14 @@ import { columns } from './columns'
 import FunnelForm from '@/components/forms/funnel-form'
 import BlurPage from '@/components/global/blur-page'
 
-const Funnels = async ({ params }: { params: { subaccountId: string } }) => {
-  const funnels = await getFunnels(params.subaccountId)
+type Props = {
+  params: Promise<{ subaccountId: string }>
+}
+
+const Funnels = async ({ params }: Props) => {
+  const resolvedParams = await params
+
+  const funnels = await getFunnels(resolvedParams.subaccountId)
   if (!funnels) return null
 
   return (
@@ -20,7 +26,7 @@ const Funnels = async ({ params }: { params: { subaccountId: string } }) => {
           </>
         }
         modalChildren={
-          <FunnelForm subAccountId={params.subaccountId}></FunnelForm>
+          <FunnelForm subAccountId={resolvedParams.subaccountId}></FunnelForm>
         }
         filterValue="name"
         columns={columns}
