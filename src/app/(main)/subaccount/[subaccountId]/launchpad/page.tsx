@@ -16,22 +16,24 @@ import Link from 'next/link'
 import React from 'react'
 
 type Props = {
-  searchParams: {
-    state: string
-    code: string
-  }
-  params: { subaccountId: string }
+  params: Promise<{ subaccountId: string }>
+  searchParams: Promise<{ state: string; code: string }>
 }
 
 const LaunchPad = async ({ params, searchParams }: Props) => {
+  const [resolvedParams, resolvedSearchParams] = await Promise.all([
+    params,
+    searchParams,
+  ])
+
   const subaccountDetails = await db.subAccount.findUnique({
     where: {
-      id: params.subaccountId,
+      id: resolvedParams.subaccountId,
     },
   })
 
   if (!subaccountDetails) {
-    return
+    return null
   }
 
   const allDetailsExist =
@@ -51,20 +53,20 @@ const LaunchPad = async ({ params, searchParams }: Props) => {
 
   let connectedStripeAccount = false
 
-  if (searchParams.code) {
+  if (resolvedSearchParams.code) {
     if (!subaccountDetails.connectAccountId) {
       try {
         const response = await stripe.oauth.token({
           grant_type: 'authorization_code',
-          code: searchParams.code,
+          code: resolvedSearchParams.code,
         })
         await db.subAccount.update({
-          where: { id: params.subaccountId },
+          where: { id: resolvedParams.subaccountId },
           data: { connectAccountId: response.stripe_user_id },
         })
         connectedStripeAccount = true
       } catch (error) {
-        console.log('🔴 Could not connect stripe account', error)
+        console.error('🔴 Could not connect Stripe account', error)
       }
     }
   }
@@ -75,9 +77,9 @@ const LaunchPad = async ({ params, searchParams }: Props) => {
         <div className="w-full h-full max-w-[800px]">
           <Card className="border-none ">
             <CardHeader>
-              <CardTitle>Lets get started!</CardTitle>
+              <CardTitle>Let's get started!</CardTitle>
               <CardDescription>
-                Follow the steps below to get your account setup correctly.
+                Follow the steps below to get your account set up correctly.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
@@ -90,7 +92,7 @@ const LaunchPad = async ({ params, searchParams }: Props) => {
                     width={80}
                     className="rounded-md object-contain"
                   />
-                  <p>Save the website as a shortcut on your mobile devide</p>
+                  <p>Save the website as a shortcut on your mobile device</p>
                 </div>
                 <Button>Start</Button>
               </div>
@@ -104,7 +106,7 @@ const LaunchPad = async ({ params, searchParams }: Props) => {
                     className="rounded-md object-contain "
                   />
                   <p>
-                    Connect your stripe account to accept payments. Stripe is
+                    Connect your Stripe account to accept payments. Stripe is
                     used to run payouts.
                   </p>
                 </div>
