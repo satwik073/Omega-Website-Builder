@@ -1,4 +1,4 @@
-# SaaS Website Builder, Project Management And Dashboard With Stripe using Nextjs14, Bun, Stripe Connect, Prisma, MySQL, Tailwind
+<!-- # SaaS Website Builder, Project Management And Dashboard With Stripe using Nextjs14, Bun, Stripe Connect, Prisma, MySQL, Tailwind
 
 License: [Purchase your license from here to use this project for commercial use](https://webprodigies.com/codelicense)
 
@@ -49,4 +49,4 @@ Share all bugs and solutions in the discord. Would love to collaborate and get t
 [ibelick](https://bg.ibelick.com/)
 
 ## Shadcn UI Theme creator
-[Link To Website](https://gradient.page/tools/shadcn-ui-theme-generator)
+[Link To Website](https://gradient.page/tools/shadcn-ui-theme-generator) -->
