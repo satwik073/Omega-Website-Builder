@@ -109,12 +109,18 @@ const MenuOptions = ({
         fill
         className="rounded-md object-contain"
       /> */}
+                    <Image
+                      src={'/assets/one-week.png'}
+                      alt="Sidebar Logo"
+                      fill
+                      className="rounded-md object-contain"
+                    />
                   </div>
                   {/* Name and Details */}
 
                   <div className='flex flex-col'>
 
-                    <span className="text-base text-start font-bold truncate ">{details?.name}satwik</span>
+                    <span className="text-base text-start font-bold truncate ">{details?.name} satwik</span>
                     <span className="text-xs text-start">{details?.address}</span>
                   </div>
                 </div>
@@ -154,6 +160,12 @@ const MenuOptions = ({
                                   fill
                                   className="rounded-md object-contain aspect-square justify-center  items-center flex"
                                 /> */}
+                                  <Image
+                                    src={'/assets/one-week.png'}
+                                    alt="Sidebar Logo"
+                                    fill
+                                    className="rounded-md object-contain"
+                                  />
                                 </div>
                                 <div className="flex flex-col">
                                   <span className="text-base text-start font-bold truncate">{user?.Agency?.name}</span>
@@ -184,6 +196,12 @@ const MenuOptions = ({
                                   fill
                                   className="rounded-md object-contain"
                                 /> */}
+                                    <Image
+                                      src={'/assets/fireart.png'}
+                                      alt="Sidebar Logo"
+                                      fill
+                                      className="rounded-md object-contain"
+                                    />
                                   </div>
                                   <div className="flex flex-col">
                                     <span className="text-base text-start font-bold truncate">{subaccount.name}</span>
@@ -272,7 +290,7 @@ const MenuOptions = ({
                 </div>
                 <Separator className='mt-2' />
                 <CommandList className="py-4">
-                <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
+                  <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
                   <CommandGroup>
                     {sidebarOpt.map((sidebarOptions) => {
                       const result = icons.find((icon) => icon.value === sidebarOptions.icon);
@@ -299,7 +317,7 @@ const MenuOptions = ({
                 </div>
                 <Separator className='mt-2' />
                 <CommandList className="mb-36">
-                <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
+                  <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
                   <CommandGroup>
                     {sidebarOpt.map((sidebarOptions) => {
                       const result = icons.find((icon) => icon.value === sidebarOptions.icon);

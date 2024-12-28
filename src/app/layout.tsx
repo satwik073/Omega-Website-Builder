@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   title: 'Plura',
   description: 'All in one Agency Solution',
   icons: {
-    icon: '/assets/favicon.ico', // Path to your SVG logo
-    shortcut: '/assets/favicon.ico', // Optional: Browser shortcut icon
-    apple: '/assets/favicon.ico', // Optional: Apple Touch Icon
+    icon: '/assets/one-week.png', // Path to your SVG logo
+    shortcut: '/assets/one-week.png', // Optional: Browser shortcut icon
+    apple: '/assets/one-week.png', // Optional: Apple Touch Icon
   },
 }
 
