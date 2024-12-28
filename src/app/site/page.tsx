@@ -62,11 +62,11 @@ export default async function Home() {
             </div>
             <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
           </button>
-          {/* <div className="bg-gradient-to-r from-primary to-secondary-foreground text-transparent bg-clip-text relative "> */}
+          <div className="bg-gradient-to-r from-primary to-secondary-foreground text-transparent bg-clip-text relative ">
           <h1 className="text-4xl font-bold leading-tight tracking-tighter md:text-6xl lg:text-6xl px-1 lg:leading-[2.1] z-10 bg-clip-text text-transparent bg-gradient-to-b dark:from-neutral-200 dark:to-neutral-600 md:text-center font-sans">
             Build your component library
           </h1>
-          {/* </div>//</section> */}
+          </div>
         </div>
 
         {/* Image */}
