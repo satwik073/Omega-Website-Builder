@@ -35,10 +35,13 @@ export default async function Home() {
         {/* <p className="text-center  font-medium">
           Run your agency, in one place
         </p> */}
-        <div className="bg-gradient-to-r from-primary to-secondary-foreground text-transparent bg-clip-text relative md:mt-[120px] ">
+        <div className='md:mt-0 lg:mt-80'> 
+
+        <div className="bg-gradient-to-r from-primary to-secondary-foreground text-transparent bg-clip-text relative ">
           <h1 className="text-4xl font-bold leading-tight tracking-tighter md:text-6xl lg:text-6xl px-6 lg:leading-[2.1] z-10 bg-clip-text text-transparent bg-gradient-to-b dark:from-neutral-200 dark:to-neutral-600 md:text-center font-sans">
             Build your component library
           </h1>
+        </div>
         </div>
 
         {/* Image */}
