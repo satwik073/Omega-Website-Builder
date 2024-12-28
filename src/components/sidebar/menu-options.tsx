@@ -136,8 +136,8 @@ const MenuOptions = ({
                 </div>
                 <Command className="rounded-lg">
                   <CommandInput placeholder="Search Accounts..." />
-                  <CommandList className="pb-16 h-fit overflow-y-scroll no-scrollbar">
-                    <CommandEmpty className=' text-red-600 text-center  pt-4'>No results found</CommandEmpty>
+                  <CommandList className="pb-16  overflow-y-scroll no-scrollbar max-h-[305px]">
+                    <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
 
                     {/* Agency Section */}
                     {(user?.role === 'AGENCY_OWNER' || user?.role === 'AGENCY_ADMIN') && user?.Agency && (
@@ -245,7 +245,7 @@ const MenuOptions = ({
                 </div>
                 <Separator className='mt-2' />
                 <CommandList className="py-4">
-                  <CommandEmpty className='text-red-600 text-center  pt-4'>No Results Found</CommandEmpty>
+                  <CommandEmpty className='text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
                   <CommandGroup>
                     {sidebarOpt.map((sidebarOptions) => {
                       const result = icons.find((icon) => icon.value === sidebarOptions.icon);
@@ -272,6 +272,7 @@ const MenuOptions = ({
                 </div>
                 <Separator className='mt-2' />
                 <CommandList className="py-4">
+                <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
                   <CommandGroup>
                     {sidebarOpt.map((sidebarOptions) => {
                       const result = icons.find((icon) => icon.value === sidebarOptions.icon);
@@ -298,6 +299,7 @@ const MenuOptions = ({
                 </div>
                 <Separator className='mt-2' />
                 <CommandList className="mb-36">
+                <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
                   <CommandGroup>
                     {sidebarOpt.map((sidebarOptions) => {
                       const result = icons.find((icon) => icon.value === sidebarOptions.icon);
