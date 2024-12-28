@@ -11,8 +11,13 @@ import { Toaster as SonnarToaster } from '@/components/ui/sonner'
 const font = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Plura',
+  title: 'Arobix Design | All in one Agency Solution ',
   description: 'All in one Agency Solution',
+  icons: {
+    icon: '/assets/one-week.png', // Path to your SVG logo
+    shortcut: '/assets/one-week.png', // Optional: Browser shortcut icon
+    apple: '/assets/one-week.png', // Optional: Apple Touch Icon
+  },
 }
 
 export default function RootLayout({

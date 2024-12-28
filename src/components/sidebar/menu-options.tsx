@@ -13,6 +13,7 @@ import { ChevronsUpDown, Compass, Menu, PlusCircleIcon } from 'lucide-react'
 import clsx from 'clsx'
 import { AspectRatio } from '../ui/aspect-ratio'
 import Image from 'next/image'
+import { IconChevronUp, IconHome, IconSearch, IconSelector } from '@tabler/icons-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import {
   Command,
@@ -29,6 +30,8 @@ import CustomModal from '../global/custom-modal'
 import SubAccountDetails from '../forms/subaccount-details'
 import { Separator } from '../ui/separator'
 import { icons } from '@/lib/constants'
+import { Input } from '../ui/input'
+import { Label } from '../ui/label'
 
 type Props = {
   defaultOpen?: boolean
@@ -70,7 +73,7 @@ const MenuOptions = ({
     >
       <SheetTrigger
         asChild
-        className="absolute left-4 top-4 z-[100] md:!hidden felx"
+        className="absolute left-4 z-[100] md:!hidden felx"
       >
         <Button
           variant="outline"
@@ -92,208 +95,253 @@ const MenuOptions = ({
         )}
       >
         <div>
-          <AspectRatio ratio={16 / 5}>
-            <Image
-              src={sidebarLogo}
-              alt="Sidebar Logo"
-              fill
-              className="rounded-md object-contain"
-            />
-          </AspectRatio>
           <Popover>
             <PopoverTrigger asChild>
-              <Button
-                className="w-full my-4 flex items-center justify-between py-8"
-                variant="ghost"
-              >
-                <div className="flex items-center text-left gap-2">
-                  <Compass />
-                  <div className="flex flex-col">
-                    {details.name}
-                    <span className="text-muted-foreground">
-                      {details.address}
-                    </span>
+              <div className="w-full   cursor-pointer mb-4 flex items-center justify-between">
+                {/* Left Section: Image and Details */}
+                <div className="flex items-center gap-4 w-full">
+                  {/* Image */}
+                  <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
+                    {/* Uncomment this if using the Image */}
+                    {/* <Image
+        src={sidebarLogo}
+        alt="Sidebar Logo"
+        fill
+        className="rounded-md object-contain"
+      /> */}
+                    <Image
+                      src={'/assets/one-week.png'}
+                      alt="Sidebar Logo"
+                      fill
+                      className="rounded-md object-contain"
+                    />
+                  </div>
+                  {/* Name and Details */}
+
+                  <div className='flex flex-col'>
+
+                    <span className="text-base text-start font-bold truncate ">{details?.name} satwik</span>
+                    <span className="text-xs text-start">{details?.address}</span>
                   </div>
                 </div>
-                <div>
-                  <ChevronsUpDown
-                    size={16}
-                    className="text-muted-foreground"
-                  />
+
+                {/* Right Section: Selector Icon */}
+                <div className="flex items-center flex-shrink-0">
+                  <IconSelector size={24} className="text-muted-foreground" />
                 </div>
-              </Button>
+              </div>
+
             </PopoverTrigger>
-            <PopoverContent className="w-80 h-80 mt-4 z-[200]">
-              <Command className="rounded-lg">
-                <CommandInput placeholder="Search Accounts..." />
-                <CommandList className="pb-16">
-                  <CommandEmpty> No results found</CommandEmpty>
-                  {(user?.role === 'AGENCY_OWNER' ||
-                    user?.role === 'AGENCY_ADMIN') &&
-                    user?.Agency && (
+            <PopoverContent className="w-80 mx-6 mt-3">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Dimensions</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Set the dimensions for the layer.
+                  </p>
+                </div>
+                <Command className="rounded-lg">
+                  <CommandInput placeholder="Search Accounts..." />
+                  <CommandList className="pb-16  overflow-y-scroll no-scrollbar max-h-[305px]">
+                    <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
+
+                    {/* Agency Section */}
+                    {(user?.role === 'AGENCY_OWNER' || user?.role === 'AGENCY_ADMIN') && user?.Agency && (
                       <CommandGroup heading="Agency">
-                        <CommandItem className="!bg-transparent my-2 text-primary broder-[1px] border-border p-2 rounded-md hover:!bg-muted cursor-pointer transition-all">
-                          {defaultOpen ? (
-                            <Link
-                              href={`/agency/${user?.Agency?.id}`}
-                              className="flex gap-4 w-full h-full"
-                            >
-                              <div className="relative w-16">
-                                <Image
-                                  src={user?.Agency?.agencyLogo}
+                        <CommandItem className="my-2 text-primary border-[1px] border-border p-2 rounded-md cursor-pointer transition-all">
+                          <Link href={`/agency/${user?.Agency?.id}`} className="flex gap-4 w-full h-full">
+                            <div className="w-full cursor-pointer flex items-center justify-between">
+                              {/* Left Section: Image and Details */}
+                              <div className="flex items-center gap-4 w-full">
+                                <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
+                                  {/* <Image
+                                  src={user?.Agency?.agencyLogo || '/placeholder.png'}
                                   alt="Agency Logo"
                                   fill
-                                  className="rounded-md object-contain"
-                                />
-                              </div>
-                              <div className="flex flex-col flex-1">
-                                {user?.Agency?.name}
-                                <span className="text-muted-foreground">
-                                  {user?.Agency?.address}
-                                </span>
-                              </div>
-                            </Link>
-                          ) : (
-                            <SheetClose asChild>
-                              <Link
-                                href={`/agency/${user?.Agency?.id}`}
-                                className="flex gap-4 w-full h-full"
-                              >
-                                <div className="relative w-16">
+                                  className="rounded-md object-contain aspect-square justify-center  items-center flex"
+                                /> */}
                                   <Image
-                                    src={user?.Agency?.agencyLogo}
-                                    alt="Agency Logo"
+                                    src={'/assets/one-week.png'}
+                                    alt="Sidebar Logo"
                                     fill
                                     className="rounded-md object-contain"
                                   />
                                 </div>
-                                <div className="flex flex-col flex-1">
-                                  {user?.Agency?.name}
-                                  <span className="text-muted-foreground">
-                                    {user?.Agency?.address}
-                                  </span>
+                                <div className="flex flex-col">
+                                  <span className="text-base text-start font-bold truncate">{user?.Agency?.name}</span>
+                                  <span className="text-xs text-start truncate w-[80%]">{user?.Agency?.address}</span>
                                 </div>
-                              </Link>
-                            </SheetClose>
-                          )}
+                              </div>
+                            </div>
+                          </Link>
                         </CommandItem>
                       </CommandGroup>
                     )}
-                  <CommandGroup heading="Accounts">
-                    {!!subAccounts
-                      ? subAccounts.map((subaccount) => (
-                          <CommandItem key={subaccount.id}>
-                            {defaultOpen ? (
-                              <Link
-                                href={`/subaccount/${subaccount.id}`}
-                                className="flex gap-4 w-full h-full"
-                              >
-                                <div className="relative w-16">
-                                  <Image
-                                    src={subaccount.subAccountLogo}
-                                    alt="subaccount Logo"
-                                    fill
-                                    className="rounded-md object-contain"
-                                  />
-                                </div>
-                                <div className="flex flex-col flex-1">
-                                  {subaccount.name}
-                                  <span className="text-muted-foreground">
-                                    {subaccount.address}
-                                  </span>
-                                </div>
-                              </Link>
-                            ) : (
-                              <SheetClose asChild>
-                                <Link
-                                  href={`/subaccount/${subaccount.id}`}
-                                  className="flex gap-4 w-full h-full"
-                                >
-                                  <div className="relative w-16">
+
+                    {/* Subaccounts Section */}
+                    <CommandGroup heading="Accounts" >
+                      {subAccounts?.length ? (
+                        subAccounts.map((subaccount) => (
+                          <CommandItem
+                            key={subaccount?.id}
+                            className="my-2 text-primary border-[1px] border-border p-2 rounded-md cursor-pointer transition-all"
+                          >
+                            <Link href={`/subaccount/${subaccount.id}`} className="flex gap-4 w-full h-full">
+                              <div className="w-full cursor-pointer flex items-center justify-between">
+                                <div className="flex items-center gap-4 w-full">
+                                  <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
+                                    {/* <Image
+                                  src={subaccount.subAccountLogo || '/placeholder.png'}
+                                  alt="Subaccount Logo"
+                                  fill
+                                  className="rounded-md object-contain"
+                                /> */}
                                     <Image
-                                      src={subaccount.subAccountLogo}
-                                      alt="subaccount Logo"
+                                      src={'/assets/fireart.png'}
+                                      alt="Sidebar Logo"
                                       fill
                                       className="rounded-md object-contain"
                                     />
                                   </div>
-                                  <div className="flex flex-col flex-1">
-                                    {subaccount.name}
-                                    <span className="text-muted-foreground">
-                                      {subaccount.address}
-                                    </span>
+                                  <div className="flex flex-col">
+                                    <span className="text-base text-start font-bold truncate">{subaccount.name}</span>
+                                    <span className="text-xs text-start truncate w-[80%]">{subaccount.address}</span>
                                   </div>
-                                </Link>
-                              </SheetClose>
-                            )}
+                                </div>
+                              </div>
+                            </Link>
                           </CommandItem>
                         ))
-                      : 'No Accounts'}
-                  </CommandGroup>
-                </CommandList>
-                {(user?.role === 'AGENCY_OWNER' ||
-                  user?.role === 'AGENCY_ADMIN') && (
-                  <SheetClose>
-                    <Button
-                      className="w-full flex gap-2"
-                      onClick={() => {
-                        setOpen(
-                          <CustomModal
-                            title="Create A Subaccount"
-                            subheading="You can switch between your agency account and the subaccount from the sidebar"
-                          >
-                            <SubAccountDetails
-                              agencyDetails={user?.Agency as Agency}
-                              userId={user?.id as string}
-                              userName={user?.name}
-                            />
-                          </CustomModal>
-                        )
-                      }}
-                    >
-                      <PlusCircleIcon size={15} />
-                      Create Sub Account
-                    </Button>
-                  </SheetClose>
-                )}
-              </Command>
+                      ) : (
+                        <CommandEmpty>No Accounts</CommandEmpty>
+                      )}
+                    </CommandGroup>
+                  </CommandList>
+
+                  {/* Create Subaccount Section */}
+                  {(user?.role === 'AGENCY_OWNER' || user?.role === 'AGENCY_ADMIN') && (
+                    <SheetClose>
+                      <Button
+                        className="w-full flex gap-2"
+                        onClick={() => {
+                          setOpen(
+                            <CustomModal
+                              title="Create A Subaccount"
+                              subheading="You can switch between your agency account and the subaccount from the sidebar"
+                            >
+                              <SubAccountDetails
+                                agencyDetails={user?.Agency as Agency}
+                                userId={user?.id as string}
+                                userName={user?.name}
+                              />
+                            </CustomModal>
+                          );
+                        }}
+                      >
+                        <PlusCircleIcon size={15} />
+                        Create Sub Account
+                      </Button>
+                    </SheetClose>
+                  )}
+                </Command>
+
+              </div>
             </PopoverContent>
           </Popover>
           <p className="text-muted-foreground text-xs mb-2">MENU LINKS</p>
           <Separator className="mb-4" />
-          <nav className="relative">
-            <Command className="rounded-lg overflow-visible bg-transparent">
+          <nav className="relative h-screen overflow-y-scroll no-scrollbar">
+            <Command className="rounded-lg overflow-hidden bg-transparent h-full">
               <CommandInput placeholder="Search..." />
-              <CommandList className="py-4 overflow-visible">
-                <CommandEmpty>No Results Found</CommandEmpty>
-                <CommandGroup className="overflow-visible">
-                  {sidebarOpt.map((sidebarOptions) => {
-                    let val
-                    const result = icons.find(
-                      (icon) => icon.value === sidebarOptions.icon
-                    )
-                    if (result) {
-                      val = <result.path />
-                    }
-                    return (
-                      <CommandItem
-                        key={sidebarOptions.id}
-                        className="md:w-[320px] w-full"
-                      >
-                        <Link
-                          href={sidebarOptions.link}
-                          className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
-                        >
-                          {val}
-                          <span>{sidebarOptions.name}</span>
-                        </Link>
-                      </CommandItem>
-                    )
-                  })}
-                </CommandGroup>
-              </CommandList>
+              {/* Scrollable Container */}
+              <div className="h-[calc(100%-3rem)]  overflow-y-scroll no-scrollbar">
+                {/* Command List 1 */}
+                <div className='w-full py-0.5 flex justify-between items-center mt-6'>
+
+                  <p className="text-muted-foreground flex items-center text-xs">WORKFLOWS</p>
+                  <IconChevronUp size={16} className='flex items-center text-inherit' />
+                </div>
+                <Separator className='mt-2' />
+                <CommandList className="py-4">
+                  <CommandEmpty className='text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
+                  <CommandGroup>
+                    {sidebarOpt.map((sidebarOptions) => {
+                      const result = icons.find((icon) => icon.value === sidebarOptions.icon);
+                      const val = result ? <result.path /> : null;
+                      return (
+                        <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
+                          <Link
+                            href={sidebarOptions.link}
+                            className="flex items-center text-inherit gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
+                          >
+                            {val}
+                            <span>{sidebarOptions.name}</span>
+                          </Link>
+                        </CommandItem>
+                      );
+                    })}
+                  </CommandGroup>
+                </CommandList>
+                {/* Command List 2 */}
+                <div className='w-full py-0.5 flex justify-between items-center'>
+
+                  <p className="text-muted-foreground flex items-center text-xs">DOCUMENTS</p>
+                  <IconChevronUp size={16} className='flex items-center text-inherit' />
+                </div>
+                <Separator className='mt-2' />
+                <CommandList className="py-4">
+                  <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
+                  <CommandGroup>
+                    {sidebarOpt.map((sidebarOptions) => {
+                      const result = icons.find((icon) => icon.value === sidebarOptions.icon);
+                      const val = result ? <result.path /> : null;
+                      return (
+                        <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
+                          <Link
+                            href={sidebarOptions.link}
+                            className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
+                          >
+                            {val}
+                            <span>{sidebarOptions.name}</span>
+                          </Link>
+                        </CommandItem>
+                      );
+                    })}
+                  </CommandGroup>
+                </CommandList>
+                {/* Command List 3 */}
+                <div className='w-full py-0.5 flex justify-between items-center'>
+
+                  <p className="text-muted-foreground flex items-center text-xs">CONTACTS</p>
+                  <IconChevronUp size={16} className='flex items-center text-inherit' />
+                </div>
+                <Separator className='mt-2' />
+                <CommandList className="mb-36">
+                  <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
+                  <CommandGroup>
+                    {sidebarOpt.map((sidebarOptions) => {
+                      const result = icons.find((icon) => icon.value === sidebarOptions.icon);
+                      const val = result ? <result.path /> : null;
+                      return (
+                        <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
+                          <Link
+                            href={sidebarOptions.link}
+                            className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
+                          >
+                            {val}
+                            <span>{sidebarOptions.name}</span>
+                          </Link>
+                        </CommandItem>
+                      );
+                    })}
+                  </CommandGroup>
+                </CommandList>
+              </div>
             </Command>
           </nav>
+
+
+
         </div>
       </SheetContent>
     </Sheet>
