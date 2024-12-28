@@ -13,6 +13,11 @@ const font = DM_Sans({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Plura',
   description: 'All in one Agency Solution',
+  icons: {
+    icon: '/assets/favicon.ico', // Path to your SVG logo
+    shortcut: '/assets/favicon.ico', // Optional: Browser shortcut icon
+    apple: '/assets/favicon.ico', // Optional: Apple Touch Icon
+  },
 }
 
 export default function RootLayout({

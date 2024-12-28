@@ -17,7 +17,7 @@ const Navigation = ({ user }: Props) => {
         border-b-[1px] border-neutral-100 dark:border-neutral-900 ">
       <aside className="flex items-center gap-2">
         <Image
-          src={'./assets/plura-logo.svg'}
+          src={'/assets/favicon.ico'}
           width={40}
           height={40}
           alt="plur logo"
