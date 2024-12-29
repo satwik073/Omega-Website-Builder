@@ -22,11 +22,32 @@ const Navigation = ({ user }: Props) => {
   const isCompactDetected = useMediaQuery(theme.breakpoints.down("sm"))
   const [isHovered, setIsHovered] = useState(false);
   return (
+    <div className='fixed top-0 right-0 left-0 z-50'>
+
+    <header className="h-16 bg-black w-full flex justify-center py-5 px-6">
+      <p className='md:text-md text-sm text-white flex items-center gap-6 py-2'>Get - 25% discount {isCompactDetected ? ('now'): ('during January 2025') }
+      <Button
+              variant="outline"
+              className={`bg-transparent border  rounded-full ${ThemeSettings(
+                OptionsConfig?._BORDER?.ENABLE,
+                OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT"
+              )} border-white hover:!text-black`}
+              style={{
+                color: isHovered
+                  ? process.env.NEXT_OVERALL_PALLETE || "#000000"
+                  : "#FFFFFF",
+              }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >Create Account</Button>
+      </p>
+    </header>
     <div
-      className="fixed top-0 right-0 left-0 px-4 flex md:p-4  items-center justify-between md:px-12  backdrop-blur-lg z-[1000]"
+      className=" px-4 flex md:p-4  bg-[#2e4bcd2e] items-center justify-between md:px-12  backdrop-blur-lg z-[1000]"
       style={{
         backgroundColor: `${process.env.NEXT_OVERALL_PALLETE}50`,
       }}
+
     >
       <aside className="flex items-center gap-2">
         <Image
@@ -38,7 +59,7 @@ const Navigation = ({ user }: Props) => {
         <span className={`text-xl tracking-tighter font-bold ${ThemeSettings(OptionsConfig?._BORDER?.DISABLE, OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")}`}>{!isCompactDetected && (ConfigurationSchema?.PRODUCT_EXTRACTED_FILE || 'Arobix')}</span>
       </aside>
       <nav className="hidden md:block absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%]">
-        <ul className={`flex items-center  justify-center ${ThemeSettings(OptionsConfig?._BORDER?.DISABLE, OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")} gap-8 `}>
+        <ul className={`flex items-center ${ThemeSettings(OptionsConfig?._BORDER?.DISABLE, OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")} gap-8 `}>
           <Link href={'#'}>Pricing</Link>
           <Link href={'#'}>About</Link>
           <Link href={'#'}>Documentation</Link>
@@ -72,6 +93,8 @@ const Navigation = ({ user }: Props) => {
           <ModeToggle />
         </aside>
       )}
+    </div>
+          
     </div>
   )
 }
