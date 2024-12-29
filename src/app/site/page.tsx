@@ -8,7 +8,9 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Spotlight } from '@/components/ui/spotlight'
+import { MarqueeDemo } from '@/Controllers/AutoSlide'
 import { AnimatedTooltipPreview } from '@/Controllers/DynamicTooltip'
+import { TimelineDemo } from '@/Controllers/TimeLinePicker'
 import { pricingCards } from '@/lib/constants'
 import { ThemeSettings } from '@/lib/functions'
 import { stripe } from '@/lib/stripe'
@@ -188,6 +190,69 @@ export default async function Home() {
         </div>
       </div>
 
+
+      <div className="bg-black text-white py-16 px-6 lg:px-20">
+  {/* Header Section */}
+  <div className="text-center mb-12">
+    <h1 className="text-4xl lg:text-6xl font-bold tracking-tighter leading-tight">
+      <span className="block sm:inline">
+        Build your new website & develop <br /> your business
+      </span>
+    </h1>
+  </div>
+
+  <div className="bg-black text-white py-16 px-6 lg:px-20">
+  {/* Hero Section */}
+  <div className="flex justify-center mb-12 max-w-7xl w-full mx-auto">
+    <Image
+      src={'/assets/4.png'}
+      alt="banner image"
+      height={5200}
+      width={5200}
+      className="rounded-tl-lg rounded-tr-lg w-full h-auto"
+    />
+  </div>
+
+  {/* Header Section */}
+  <header className="w-full flex justify-center items-center lg:w-11/12 max-w-7xl h-full z-30">
+    <div className="w-full">
+      <div className="lg:flex items-center justify-center lg:justify-between">
+        <div className="lg:w-1/2 text-center lg:text-left">
+          <div className="text-3xl lg:text-5xl tracking-tighter font-bold mb-2">
+            Website templates for every purpose
+          </div>
+        </div>
+        <div className="lg:w-1/2 flex justify-center lg:justify-end lg:ml-8">
+          <p className="md:text-lg text-sm my-4 md:my-5 max-w-md w-full text-center lg:text-left">
+            Start with a flexible template, then customize to fit your style and professional needs with our webiste builder
+            <div className="flex gap-4 mt-5 justify-center lg:justify-start">
+              <Button
+                variant="default"
+                className={`text-[#ffffff] underline text-md px-0 flex justify-center lg:justify-start bg-transparent hover:bg-transparent cursor-pointer`}
+              >
+                Explore all templates<IconArrowUpRight className="text-[#ffffff]" />
+              </Button>
+            </div>
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {/* Website Templates Section */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start max-w-7xl mx-auto">
+    {/* Template Categories */}
+   
+  </div>
+
+  {/* Footer Logos */}
+  {/* <MarqueeDemo/> */}
+ 
+</div>
+<TimelineDemo/>
+
+  
+</div>
 
 
       {/* <div className="lg:w-1/2 flex flex-col items-center lg:items-start">
