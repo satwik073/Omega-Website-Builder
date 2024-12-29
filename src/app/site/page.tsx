@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Spotlight } from '@/components/ui/spotlight'
+import { AnimatedTooltipPreview } from '@/Controllers/DynamicTooltip'
 import { pricingCards } from '@/lib/constants'
 import { ThemeSettings } from '@/lib/functions'
 import { stripe } from '@/lib/stripe'
@@ -26,7 +27,7 @@ export default async function Home() {
   return (
     <>
       <section
-        className="h-[70vh] w-full relative flex items-center justify-center flex-col px-4 lg:px-12 "
+        className=" w-full relative flex items-center justify-center flex-col px-4 lg:px-12 "
         style={{ backgroundColor: `#${process.env.NEXT_OVERALL_PALLETE}` }}
       >
         {/* Content */}
@@ -41,21 +42,24 @@ export default async function Home() {
   className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,rgba(229,229,229,0.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(229,229,229,0.2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)] z-10"
 ></div>
 
-<header className=' w-full lg:w-11/12 h-full flex items-center'>
-  <aside>
+<header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center md:mt-[250px] mt-[180px] h-full flex items-center z-30'>
+  <div className='w-full'>
     <div className='lg:flex items-center justify-between'>
-      <p className='md:text-5xl text-4xl sm:w-[80%] lg:w-[60%] lg:text-7xl text-white font-extrabold tracking-tighter'>The site you want - without develop time</p>
-      <div className='lg:w-[40%]'>
-      <p className='md:text-lg text-sm text-white my-4 md:mt-0'>Easiest develop design to website using Arobix and start your free website trial today. No credit required
-      <div className='flex gap-2 mt-4'>
-        <Button variant={'default'} className={`text-black cursor-pointer bg-white`}> Start building now!</Button>
+      <div className='lg:w-1/2'>
+
+      <div className='md:text-5xl text-4xl w-full lg:w-full md:w-[70%]  xl:text-7xl text-white font-extrabold tracking-tighter'>The site you want without develop time</div>
+      </div>
+      <div className='lg:w-1/2 lg:justify-end flex items-end lg:ml-8'>
+      <p className='md:text-lg text-sm text-white my-4 md:my-5 max-w-md w-full'>Easiest develop design to website using Arobix and start your free website trial today. No credit required
+      <div className='flex gap-4 mt-5'>
+        <Button variant={'default'} className={`text-black hover:bg-white cursor-pointer bg-white`}> Start building now!</Button>
           <Button variant="outline" className={`bg-transparent border cursor-pointer ${ThemeSettings(OptionsConfig?._BORDER?.ENABLE,OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")} border-white hover:!text-black`}>Learn to know</Button>
         </div>
       </p>
       </div>
 
     </div>
-  </aside>
+  </div>
 </header>
       {/* Heading */}
       {/* <p className="text-center  font-medium">
@@ -96,16 +100,16 @@ export default async function Home() {
       </div> */}
 
       {/* Image */}
-      {/* <div className="flex justify-center items-center relative mt-6  w-full max-w-5xl">
+      <div className="flex justify-center lg:px-0 md:px-10 relative mt-10 md:mt-24  w-full max-w-5xl">
         <Image
-          src={'/assets/preview.png'}
+          src={'/assets/web1.png'}
           alt="banner image"
           height={5200}
           width={5200}
           className="rounded-tl-lg rounded-tr-lg border-2 border-muted w-full h-auto"
         />
-        <div className="bottom-0 top-[50%] md:top-[50%] bg-gradient-to-t from-background left-0 right-0 absolute z-10"></div>
-      </div> */}
+        {/* <div className="bottom-0 top-[50%] md:top-[50%] bg-gradient-to-t from-background left-0 right-0 absolute z-10"></div> */}
+      </div>
     </section >
 
       {/* Pricing Cards Section */ }
