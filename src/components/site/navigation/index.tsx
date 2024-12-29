@@ -38,7 +38,7 @@ const Navigation = ({ user }: Props) => {
         <span className={`text-xl tracking-tighter font-bold ${ThemeSettings(OptionsConfig?._BORDER?.DISABLE, OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")}`}>{!isCompactDetected && (ConfigurationSchema?.PRODUCT_EXTRACTED_FILE || 'Arobix')}</span>
       </aside>
       <nav className="hidden md:block absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%]">
-        <ul className={`flex items-center justify-center ${ThemeSettings(OptionsConfig?._BORDER?.DISABLE, OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")} gap-8 `}>
+        <ul className={`flex items-center  justify-center ${ThemeSettings(OptionsConfig?._BORDER?.DISABLE, OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")} gap-8 `}>
           <Link href={'#'}>Pricing</Link>
           <Link href={'#'}>About</Link>
           <Link href={'#'}>Documentation</Link>
