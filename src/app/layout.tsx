@@ -11,7 +11,7 @@ import { Toaster as SonnarToaster } from '@/components/ui/sonner'
 const font = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Arobix Design | All in one Agency Solution ',
+  title: 'Arobix  | All in one Agency Solution ',
   description: 'All in one Agency Solution',
   icons: {
     icon: '/assets/one-week.png', // Path to your SVG logo
