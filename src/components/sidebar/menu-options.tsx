@@ -32,6 +32,8 @@ import { Separator } from '../ui/separator'
 import { icons } from '@/lib/constants'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
+import { Tooltip, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip'
+import { TooltipContent } from '../ui/tooltip'
 
 type Props = {
   defaultOpen?: boolean
@@ -120,7 +122,7 @@ const MenuOptions = ({
 
                   <div className='flex flex-col'>
 
-                    <span className="text-base text-start font-bold truncate ">{details?.name} satwik</span>
+                    <span className="text-base text-start font-bold truncate ">{details?.name}</span>
                     <span className="text-xs text-start">{details?.address}</span>
                   </div>
                 </div>
@@ -132,7 +134,7 @@ const MenuOptions = ({
               </div>
 
             </PopoverTrigger>
-            <PopoverContent className="w-80 mx-6 mt-3">
+            <PopoverContent className="w-80 mx-6 mt-3 z-[10000]">
               <div className="grid gap-4">
                 <div className="space-y-2">
                   <h4 className="font-medium leading-none">Dimensions</h4>
@@ -296,15 +298,24 @@ const MenuOptions = ({
                       const result = icons.find((icon) => icon.value === sidebarOptions.icon);
                       const val = result ? <result.path /> : null;
                       return (
-                        <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
-                          <Link
-                            href={sidebarOptions.link}
-                            className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
-                          >
-                            {val}
-                            <span>{sidebarOptions.name}</span>
-                          </Link>
-                        </CommandItem>
+                        <TooltipProvider>
+                        <Tooltip>
+                            <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
+                              <Link
+                                href={sidebarOptions.link}
+                                className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
+                              >
+                                {val}
+                          <TooltipTrigger asChild>
+                                <span>{sidebarOptions.name}</span>
+                          </TooltipTrigger>
+                              </Link>
+                            </CommandItem>
+                          <TooltipContent side="right" className="bg-gray-800 text-white text-sm p-2 rounded-md shadow-lg">
+                            {sidebarOptions.name || 'Tooltip content goes here'}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                       );
                     })}
                   </CommandGroup>
