@@ -160,7 +160,7 @@ export default async function Home() {
           </div>
           <div className="w-full lg:w-1/2 lg:flex lg:flex-col gap-6 grid grid-cols-1 sm:grid-cols-3">
   <div className="p-4 rounded-md sm:text-left">
-    <h2 className="text-lg lg:text-2xl font-bold  mb-2 tracking-tighter">
+    <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
       Create website
     </h2>
     <p className=" text-sm lg:text-lg dark:text-gray-400">
@@ -168,7 +168,7 @@ export default async function Home() {
     </p>
   </div>
   <div className="p-4 rounded-md sm:text-left">
-    <h2 className="text-lg lg:text-2xl font-bold  mb-2 tracking-tighter">
+    <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
       Ecommerce made easy
     </h2>
     <p className=" text-sm lg:text-lg dark:text-gray-400">
@@ -176,7 +176,7 @@ export default async function Home() {
     </p>
   </div>
   <div className="p-4 rounded-md  sm:text-left">
-    <h2 className="text-lg lg:text-2xl font-bold  mb-2 tracking-tighter">
+    <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
       Market your business
     </h2>
     <p className=" text-sm lg:text-lg dark:text-gray-400">
@@ -246,7 +246,7 @@ export default async function Home() {
       alt="Sign up your account"
       className="rounded-lg mb-6 w-full"
     />
-    <h2 className="text-lg lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Sign up your account for Arobix</h2>
+    <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Sign up your account for Arobix</h2>
     <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      Register for Arobix and fill in the information access to create a website.
     </p>
   </div>
@@ -258,7 +258,7 @@ export default async function Home() {
       alt="Create your first workspace"
       className="rounded-lg mb-6 w-full"
     />
-    <h2 className="text-lg lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Create your first workspace on Arobix</h2>
+    <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Create your first workspace on Arobix</h2>
     <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      A new workspace going to top-up, you can make a workspace fit with your requirements.
     </p>
   </div>
@@ -270,7 +270,7 @@ export default async function Home() {
       alt="Customize and publish your website"
       className="rounded-lg mb-6 w-full"
     />
-    <h2 className="text-lg lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Customize & publish your website</h2>
+    <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Customize & publish your website</h2>
     <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">
       You can easily customize your website and also share and publish your website to public.
     </p>
