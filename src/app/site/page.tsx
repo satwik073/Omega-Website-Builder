@@ -114,7 +114,7 @@ export default async function Home() {
       </section >
 
       <section
-        className=" w-full relative md:mt-20 mt-8 flex items-center justify-center flex-col px-4 lg:px-12 "
+        className=" w-full relative md:mt-20 mt-12 flex items-center justify-center flex-col px-4 lg:px-12 "
 
       >
         <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
@@ -122,7 +122,7 @@ export default async function Home() {
             <div className='lg:flex items-center justify-between'>
               <div className='lg:w-1/2'>
 
-                <div className='text-3xl lg:text-5xl tracking-tighter font-bold mb-6'> Grow your business online with Magicweb</div>
+                <div className='text-3xl lg:text-5xl tracking-tighter font-bold mb-2'> Grow your business online with Arobix</div>
               </div>
               <div className='lg:w-1/2 lg:justify-end flex items-end lg:ml-8'>
                 <p className='md:text-lg text-sm  my-4 md:my-5 max-w-md w-full'> Select from any of our industry-leading website templates, designer fonts,
@@ -140,7 +140,7 @@ export default async function Home() {
 
       </section>
 
-      <div className="w-full flex justify-center items-center max-w-7xl mx-auto">
+      <div className="w-full flex mt-4 justify-center items-center max-w-7xl mx-auto lg:px-0 md:px-4">
         <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
           <div className="w-full lg:w-1/2 flex justify-center border-none">
             <video
@@ -159,27 +159,27 @@ export default async function Home() {
             </video>
           </div>
           <div className="w-full lg:w-1/2 lg:flex lg:flex-col gap-6 grid grid-cols-1 sm:grid-cols-3">
-  <div className="p-4 rounded-md shadow-sm text-center sm:text-left">
-    <h2 className="text-lg lg:text-3xl font-bold text-black mb-2 tracking-tighter">
+  <div className="p-4 rounded-md sm:text-left">
+    <h2 className="text-lg lg:text-2xl font-bold  mb-2 tracking-tighter">
       Create website
     </h2>
-    <p className="text-gray-600 text-sm lg:text-lg">
+    <p className=" text-sm lg:text-lg dark:text-gray-400">
       Select from any of our industry-leading website templates, designer fonts, and color palettes that best fit your personal style and professional needs.
     </p>
   </div>
-  <div className="p-4 rounded-md shadow-sm text-center sm:text-left">
-    <h2 className="text-lg lg:text-3xl font-bold text-black mb-2 tracking-tighter">
-      e-Commerce made easy
+  <div className="p-4 rounded-md sm:text-left">
+    <h2 className="text-lg lg:text-2xl font-bold  mb-2 tracking-tighter">
+      Ecommerce made easy
     </h2>
-    <p className="text-gray-600 text-sm lg:text-lg">
-      e-Commerce made easy, explore which tools you want to add—whether it's setting up an online store, booking services, or adding your favorite third-party extensions.
+    <p className=" text-sm lg:text-lg dark:text-gray-400">
+      Ecommerce made easy, explore which tools you want to add—whether it's setting up an online store, booking services, or adding your favorite third-party extensions.
     </p>
   </div>
-  <div className="p-4 rounded-md shadow-sm text-center sm:text-left">
-    <h2 className="text-lg lg:text-3xl font-bold text-black mb-2 tracking-tighter">
+  <div className="p-4 rounded-md  sm:text-left">
+    <h2 className="text-lg lg:text-2xl font-bold  mb-2 tracking-tighter">
       Market your business
     </h2>
-    <p className="text-gray-600 text-sm lg:text-lg">
+    <p className=" text-sm lg:text-lg dark:text-gray-400">
       Stand out in every inbox and social feed. On-brand email campaigns and social tools make it easy to retain customers and grow your audience.
     </p>
   </div>
@@ -193,7 +193,7 @@ export default async function Home() {
       {/* <div className="lg:w-1/2 flex flex-col items-center lg:items-start">
     <img
       src="/path-to-your-image.jpg"
-      alt="Magicweb Screenshot"
+      alt="Arobix Screenshot"
       className="w-full rounded-lg shadow-md mb-6"
     />
     <div className="flex flex-col gap-6">
@@ -226,12 +226,62 @@ export default async function Home() {
   </div> */}
       {/* </div> */}
 
+      <div className="bg-white text-black py-16 px-6 lg:px-20">
+      {/* Header Section */}
+      <div className="text-center mb-12">
+        <h1 className="text-3xl lg:text-5xl font-bold mb-4 tracking-tighter">
+          Start create your website <br></br>using Arobix
+        </h1>
+        <p className="text-gray-600 text-md lg:text-lg">
+          There are 4 steps to create and build your own website using Arobix
+        </p>
+      </div>
 
+      {/* Steps Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+  {/* Step 1 */}
+  <div className="flex flex-col items-start text-left">
+    <img
+      src="/assets/1.png"
+      alt="Sign up your account"
+      className="rounded-lg mb-6 w-full"
+    />
+    <h2 className="text-lg lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Sign up your account for Arobix</h2>
+    <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      Register for Arobix and fill in the information access to create a website.
+    </p>
+  </div>
+
+  {/* Step 2 */}
+  <div className="flex flex-col items-start text-left">
+    <img
+      src="/assets/2.png"
+      alt="Create your first workspace"
+      className="rounded-lg mb-6 w-full"
+    />
+    <h2 className="text-lg lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Create your first workspace on Arobix</h2>
+    <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      A new workspace going to top-up, you can make a workspace fit with your requirements.
+    </p>
+  </div>
+
+  {/* Step 3 */}
+  <div className="flex flex-col items-start text-left">
+    <img
+      src="/assets/3.png"
+      alt="Customize and publish your website"
+      className="rounded-lg mb-6 w-full"
+    />
+    <h2 className="text-lg lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Customize & publish your website</h2>
+    <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">
+      You can easily customize your website and also share and publish your website to public.
+    </p>
+  </div>
+</div>
+
+
+    </div>
       {/* Pricing Cards Section */}
-      <section className="flex flex-col items-center justify-center gap-8 mt-12 px-4 lg:px-16" >
-        <h2 className="text-3xl md:text-4xl text-center font-bold">
-          Choose what fits you right
-        </h2>
+      <section className="flex flex-col items-center justify-center gap-8 md:mt-28 mt-12 px-4 lg:px-16" >
+      <div className='text-3xl lg:text-5xl tracking-tighter text-center font-bold '> Choose what fits you right</div>
         <p className="text-muted-foreground text-center max-w-2xl">
           Our straightforward pricing plans are tailored to meet your needs. If{" "}
           you're not ready to commit, you can get started for free.
