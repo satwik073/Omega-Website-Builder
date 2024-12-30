@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Spotlight } from '@/components/ui/spotlight'
+import { AccordionDemo } from '@/Controllers/Accordion'
 import { MarqueeDemo } from '@/Controllers/AutoSlide'
 import { AnimatedTooltipPreview } from '@/Controllers/DynamicTooltip'
 import { TimelineDemo } from '@/Controllers/TimeLinePicker'
@@ -526,8 +527,39 @@ export default async function Home() {
           to know what is the difference.
         </div>
       </div>
+
+<div className=' w-full '>
+
+      <section
+        className=" w-full relative py-8 flex items-center mt-6 justify-center flex-col px-4 lg:px-12 "
+
+      >
+         <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
+          <div className='w-full'>
+            <div className='lg:flex items-center justify-between'>
+              <div className='lg:w-1/2'>
+
+                <div className='text-3xl lg:text-5xl tracking-tighter font-bold mb-2 lg:w-full w-full md:w-2/3'> We’ve got you covered, 24/7 to all questions
+
+                </div>
+              </div>
+              <div className='lg:w-1/2 lg:justify-end flex items-end lg:ml-8'>
+                <p className='md:text-lg text-sm text-white my-4 md:my-5 max-w-md w-full'>    <p className="text-gray-600 text-md lg:text-lg">
+                When you create a website with Magicweb, you get free unlimited hosting, top-of-the-line security, and dependable resources to help you succeed
+                </p>
+                  
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </header>
+
+      </section>
+      <AccordionDemo/>
+</div>
       {/* Pricing Cards Section */}
-      <section className="flex flex-col items-center justify-center gap-8 md:mt-28 mt-12 px-4 lg:px-16" >
+      {/* <section className="flex flex-col items-center justify-center gap-8 md:mt-28 mt-12 px-4 lg:px-16" >
         <div className='text-3xl lg:text-5xl tracking-tighter text-center font-bold '> Choose what fits you right</div>
         <p className="text-muted-foreground text-center max-w-2xl">
           Our straightforward pricing plans are tailored to meet your needs. If{" "}
@@ -594,7 +626,7 @@ export default async function Home() {
             </Card>
           ))}
         </div>
-      </section >
+      </section > */}
     </>
   );
 }
