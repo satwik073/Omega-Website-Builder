@@ -16,7 +16,8 @@ import { pricingCards } from '@/lib/constants'
 import { ThemeSettings } from '@/lib/functions'
 import { stripe } from '@/lib/stripe'
 import { OptionsConfig } from '@/lib/structures'
-import { IconArrowUpRight } from '@tabler/icons-react'
+import { Separator } from '../../components/ui/separator'
+import { IconArrowUpRight, IconCreditCard, IconDeviceMobile, IconInfoCircle, IconInfoCircleFilled, IconList, IconTableShortcut, IconWaveSawTool, IconWorld } from '@tabler/icons-react'
 import clsx from 'clsx'
 import { Check } from 'lucide-react'
 import Image from 'next/image'
@@ -27,7 +28,32 @@ export default async function Home() {
     product: process.env.NEXT_PLURA_PRODUCT_ID,
     active: true,
   });
-
+  const features = [
+    {
+      text: "Free custom domain",
+      icon: <IconWorld />, // Replace with your icon
+    },
+    {
+      text: "Mobile optimized websites",
+      icon: <IconDeviceMobile />, // Replace with your icon
+    },
+    {
+      text: "Templates to fit every need",
+      icon: <IconTableShortcut /> // Replace with your icon
+    },
+    {
+      text: "Advanced website analytics",
+      icon: <IconWaveSawTool />, // Replace with your icon
+    },
+    {
+      text: "Powerful merchandising",
+      icon: <IconList />, // Replace with your icon
+    },
+    {
+      text: "Checkout on your domain",
+      icon: <IconCreditCard />, // Replace with your icon
+    },
+  ];
   return (
     <>
       <section
@@ -227,19 +253,19 @@ export default async function Home() {
           />
         </div>
         <section
-        className=" w-full relative md:mt-16 mt-12 flex items-center justify-center flex-col px-4 lg:px-12 "
+          className=" w-full relative md:mt-16 mt-12 flex items-center justify-center flex-col px-4 lg:px-12 "
 
-      >
-         <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
-          <div className='w-full'>
-            <div className='lg:flex items-center justify-between'>
-              <div className='lg:w-1/2'>
+        >
+          <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
+            <div className='w-full'>
+              <div className='lg:flex items-center justify-between'>
+                <div className='lg:w-1/2'>
 
-                <div className='text-3xl lg:text-5xl text-white tracking-tighter font-bold mb-2 lg:w-full w-full md:w-2/3'>      Website templates for every purpose
+                  <div className='text-3xl lg:text-5xl text-white tracking-tighter font-bold mb-2 lg:w-full w-full md:w-2/3'>      Website templates for every purpose
 
+                  </div>
                 </div>
-              </div>
-              <div className="lg:w-1/2 flex justify-center lg:justify-end lg:ml-8">
+                <div className="lg:w-1/2 flex justify-center lg:justify-end lg:ml-8">
                   <p className="md:text-lg text-sm w-full lg:text-left">
                     Start with a flexible template, then customize to fit your style and professional needs with our website builder.
                     <div className="flex gap-4 mt-5 justify-start">
@@ -253,12 +279,12 @@ export default async function Home() {
                   </p>
                 </div>
 
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-      </section>
-         
+        </section>
+
         <div className="bg-black text-white px-4 lg:px-0">
           {/* Hero Section */}
 
@@ -279,44 +305,7 @@ export default async function Home() {
       </div>
 
 
-
-      {/* <div className="lg:w-1/2 flex flex-col items-center lg:items-start">
-    <img
-      src="/path-to-your-image.jpg"
-      alt="Arobix Screenshot"
-      className="w-full rounded-lg shadow-md mb-6"
-    />
-    <div className="flex flex-col gap-6">
-   
-      <div className="p-4 bg-gray-100 rounded-md shadow-sm">
-        <h2 className="text-lg lg:text-xl font-bold text-black mb-2">Create website</h2>
-        <p className="text-gray-600 text-sm lg:text-md">
-          Select from any of our industry-leading website templates, designer
-          fonts, and color palettes that best fit your personal style and professional needs.
-        </p>
-      </div>
-    
-      <div className="p-4 bg-gray-100 rounded-md shadow-sm">
-        <h2 className="text-lg lg:text-xl font-bold text-black mb-2">e-Commerce made easy</h2>
-        <p className="text-gray-600 text-sm lg:text-md">
-          e-Commerce made easy, explore which tools you want to add—whether it's
-          setting up an online store, booking services, or adding your favorite
-          third-party extensions.
-        </p>
-      </div>
-      
-      <div className="p-4 bg-gray-100 rounded-md shadow-sm">
-        <h2 className="text-lg lg:text-xl font-bold text-black mb-2">Market your business</h2>
-        <p className="text-gray-600 text-sm lg:text-md">
-          Stand out in every inbox and social feed. On-brand email campaigns and
-          social tools make it easy to retain customers and grow your audience.
-        </p>
-      </div>
-    </div>
-  </div> */}
-      {/* </div> */}
-
-      <div className="bg-white text-black pt-16 px-6 lg:px-20">
+      <div className="bg-white text-black pt-16 pb-8 px-6 lg:px-20">
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-3xl lg:text-5xl font-bold mb-4 tracking-tighter">
@@ -369,7 +358,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className='gap-4 mt-6 flex justify-center'>
+        <div className='gap-4 my-8 flex justify-center'>
           <Button variant={'default'} className={`border hover:bg-white hover:text-[#2e4acd] text-white hover:border-[#2e4acd] cursor-pointer bg-[#2e4acd]`}> Learn more to know</Button>
 
         </div>
@@ -381,7 +370,7 @@ export default async function Home() {
         className=" w-full relative  flex items-center mt-6 justify-center flex-col px-4 lg:px-12 "
 
       >
-         <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
+        <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
           <div className='w-full'>
             <div className='lg:flex items-center justify-between'>
               <div className='lg:w-1/2'>
@@ -416,148 +405,272 @@ export default async function Home() {
 
       </section>
 
-      <div className="w-full bg-white text-black py-12 px-6 lg:px-20">
+      <div className="w-full  text-black py-12 px-6 lg:px-20">
         {/* Header Section */}
-       
 
-  
+
+
 
         {/* Plans Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {/* Personal Plan */}
-          <div className="border rounded-lg p-6 shadow-md bg-white">
-            <h2 className="text-lg font-bold mb-2 ">Personal plan</h2>
-            <p className="text-2xl font-bold mb-4">
-              $16<span className="text-sm font-normal">/month</span>
-            </p>
-            <p className="text-gray-600 text-sm mb-4">
-              Our foundational plan with access to fully customizable,
-              best-in-class templates.
-            </p>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li className="flex items-center gap-2">
-                🌐 magic.io domain
-              </li>
-              <li className="flex items-center gap-2">
-                📱 Mobile optimized websites
-              </li>
-              <li className="flex items-center gap-2">
-                📂 Templates to fit every need
-              </li>
-            </ul>
-            <button className="bg-blue-600 text-white w-full py-2 mt-6 rounded-full">
-              Start free trial — 14 days
-            </button>
-          </div>
-
-          {/* Business Plan */}
-          <div className="border rounded-lg p-6 shadow-md bg-blue-50 border-blue-600 relative">
-            <div className="absolute top-0 left-0 bg-blue-600 w-full text-white text-xs uppercase font-bold px-4 py-1 rounded-br-md">
-              Popular Plan
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+  {/* Personal Plan */}
+  <div className="relative flex flex-col">
+    <div className="border border-gray-300 rounded-lg p-6 shadow-md bg-white flex flex-col flex-1">
+      <h2 className="font-bold mb-4 text-2xl md:text-3xl tracking-tighter">Personal Plan</h2>
+      <p className="text-2xl font-bold mb-4 text-[#2e4acd] px-4 pt-1 rounded-full bg-blue-50 w-fit flex items-center">
+        $49<span className="text-sm font-normal text-[#2e4acd]">/month</span>
+      </p>
+      <p className="text-gray-600 text-md mb-4 ">
+        Selling all the tools necessary for the more advanced seller. No transaction fees.
+      </p>
+      <Separator className="mb-4 border-b border-gray-300" />
+      <ul className="space-y-2 text-sm text-gray-600 flex-grow">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-center justify-between gap-2 py-1">
+            <span className=" gap-3 flex items-center">
+              <span className="text-[#2e4acd] font-thin">{feature.icon}</span>
+              <span className="font-normal">{feature.text}</span>
+            </span>
+            <div className="flex justify-end">
+              <div className="w-5 h-5 border-[1px] border-gray-400 rounded-full flex items-center justify-center">
+                i
+              </div>
             </div>
-            <h2 className="text-lg font-bold mb-2">Business plan</h2>
-            <p className="text-2xl font-bold mb-4">
-              $23<span className="text-sm font-normal">/month</span>
-            </p>
-            <p className="text-gray-600 text-sm mb-4">
-              For those looking to grow their audience and begin taking payments.
-            </p>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li className="flex items-center gap-2">
-                🌐 From custom domain
-              </li>
-              <li className="flex items-center gap-2">
-                📱 Mobile optimized websites
-              </li>
-              <li className="flex items-center gap-2">
-                📂 Templates to fit every need
-              </li>
-              <li className="flex items-center gap-2">
-                📊 Advanced website analytics
-              </li>
-            </ul>
-            <button className="bg-blue-600 text-white w-full py-2 mt-6 rounded-full">
-              Start free trial — 14 days
-            </button>
-          </div>
+          </li>
+        )).slice(0,3)}
+      </ul>
+      <Button variant={'default'} className={`border hover:bg-white hover:text-[#2e4acd] text-white hover:border-[#2e4acd] cursor-pointer bg-[#2e4acd] mt-6`}>Start free trial — 14 days</Button>
+    </div>
+  </div>
 
-          {/* Commerce Plan */}
-          <div className="border rounded-lg p-6 shadow-md bg-white">
-            <h2 className="text-lg font-bold mb-2">Commerce plan</h2>
-            <p className="text-2xl font-bold mb-4">
-              $49<span className="text-sm font-normal">/month</span>
-            </p>
-            <p className="text-gray-600 text-sm mb-4">
-              Selling all the tools necessary for the more advanced seller. No
-              transaction fees.
-            </p>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li className="flex items-center gap-2">
-                🌐 Free custom domain
-              </li>
-              <li className="flex items-center gap-2">
-                📱 Mobile optimized websites
-              </li>
-              <li className="flex items-center gap-2">
-                📂 Templates to fit every need
-              </li>
-              <li className="flex items-center gap-2">
-                📊 Advanced website analytics
-              </li>
-              <li className="flex items-center gap-2">
-                🛒 Powerful merchandising
-              </li>
-              <li className="flex items-center gap-2">
-                💳 Checkout on your domain
-              </li>
-            </ul>
-            <button className="bg-blue-600 text-white w-full py-2 mt-6 rounded-full">
-              Start free trial — 14 days
-            </button>
-          </div>
-        </div>
+  {/* Business Plan */}
+  <div className="relative flex flex-col">
+    <div className="border rounded-2xl p-2 shadow-md bg-[#2e4acd] flex-grow">
+      <h1 className="text-white text-sm font-semibold tracking-[0.2rem] uppercase flex-grow px-3 pb-3 pt-1">POPULAR PLAN</h1>
+      <div className="border border-gray-300 rounded-lg p-6 shadow-md bg-white flex-grow flex flex-col flex-1">
+        <h2 className="font-bold mb-4 text-2xl md:text-3xl tracking-tighter">Business Plan</h2>
+        <p className="text-2xl font-bold mb-4 text-[#2e4acd] px-4 pt-1 rounded-full bg-blue-50 w-fit flex items-center">
+          $49<span className="text-sm font-normal text-[#2e4acd]">/month</span>
+        </p>
+        <p className="text-gray-600 text-md mb-4 ">
+          Selling all the tools necessary for the more advanced seller. No transaction fees.
+        </p>
+        <Separator className="mb-4 border-b border-gray-300" />
+        <ul className="space-y-2 text-sm text-gray-600 flex-grow mb-7">
+          {features.map((feature, index) => (
+            <li key={index} className="flex items-center justify-between gap-2 py-1">
+              <span className="flex gap-3 items-center">
+                <span className="text-[#2e4acd] font-thin">{feature.icon}</span>
+                <span className="font-normal">{feature.text}</span>
+              </span>
+              <div className="flex justify-end">
+                <div className="w-5 h-5 border-[1px] border-gray-400 rounded-full flex items-center justify-center">
+                  i
+                </div>
+              </div>
+            </li>
+          )).slice(0,4)}
+        </ul>
+        <Button variant={'default'} className={`border hover:bg-white hover:text-[#2e4acd] text-white hover:border-[#2e4acd] cursor-pointer bg-[#2e4acd] mt-6`}>Start free trial — 14 days</Button>
+      </div>
+    </div>
+  </div>
+
+  {/* Commerce Plan */}
+  <div className="relative flex flex-col">
+    <div className="border border-gray-300 rounded-lg p-6 shadow-md bg-white flex flex-col flex-1">
+      <h2 className="font-bold mb-4 text-2xl md:text-3xl tracking-tighter">Commerce Plan</h2>
+      <p className="text-2xl font-bold mb-4 text-[#2e4acd] px-4 pt-1 rounded-full bg-blue-50 w-fit flex items-center">
+        $49<span className="text-sm font-normal text-[#2e4acd]">/month</span>
+      </p>
+      <p className="text-gray-600 text-md mb-4 ">
+        Selling all the tools necessary for the more advanced seller. No transaction fees.
+      </p>
+      <Separator className="mb-4 border-b border-gray-300 " />
+      <ul className="space-y-2 text-sm text-gray-600 flex-grow">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-center justify-between gap-2 py-1">
+            <span className="flex gap-3">
+              <span className="text-[#2e4acd] font-thin">{feature.icon}</span>
+              <span className="font-normal">{feature.text}</span>
+            </span>
+            <div className="flex justify-end">
+              <div className="w-5 h-5 border-[1px] border-gray-400 rounded-full flex items-center justify-center">
+                i
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <Button variant={'default'} className={`border hover:bg-white hover:text-[#2e4acd] text-white hover:border-[#2e4acd] cursor-pointer bg-[#2e4acd] mt-6`}>Start free trial — 14 days</Button>
+    </div>
+  </div>
+</div>
+
 
         {/* Footer Note */}
         <div className="mt-8 text-center text-sm text-gray-500">
           All prices are in USD and charged per site with applicable taxes added
-          at checkout. If you are confused, you can{" "}
-          <a href="#" className="text-blue-500 underline">
+          at checkout. If you are confused, <br /> you can{" "}
+          <a href="#" className="text-[#2e4acd] font-bold">
             Compare plan
           </a>{" "}
           to know what is the difference.
         </div>
       </div>
 
-<div className=' w-full '>
+      <div className=' w-full '>
 
-      <section
-        className=" w-full relative py-8 flex items-center mt-6 justify-center flex-col px-4 lg:px-12 "
+        <section
+          className=" w-full relative  flex items-center mt-6 justify-center flex-col px-4 lg:px-12 "
 
-      >
-         <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
-          <div className='w-full'>
-            <div className='lg:flex items-center justify-between'>
-              <div className='lg:w-1/2'>
+        >
+          <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
+            <div className='w-full'>
+              <div className='lg:flex items-center justify-between'>
+                <div className='lg:w-1/2'>
 
-                <div className='text-3xl lg:text-5xl tracking-tighter font-bold mb-2 lg:w-full w-full md:w-2/3'> We’ve got you covered, 24/7 to all questions
+                  <div className='text-3xl lg:text-5xl tracking-tighter font-bold mb-2 lg:w-full w-full md:w-2/3'> We’ve got you covered, 24/7 to all questions
 
+                  </div>
                 </div>
-              </div>
-              <div className='lg:w-1/2 lg:justify-end flex items-end lg:ml-8'>
-                <p className='md:text-lg text-sm text-white my-4 md:my-5 max-w-md w-full'>    <p className="text-gray-600 text-md lg:text-lg">
-                When you create a website with Magicweb, you get free unlimited hosting, top-of-the-line security, and dependable resources to help you succeed
-                </p>
-                  
-                </p>
-              </div>
+                <div className='lg:w-1/2 lg:justify-end flex items-end lg:ml-8'>
+                  <p className='md:text-lg text-sm my-4 md:my-5 max-w-md w-full'>    <p className="text-md lg:text-lg">
+                    When you create a website with Arobix, you get free unlimited hosting, top-of-the-line security, and dependable resources to help you succeed
+                  </p>
 
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </header>
+
+        </section>
+
+        <div className="w-full pb-5 px-4 lg:px-20">
+
+          <AccordionDemo />
+        </div>
+        <div className='gap-4 my-6 flex justify-center'>
+          <Button variant={'default'} className={`border hover:bg-white hover:text-[#2e4acd] text-white hover:border-[#2e4acd] cursor-pointer bg-[#2e4acd]`}> See more questions</Button>
+          <Button variant="outline" className={`border bg-white hover:text-white text-[#2e4acd] border-[#2e4acd] cursor-pointer hover:bg-[#2e4acd]`}>Contact support</Button>
+
+        </div>
+      </div>
+
+
+      <div className="bg-[#2e4acd] text-white py-16 relative lg:px-20 px-4 overflow-hidden">
+        {/* Call to Action Section */}
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
+          <div className="lg:w-1/2 lg:text-left">
+            <h2 className="text-3xl lg:text-5xl font-bold mb-6 tracking-tighter md:w-[80%] w-full">
+              Free until you’re ready to launch!
+            </h2>
+            <p className="mb-8 text-md lg:text-lg w-full md:w-[80%]">
+              Build your site for free and take as long as you need. Just add a site
+              plan for more pages, and a custom domain when you’re ready for the
+              world.
+            </p>
+            <Button className="bg-white text-[#2e4acd] px-6 py-3  font-semibold">
+              Get started — it’s free
+            </Button>
+          </div>
+          <div className="w-full lg:w-1/2 flex md:mt-0 mt-8 justify-center border-none">
+            <video
+              src="/assets/using2.mp4"
+              className="rounded-lg  border-none"
+              height="100%"
+              width="100%"
+              autoPlay
+              preload='1'
+              loop
+              muted
+              playsInline
+
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        {/* Footer Links Section */}
+        <div className="relative z-10 mt-16 lg:px-0 px-2">
+          <div className="max-w-7xl mx-auto grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-8 text-sm">
+            <div>
+              <h3 className="font-bold mb-4 text-2xl md:text-3xl tracking-tighter">Product</h3>
+              <ul className="space-y-2 text-lg">
+                <li>Website Templates</li>
+                <li>Websites</li>
+                <li>Domains</li>
+                <li>Online Stores</li>
+                <li>Marketing Tools</li>
+                <li>Extensions</li>
+                <li>Social Media Tools</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4 text-2xl md:text-3xl tracking-tighter">Customers</h3>
+              <ul className="space-y-2 text-lg">
+                <li>Website Examples</li>
+                <li>Featured Customers</li>
+                <li>Creators</li>
+                <li>Businesses</li>
+                <li>Online Stores</li>
+                <li>Etsy Sellers</li>
+                <li>Bloggers</li>
+                <li>Weddings</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4 text-2xl md:text-3xl tracking-tighter">Company</h3>
+              <ul className="space-y-2 text-lg">
+                <li>About</li>
+                <li>Careers</li>
+                <li>Investor Relations</li>
+                <li>Our Brand</li>
+                <li>Accessibility</li>
+                <li>Affiliates</li>
+                <li>Press & Media</li>
+                <li>Contact Us</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4 text-2xl md:text-3xl tracking-tighter">Community</h3>
+              <ul className="space-y-2 text-lg">
+                <li>Help Center</li>
+                <li>Hire an Expert</li>
+                <li>Forum</li>
+                <li>Webinars</li>
+                <li>Developer Platform</li>
+                <li>Professionals</li>
+                <li>Terms of Service</li>
+                <li>Privacy Policy</li>
+              </ul>
             </div>
           </div>
-        </header>
 
-      </section>
-      <AccordionDemo/>
-</div>
+          {/* Footer Bottom Section */}
+          <div className="mt-16 border-t border-white/20 pt-8 text-center">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-sm">
+              <p>
+                © 2025 Arobix. All Rights Reserved. Site by{" "}
+                <span className="underline">Satwik Kanhere</span>
+              </p>
+              <div className="flex items-center gap-4">
+                <a href="mailto:hello@Arobix.com" className="underline">
+                  satwikkanhere2003@gmail.com
+                </a>
+                <a href="tel:+916284486063" className="underline">
+                  (+91) 6284486063
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       {/* Pricing Cards Section */}
       {/* <section className="flex flex-col items-center justify-center gap-8 md:mt-28 mt-12 px-4 lg:px-16" >
         <div className='text-3xl lg:text-5xl tracking-tighter text-center font-bold '> Choose what fits you right</div>

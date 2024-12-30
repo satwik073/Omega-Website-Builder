@@ -70,7 +70,7 @@ const Navigation = ({ user }: Props) => {
         <DropdownMenuDemo />
       ) : (
         <aside className="flex gap-2 items-center">
-          <Link href={"/agency"}>
+          <Link href={"/agency"} className='gap-2'>
             <Button
               variant="outline"
               className={`bg-transparent border ${ThemeSettings(
@@ -87,6 +87,7 @@ const Navigation = ({ user }: Props) => {
             >
               {isSignedIn ? "Dashboard" : "Login"}
             </Button>
+            <Button variant={'default'} className={`text-black ml-2 hover:bg-white cursor-pointer tracking-tight bg-white`}> <span className='font-bold tracking-tight '>Get started - </span>it's free</Button>
           </Link>
 
           <UserButton />

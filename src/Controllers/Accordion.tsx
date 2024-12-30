@@ -7,7 +7,7 @@ import {
   
   export function AccordionDemo() {
     return (
-        <Accordion type="single" collapsible className="w-full py-8">
+        <Accordion type="single" collapsible className="w-full py-8  ">
         <div className="max-w-7xl grid md:grid-cols-2 mx-auto gap-5">
       
           <AccordionItem value="item-1" className="lg:px-0 px-4">
