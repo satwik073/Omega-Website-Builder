@@ -103,7 +103,7 @@ export default async function Home() {
       </div> */}
 
         {/* Image */}
-        <div className="flex justify-center lg:px-0 md:px-10 relative mt-10 md:mt-24  w-full max-w-5xl">
+        <div className="flex justify-center lg:px-0 relative mt-10 md:mt-24  w-full md:max-w-5xl">
           <Image
             src={'/assets/web1.png'}
             alt="banner image"
@@ -155,104 +155,128 @@ export default async function Home() {
               loop
               muted
               playsInline
-              
+
             >
               Your browser does not support the video tag.
             </video>
           </div>
           <div className="w-full lg:w-1/2 lg:flex lg:flex-col gap-6 grid grid-cols-1 sm:grid-cols-3">
-  <div className="p-4 rounded-md sm:text-left">
-    <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
-      Create website
-    </h2>
-    <p className=" text-sm lg:text-lg dark:text-gray-400">
-      Select from any of our industry-leading website templates, designer fonts, and color palettes that best fit your personal style and professional needs.
-    </p>
-  </div>
-  <div className="p-4 rounded-md sm:text-left">
-    <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
-      Ecommerce made easy
-    </h2>
-    <p className=" text-sm lg:text-lg dark:text-gray-400">
-      Ecommerce made easy, explore which tools you want to add—whether it's setting up an online store, booking services, or adding your favorite third-party extensions.
-    </p>
-  </div>
-  <div className="p-4 rounded-md  sm:text-left">
-    <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
-      Market your business
-    </h2>
-    <p className=" text-sm lg:text-lg dark:text-gray-400">
-      Stand out in every inbox and social feed. On-brand email campaigns and social tools make it easy to retain customers and grow your audience.
-    </p>
-  </div>
-</div>
+            <div className="p-4 rounded-md sm:text-left">
+              <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
+                Create website
+              </h2>
+              <p className=" text-sm lg:text-lg dark:text-gray-400">
+                Select from any of our industry-leading website templates, designer fonts, and color palettes that best fit your personal style and professional needs.
+              </p>
+            </div>
+            <div className="p-4 rounded-md sm:text-left">
+              <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
+                Ecommerce made easy
+              </h2>
+              <p className=" text-sm lg:text-lg dark:text-gray-400">
+                Ecommerce made easy, explore which tools you want to add—whether it's setting up an online store, booking services, or adding your favorite third-party extensions.
+              </p>
+            </div>
+            <div className="p-4 rounded-md  sm:text-left">
+              <h2 className="text-xl lg:text-2xl font-bold  mb-2 tracking-tighter">
+                Market your business
+              </h2>
+              <p className=" text-sm lg:text-lg dark:text-gray-400">
+                Stand out in every inbox and social feed. On-brand email campaigns and social tools make it easy to retain customers and grow your audience.
+              </p>
+            </div>
+          </div>
 
         </div>
       </div>
 
 
-      <div className="bg-black text-white py-16 px-6 lg:px-20">
-  {/* Header Section */}
-  <div className="text-center mb-12">
-    <h1 className="text-4xl lg:text-6xl font-bold tracking-tighter leading-tight">
-      <span className="block sm:inline">
-        Build your new website & develop <br /> your business
-      </span>
-    </h1>
-  </div>
+      <div className="bg-black text-white py-16 px-2">
+        {/* Header Section */}
+        <div className="md:text-center w-[100%] px-4 mb-6 flex justify-center ">
+          <h1 className="text-3xl lg:text-6xl md:w-1/2 font-bold tracking-tighter  leading-tight">
+            <span className="block sm:inline">
+              Build your new website & develop your business
+            </span>
+          </h1>
 
-  <div className="bg-black text-white py-16 px-6 lg:px-20">
-  {/* Hero Section */}
-  <div className="flex justify-center mb-12 max-w-7xl w-full mx-auto">
-    <Image
-      src={'/assets/4.png'}
-      alt="banner image"
-      height={5200}
-      width={5200}
-      className="rounded-tl-lg rounded-tr-lg w-full h-auto"
-    />
-  </div>
-
-  {/* Header Section */}
-  <header className="w-full flex justify-center items-center lg:w-11/12 max-w-7xl h-full z-30">
-    <div className="w-full">
-      <div className="lg:flex items-center justify-center lg:justify-between">
-        <div className="lg:w-1/2 text-center lg:text-left">
-          <div className="text-3xl lg:text-5xl tracking-tighter font-bold mb-2">
-            Website templates for every purpose
-          </div>
         </div>
-        <div className="lg:w-1/2 flex justify-center lg:justify-end lg:ml-8">
-          <p className="md:text-lg text-sm my-4 md:my-5 max-w-md w-full text-center lg:text-left">
-            Start with a flexible template, then customize to fit your style and professional needs with our webiste builder
-            <div className="flex gap-4 mt-5 justify-center lg:justify-start">
+        <div className="lg:w-1/2 flex justify-center items-center mx-auto px-4 mb-12">
+          <p className="md:text-lg text-sm w-full md:w-11/12 md:text-center">
+            Start with a flexible template, then customize to fit your style and professional needs with our website builder.
+            <div className="flex gap-4 mt-5 justify-start md:justify-center lg:justify-center">
               <Button
                 variant="default"
-                className={`text-[#ffffff] underline text-md px-0 flex justify-center lg:justify-start bg-transparent hover:bg-transparent cursor-pointer`}
+                className={`text-[#ffffff] underline text-md px-0 flex justify-start lg:justify-center bg-transparent hover:bg-transparent cursor-pointer`}
               >
                 Explore all templates<IconArrowUpRight className="text-[#ffffff]" />
               </Button>
             </div>
           </p>
         </div>
+
+
+        <div className="flex justify-center mb-12 max-w-7xl px-4 lg:px-1 w-full mx-auto">
+          <Image
+            src={'/assets/4.png'}
+            alt="banner image"
+            height={5200}
+            width={5200}
+            className="rounded-tl-lg rounded-tr-lg w-full h-auto"
+          />
+        </div>
+        <section
+        className=" w-full relative md:mt-16 mt-12 flex items-center justify-center flex-col px-4 lg:px-12 "
+
+      >
+         <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
+          <div className='w-full'>
+            <div className='lg:flex items-center justify-between'>
+              <div className='lg:w-1/2'>
+
+                <div className='text-3xl lg:text-5xl text-white tracking-tighter font-bold mb-2 lg:w-full w-full md:w-2/3'>      Website templates for every purpose
+
+                </div>
+              </div>
+              <div className="lg:w-1/2 flex justify-center lg:justify-end lg:ml-8">
+                  <p className="md:text-lg text-sm w-full lg:text-left">
+                    Start with a flexible template, then customize to fit your style and professional needs with our website builder.
+                    <div className="flex gap-4 mt-5 justify-start">
+                      <Button
+                        variant="default"
+                        className={`text-[#ffffff] underline text-md px-0 flex justify-center lg:justify-start bg-transparent hover:bg-transparent cursor-pointer`}
+                      >
+                        Explore all templates<IconArrowUpRight className="text-[#ffffff]" />
+                      </Button>
+                    </div>
+                  </p>
+                </div>
+
+            </div>
+          </div>
+        </header>
+
+      </section>
+         
+        <div className="bg-black text-white px-4 lg:px-0">
+          {/* Hero Section */}
+
+
+          {/* Website Templates Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start max-w-7xl mx-auto">
+            {/* Template Categories */}
+
+          </div>
+
+          {/* Footer Logos */}
+          {/* <MarqueeDemo/> */}
+
+        </div>
+        <TimelineDemo />
+
+
       </div>
-    </div>
-  </header>
 
-  {/* Website Templates Section */}
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start max-w-7xl mx-auto">
-    {/* Template Categories */}
-   
-  </div>
-
-  {/* Footer Logos */}
-  {/* <MarqueeDemo/> */}
- 
-</div>
-<TimelineDemo/>
-
-  
-</div>
 
 
       {/* <div className="lg:w-1/2 flex flex-col items-center lg:items-start">
@@ -291,62 +315,220 @@ export default async function Home() {
   </div> */}
       {/* </div> */}
 
-      <div className="bg-white text-black py-16 px-6 lg:px-20">
-      {/* Header Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-3xl lg:text-5xl font-bold mb-4 tracking-tighter">
-          Start create your website <br></br>using Arobix
-        </h1>
-        <p className="text-gray-600 text-md lg:text-lg">
-          There are 4 steps to create and build your own website using Arobix
-        </p>
+      <div className="bg-white text-black pt-16 px-6 lg:px-20">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-3xl lg:text-5xl font-bold mb-4 tracking-tighter">
+            Start create your website <br></br>using Arobix
+          </h1>
+          <p className="text-gray-600 text-md lg:text-lg">
+            There are 4 steps to create and build your own website using Arobix
+          </p>
+        </div>
+
+        {/* Steps Section */}
+        <div className="flex justify-center max-w-7xl mx-auto">
+          {/* Step 1 */}
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-16 w-full '>
+
+            <div className="flex flex-col items-start text-left">
+              <img
+                src="/assets/1.png"
+                alt="Sign up your account"
+                className="rounded-lg mb-6 w-full"
+              />
+              <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Sign up your account for Arobix</h2>
+              <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      Register for Arobix and fill in the information access to create a website.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="flex flex-col items-start text-left">
+              <img
+                src="/assets/2.png"
+                alt="Create your first workspace"
+                className="rounded-lg mb-6 w-full"
+              />
+              <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Create your first workspace on Arobix</h2>
+              <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      A new workspace going to top-up, you can make a workspace fit with your requirements.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="flex flex-col items-start text-left">
+              <img
+                src="/assets/3.png"
+                alt="Customize and publish your website"
+                className="rounded-lg mb-6 w-full"
+              />
+              <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Customize & publish your website</h2>
+              <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">
+                You can easily customize your website and also share and publish your website to public.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className='gap-4 mt-6 flex justify-center'>
+          <Button variant={'default'} className={`border hover:bg-white hover:text-[#2e4acd] text-white hover:border-[#2e4acd] cursor-pointer bg-[#2e4acd]`}> Learn more to know</Button>
+
+        </div>
+
       </div>
 
-      {/* Steps Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-  {/* Step 1 */}
-  <div className="flex flex-col items-start text-left">
-    <img
-      src="/assets/1.png"
-      alt="Sign up your account"
-      className="rounded-lg mb-6 w-full"
-    />
-    <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Sign up your account for Arobix</h2>
-    <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      Register for Arobix and fill in the information access to create a website.
-    </p>
-  </div>
 
-  {/* Step 2 */}
-  <div className="flex flex-col items-start text-left">
-    <img
-      src="/assets/2.png"
-      alt="Create your first workspace"
-      className="rounded-lg mb-6 w-full"
-    />
-    <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Create your first workspace on Arobix</h2>
-    <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">      A new workspace going to top-up, you can make a workspace fit with your requirements.
-    </p>
-  </div>
+      <section
+        className=" w-full relative  flex items-center mt-6 justify-center flex-col px-4 lg:px-12 "
 
-  {/* Step 3 */}
-  <div className="flex flex-col items-start text-left">
-    <img
-      src="/assets/3.png"
-      alt="Customize and publish your website"
-      className="rounded-lg mb-6 w-full"
-    />
-    <h2 className="text-2xl lg:text-3xl font-bold  mb-2 tracking-tighter w-[80%]">Customize & publish your website</h2>
-    <p className="text-gray-600 text-sm lg:text-[1rem] leading-[1.5rem]">
-      You can easily customize your website and also share and publish your website to public.
-    </p>
-  </div>
-</div>
+      >
+         <header className=' w-full lg:px-0 md:px-10 lg:w-11/12 max-w-7xl justify-center item-center  h-full flex z-30'>
+          <div className='w-full'>
+            <div className='lg:flex items-center justify-between'>
+              <div className='lg:w-1/2'>
 
+                <div className='text-3xl lg:text-5xl tracking-tighter font-bold mb-2 lg:w-full w-full md:w-2/3'>    Find your perfect plan
+                  for growing your business online
 
-    </div>
+                </div>
+              </div>
+              <div className='lg:w-1/2 lg:justify-end flex items-end lg:ml-8'>
+                <p className='md:text-lg text-sm text-white my-4 md:my-5 max-w-md w-full'>    <p className="text-gray-600 text-md lg:text-lg">
+                  Start building for free. Purchase a paid{" "}
+                  <a href="#" className="text-[#2e4acd] font-bold">
+                    Site plan
+                  </a>{" "}
+                  when you're ready to go live, then upgrade your{" "}
+                  <a href="#" className="text-[#2e4acd] font-bold">
+                    Workspace
+                  </a>{" "}
+                  to unlock greater collaboration.
+                </p>
+                  <div className='flex gap-4 mt-5'>
+                    <Button variant={'default'} className={`border hover:bg-white hover:text-[#2e4acd] text-white hover:border-[#2e4acd] cursor-pointer bg-[#2e4acd]`}> Start building now!</Button>
+                    <Button variant="outline" className={`border bg-white hover:text-white text-[#2e4acd] border-[#2e4acd] cursor-pointer hover:bg-[#2e4acd]`}>Learn to know</Button>
+                  </div>
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </header>
+
+      </section>
+
+      <div className="w-full bg-white text-black py-12 px-6 lg:px-20">
+        {/* Header Section */}
+       
+
+  
+
+        {/* Plans Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          {/* Personal Plan */}
+          <div className="border rounded-lg p-6 shadow-md bg-white">
+            <h2 className="text-lg font-bold mb-2 ">Personal plan</h2>
+            <p className="text-2xl font-bold mb-4">
+              $16<span className="text-sm font-normal">/month</span>
+            </p>
+            <p className="text-gray-600 text-sm mb-4">
+              Our foundational plan with access to fully customizable,
+              best-in-class templates.
+            </p>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li className="flex items-center gap-2">
+                🌐 magic.io domain
+              </li>
+              <li className="flex items-center gap-2">
+                📱 Mobile optimized websites
+              </li>
+              <li className="flex items-center gap-2">
+                📂 Templates to fit every need
+              </li>
+            </ul>
+            <button className="bg-blue-600 text-white w-full py-2 mt-6 rounded-full">
+              Start free trial — 14 days
+            </button>
+          </div>
+
+          {/* Business Plan */}
+          <div className="border rounded-lg p-6 shadow-md bg-blue-50 border-blue-600 relative">
+            <div className="absolute top-0 left-0 bg-blue-600 w-full text-white text-xs uppercase font-bold px-4 py-1 rounded-br-md">
+              Popular Plan
+            </div>
+            <h2 className="text-lg font-bold mb-2">Business plan</h2>
+            <p className="text-2xl font-bold mb-4">
+              $23<span className="text-sm font-normal">/month</span>
+            </p>
+            <p className="text-gray-600 text-sm mb-4">
+              For those looking to grow their audience and begin taking payments.
+            </p>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li className="flex items-center gap-2">
+                🌐 From custom domain
+              </li>
+              <li className="flex items-center gap-2">
+                📱 Mobile optimized websites
+              </li>
+              <li className="flex items-center gap-2">
+                📂 Templates to fit every need
+              </li>
+              <li className="flex items-center gap-2">
+                📊 Advanced website analytics
+              </li>
+            </ul>
+            <button className="bg-blue-600 text-white w-full py-2 mt-6 rounded-full">
+              Start free trial — 14 days
+            </button>
+          </div>
+
+          {/* Commerce Plan */}
+          <div className="border rounded-lg p-6 shadow-md bg-white">
+            <h2 className="text-lg font-bold mb-2">Commerce plan</h2>
+            <p className="text-2xl font-bold mb-4">
+              $49<span className="text-sm font-normal">/month</span>
+            </p>
+            <p className="text-gray-600 text-sm mb-4">
+              Selling all the tools necessary for the more advanced seller. No
+              transaction fees.
+            </p>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li className="flex items-center gap-2">
+                🌐 Free custom domain
+              </li>
+              <li className="flex items-center gap-2">
+                📱 Mobile optimized websites
+              </li>
+              <li className="flex items-center gap-2">
+                📂 Templates to fit every need
+              </li>
+              <li className="flex items-center gap-2">
+                📊 Advanced website analytics
+              </li>
+              <li className="flex items-center gap-2">
+                🛒 Powerful merchandising
+              </li>
+              <li className="flex items-center gap-2">
+                💳 Checkout on your domain
+              </li>
+            </ul>
+            <button className="bg-blue-600 text-white w-full py-2 mt-6 rounded-full">
+              Start free trial — 14 days
+            </button>
+          </div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="mt-8 text-center text-sm text-gray-500">
+          All prices are in USD and charged per site with applicable taxes added
+          at checkout. If you are confused, you can{" "}
+          <a href="#" className="text-blue-500 underline">
+            Compare plan
+          </a>{" "}
+          to know what is the difference.
+        </div>
+      </div>
       {/* Pricing Cards Section */}
       <section className="flex flex-col items-center justify-center gap-8 md:mt-28 mt-12 px-4 lg:px-16" >
-      <div className='text-3xl lg:text-5xl tracking-tighter text-center font-bold '> Choose what fits you right</div>
+        <div className='text-3xl lg:text-5xl tracking-tighter text-center font-bold '> Choose what fits you right</div>
         <p className="text-muted-foreground text-center max-w-2xl">
           Our straightforward pricing plans are tailored to meet your needs. If{" "}
           you're not ready to commit, you can get started for free.
