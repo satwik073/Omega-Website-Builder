@@ -50,3 +50,22 @@ Share all bugs and solutions in the discord. Would love to collaborate and get t
 
 ## Shadcn UI Theme creator
 [Link To Website](https://gradient.page/tools/shadcn-ui-theme-generator) -->
+<!-- 
+
+   <button
+  onClick={async () => {
+    try {
+      await sendInvitation(
+        'SUBACCOUNT_USER', // Replace Role.SUBACCOUNT_USER with the string directly
+        'ravikanhere1964@gmail.com',
+        'ad617ea1-62bf-4ad0-ad89-b3630f75db54'
+      );
+      alert('Invitation sent successfully!');
+    } catch (error) {
+      console.error('Error sending invitation:', error);
+      alert('Failed to send invitation. Please try again.');
+    }
+  }}
+>
+  Send Invite
+</button> -->

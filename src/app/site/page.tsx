@@ -22,6 +22,7 @@ import clsx from 'clsx'
 import { Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Toaster } from '@/components/ui/toaster'
 
 export default async function Home() {
   const prices = await stripe.prices.list({
@@ -740,6 +741,7 @@ export default async function Home() {
           ))}
         </div>
       </section > */}
+    
     </>
   );
 }
