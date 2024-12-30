@@ -32,6 +32,7 @@ import { saveActivityLogsNotification, upsertSubAccount } from '@/lib/queries'
 import { useEffect } from 'react'
 import Loading from '../global/loading'
 import { useModal } from '@/providers/modal-provider'
+import { MessageConfiguration, PING_DISPATCH } from '@/Events/MessageDispatcher'
 
 const formSchema = z.object({
   name: z.string(),
@@ -111,6 +112,7 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
         title: 'Subaccount details saved',
         description: 'Successfully saved your subaccount details.',
       })
+      PING_DISPATCH("success", "created success", MessageConfiguration?.SC_M)
 
       setClose()
       router.refresh()

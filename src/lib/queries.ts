@@ -470,31 +470,31 @@ export const getUser = async (id: string) => {
   return user
 }
 
-export const sendInvitation = async (
-  role: Role,
-  email: string,
-  agencyId: string
-) => {
-  const resposne = await db.invitation.create({
-    data: { email, agencyId, role },
-  })
-
+export const sendInvitation = async (role: Role, email: string, agencyId: string) => {
   try {
+    // Database operation
+    const response = await db.invitation.create({
+      data: { email, agencyId, role }, // Check that `email`, `agencyId`, and `role` are valid
+    });
+    console.log('Database response:', response);
+
+    // Clerk invitation
     const invitation = await clerkClient.invitations.createInvitation({
       emailAddress: email,
-      redirectUrl: process.env.NEXT_PUBLIC_URL,
+      redirectUrl: process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
       publicMetadata: {
         throughInvitation: true,
         role,
       },
-    })
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+    });
+    console.log('Clerk response:', invitation);
 
-  return resposne
-}
+    return response;
+  } catch (error) {
+    console.error('Error in sendInvitation:', error); // Log the error for debugging
+    throw error; // Rethrow the error so it can be handled in the calling code
+  }
+};
 
 export const getMedia = async (subaccountId: string) => {
   const mediafiles = await db.subAccount.findUnique({
