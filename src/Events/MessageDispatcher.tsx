@@ -65,7 +65,7 @@ export const PING_DISPATCH = (
         [MessageConfiguration.DEFAULT]: 'default',
     }[typeDeclaration] || 'default';
 
-    toast({ ...toastProps, variant: toastVariant });
+    // toast({ ...toastProps, variant: toastVariant });
 };
 
 const getIconClass = (typeDeclaration: MessageConfiguration): string => {
