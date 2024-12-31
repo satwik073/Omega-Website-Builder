@@ -16,7 +16,7 @@ const DeleteButton = ({ subaccountId }: Props) => {
 
   return (
     <div
-      className="text-white"
+      className="text-red-700"
       onClick={async () => {
         const response = await getSubaccountDetails(subaccountId)
         await saveActivityLogsNotification({
