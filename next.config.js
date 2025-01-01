@@ -1,8 +1,20 @@
+const { m } = require('framer-motion')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true, 
+    ignoreDuringBuilds: true,
   },
+  fastRefresh: true,
+  onDemandEntries: {
+    maxInactiveAge: 15 * 60 * 1000,
+    pageBufferLenth: 4
+  },
+  concurrentFeatures: true,
+  swcMinify: true,
+  productionBrowserSourceMaps: false,
+  optimizeFonts: false,
+  minify: false,
   images: {
     domains: [
       'uploadthing.com',

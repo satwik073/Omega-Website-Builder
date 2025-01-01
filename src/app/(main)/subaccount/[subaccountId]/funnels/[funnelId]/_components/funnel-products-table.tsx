@@ -74,6 +74,8 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
           },
         ])
   }
+  console.log(products)
+  console.log(liveProducts)
   return (
     <>
       <Table className="bg-card border-[1px] border-border rounded-md">
@@ -87,8 +89,8 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody className="font-medium truncate">
-          {products.map((product) => (
-            <TableRow key={product.id}>
+          {products.filter((product: { active: boolean }) => product.active === true).map((product: Stripe.Product) => (
+            <TableRow key={'1'}>
               <TableCell>
                 <Input
                   defaultChecked={
@@ -122,6 +124,7 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
                 {
                   //@ts-ignore
                   product.default_price?.unit_amount / 100
+                  
                 }
               </TableCell>
             </TableRow>
