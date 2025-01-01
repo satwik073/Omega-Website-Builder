@@ -10,15 +10,18 @@ import {
 } from '@/components/ui/table'
 import Stripe from 'stripe'
 import Image from 'next/image'
-import {
-  saveActivityLogsNotification,
-  updateFunnelProducts,
-} from '@/lib/queries'
+import { saveActivityLogsNotification, updateFunnelProducts, } from '@/lib/queries'
 import { Funnel } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-
+import _, { head, uniqueId } from 'lodash'
+import { v4 as CrypticRecord } from 'uuid'
+import { conditionalRendering, getComputedBordersConfig } from '@/Utils/utils'
+import { TableHeaderConfig } from '../Constants'
+import { _DEFAULT, BoxTypeIdentifier, InputTypes, IntervalsSettings, VISIBILITY } from '@/lib/structures'
+import { TableHeaderSetting } from '../../structure'
+import ProductImage from '@/Controllers/ImageContainer'
 interface FunnelProductsTableProps {
   defaultData: Funnel
   products: Stripe.Product[]
@@ -30,9 +33,8 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
 }) => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [liveProducts, setLiveProducts] = useState<
-    { productId: string; recurring: boolean }[] | []
-  >(JSON.parse(defaultData.liveProducts || '[]'))
+  const [liveProducts, setLiveProducts] = useState<{ productId: string; recurring: boolean }[] | []>(JSON.parse(defaultData.liveProducts || '[]'))
+  const customBorderClass = getComputedBordersConfig("md")
 
   const handleSaveProducts = async () => {
     setIsLoading(true)
@@ -56,79 +58,78 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
     )
     productIdExists
       ? setLiveProducts(
-          liveProducts.filter(
-            (prod) =>
-              prod.productId !==
-              //@ts-ignore
-              product.default_price?.id
-          )
+        liveProducts.filter(
+          (prod) =>
+            prod.productId !==
+            //@ts-ignore
+            product.default_price?.id
         )
+      )
       : //@ts-ignore
-        setLiveProducts([
-          ...liveProducts,
-          {
-            //@ts-ignore
-            productId: product.default_price.id as string,
-            //@ts-ignore
-            recurring: !!product.default_price.recurring,
-          },
-        ])
+      setLiveProducts([
+        ...liveProducts,
+        {
+          //@ts-ignore
+          productId: product.default_price.id as string,
+          //@ts-ignore
+          recurring: !!product.default_price.recurring,
+        },
+      ])
   }
   console.log(products)
   console.log(liveProducts)
   return (
     <>
-      <Table className="bg-card border-[1px] border-border rounded-md">
-        <TableHeader className="rounded-md">
-          <TableRow>
-            <TableHead>Live</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Interval</TableHead>
-            <TableHead className="text-right">Price</TableHead>
+      <Table className="bg-card border-[1px] border-border" style={{ borderRadius: customBorderClass }} id={uniqueId('_id_table')}>
+
+        <TableHeader id={uniqueId('_id_table_header')} className="rounded-md">
+          <TableRow key={uniqueId('_id_table_row')}>
+
+            {Object.values(TableHeaderConfig).map((configController) => (
+              <TableHead className={configController?.className}
+                key={configController?.key_salutation}
+                itemID={configController?._id ?? CrypticRecord()}
+                title={(configController?.metadata?.visibility === VISIBILITY.SHOW) ? configController?.labelContent : ''}
+              >
+                {(configController?.metadata?.visibility === VISIBILITY?.SHOW
+                  && configController?.labelContent)
+                  ? configController?.labelContent :
+                  ''}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
-        <TableBody className="font-medium truncate">
-          {products.filter((product: { active: boolean }) => product.active === true).map((product: Stripe.Product) => (
-            <TableRow key={'1'}>
-              <TableCell>
-                <Input
-                  defaultChecked={
-                    !!liveProducts.find(
-                      //@ts-ignore
-                      (prod) => prod.productId === product.default_price.id
-                    )
-                  }
-                  onChange={() => handleAddProduct(product)}
-                  type="checkbox"
-                  className="w-4 h-4"
-                />
-              </TableCell>
-              <TableCell>
-                <Image
-                  alt="product Image"
-                  height={60}
-                  width={60}
-                  src={product.images[0]}
-                />
-              </TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>
-                {
-                  //@ts-ignore
-                  product.default_price?.recurring ? 'Recurring' : 'One Time'
-                }
-              </TableCell>
-              <TableCell className="text-right">
-                $
-                {
-                  //@ts-ignore
-                  product.default_price?.unit_amount / 100
-                  
-                }
-              </TableCell>
-            </TableRow>
-          ))}
+        <TableBody className="font-medium truncate" id={uniqueId('_id_table_body')}>
+          {products.filter((product: { active: boolean }) => product?.active === VISIBILITY?.SHOW)
+            .map((product: Stripe.Product) => (
+              <TableRow key={product?.id || CrypticRecord()}>
+                {Object.values(TableHeaderConfig).map((tableCellConfig) => (
+                  <TableCell id={tableCellConfig?._id} key={`${tableCellConfig._id}-${product.id}`}
+                    className={product?.active && tableCellConfig?.metadata?.visibility ? tableCellConfig?.className : _DEFAULT}>
+                    {(() => {
+                      switch (tableCellConfig?.labelContent) {
+                        case TableHeaderSetting._Live || 'LIVE':
+                          return (conditionalRendering("INPUT_ELEMENT",
+                              liveProducts, () => handleAddProduct(product), "w-4 h-4", product));
+                        case TableHeaderSetting._DIMENSION || 'DIMENSIONAL_MEASUREMENT':
+                          return (conditionalRendering("DIMENSIONAL_MEASUREMENT",
+                            [], undefined, _DEFAULT, product));
+                        case TableHeaderSetting.DETAIL || 'DATA_CONFIG':
+                          return product?.name
+                        case TableHeaderSetting.TM_RANGE || 'INTERAL_SETTING':
+                          return (conditionalRendering("RANGE",
+                            [], undefined, _DEFAULT, product))
+                        case TableHeaderSetting.PRICE || 'PRICE':
+                          return (conditionalRendering("AMOUNT_VALIDATOR",
+                            [], undefined, _DEFAULT, product));
+                        default:
+                          return null;
+                      }
+                    })()}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
       <Button

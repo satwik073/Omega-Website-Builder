@@ -104,15 +104,15 @@ export enum BoxTypeIdentifier {
     Summary = 'summary',
     Dialog = 'dialog',
     Output = 'output',
-    Default = 'div', 
+    Default = 'div',
 }
 
-export const ConfigSetting ={
-    ENABLE : false,
-    DISABLE : true,
-    TEXT_CONFIG :{
-        WH_ : "WHITE_FORMAT",
-        BLK_ : "DARK_FORMAT"
+export const ConfigSetting = {
+    ENABLE: false,
+    DISABLE: true,
+    TEXT_CONFIG: {
+        WH_: "WHITE_FORMAT",
+        BLK_: "DARK_FORMAT"
     }
 }
 
@@ -122,9 +122,9 @@ export const __DEFAULT_CLS = {
 }
 
 export const LanguageModules = {
-    ISO_639_ENT : 'en',
-    ISO_723_HIN : 'hi',
-    ISO_812_FRN : 'fr'
+    ISO_639_ENT: 'en',
+    ISO_723_HIN: 'hi',
+    ISO_812_FRN: 'fr'
 }
 
 export enum ThemeProviderOptions {
@@ -133,6 +133,7 @@ export enum ThemeProviderOptions {
     __DEFAULT = 'System'
 
 }
+
 
 export enum HostedConfigs {
     LC = 'localhost',
@@ -151,19 +152,50 @@ export enum ENVS {
 }
 
 export const ConfigurationSchema = {
-    PRODUCT_EXTRACTED_FILE : process.env.NEXT_PRODUCT_CONFIG
-  }
-  
+    PRODUCT_EXTRACTED_FILE: process.env.NEXT_PRODUCT_CONFIG
+}
+
 export const OptionsConfig = {
-    _BORDER :{
-        ENABLE : ConfigSetting?.ENABLE,
-        DISABLE : ConfigSetting?.DISABLE
+    _BORDER: {
+        ENABLE: ConfigSetting?.ENABLE,
+        DISABLE: ConfigSetting?.DISABLE
     },
-    _TXTPALLETE : {
-        ENABLE : ConfigSetting?.TEXT_CONFIG?.WH_,
-        DISABLE : ConfigSetting?.TEXT_CONFIG?.BLK_
+    _TXTPALLETE: {
+        ENABLE: ConfigSetting?.TEXT_CONFIG?.WH_,
+        DISABLE: ConfigSetting?.TEXT_CONFIG?.BLK_
     }
 }
+
+export const VISIBILITY = {
+    SHOW : true,
+    HIDE : false,
+}
+
+
+export enum InputTypes {
+    CHECKBOX = "checkbox",
+    RADIO = "radio",
+    TEXT = "text",
+    NUMBER = "number",
+    EMAIL = "email",
+    PASSWORD = "password",
+    DATE = "date",
+    TIME = "time",
+    URL = "url",
+    TEL = "tel",
+    RANGE = "range",
+    FILE = "file",
+    COLOR = "color",
+    SEARCH = "search",
+}
+
+
+export const _DEFAULT = ''
+export enum IntervalsSettings {
+    RECURRING = "Recurring",
+    ONE_TIME = "One Time",
+}
+
 // export const runningEnviornment = {
 //     variations: {
 //         localTurbulence: typeof window !== HostedConfigs.EMPTY &&
