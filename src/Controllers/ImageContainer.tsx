@@ -27,7 +27,7 @@ const ProductImage: React.FC<EnhancedProductImageProps> = ({
   return (
     <div className={`relative ${CustomClasses}`}>
       <Image
-        src={ImageSource || "/default-image.png"}
+        src={ImageSource || '/assets/one-week-new.png'}
         alt={AlternateText}
         height={Layout === "FILL" ? undefined : Height}
         width={Layout === "FILL" ? undefined : Width}

@@ -170,7 +170,33 @@ export const VISIBILITY = {
     SHOW : true,
     HIDE : false,
 }
-
+export const ButtonTextConfig = {
+    save: {
+      default: "Save",
+      loading: "Saving...",
+      success: "Saved!",
+      error: "Error Saving",
+    },
+    saveProducts: {
+      default: "Save Products",
+      loading: "Saving Products...",
+      success: "Products Saved!",
+      error: "Failed to Save Products",
+    },
+    delete: {
+      default: "Delete",
+      loading: "Deleting...",
+      success: "Deleted!",
+      error: "Failed to Delete",
+    },
+    update: {
+      default: "Update",
+      loading: "Updating...",
+      success: "Updated!",
+      error: "Failed to Update",
+    },
+  };
+  
 
 export enum InputTypes {
     CHECKBOX = "checkbox",

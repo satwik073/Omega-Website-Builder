@@ -19,9 +19,11 @@ import _, { head, uniqueId } from 'lodash'
 import { v4 as CrypticRecord } from 'uuid'
 import { conditionalRendering, getComputedBordersConfig } from '@/Utils/utils'
 import { TableHeaderConfig } from '../Constants'
-import { _DEFAULT, BoxTypeIdentifier, InputTypes, IntervalsSettings, VISIBILITY } from '@/lib/structures'
+import { _DEFAULT, BoxTypeIdentifier, ButtonTextConfig, InputTypes, IntervalsSettings, VISIBILITY } from '@/lib/structures'
 import { TableHeaderSetting } from '../../structure'
 import ProductImage from '@/Controllers/ImageContainer'
+import Loading from '../../../pipelines/loading'
+import LoadingAgencyPage from '@/app/(main)/subaccount/loading'
 interface FunnelProductsTableProps {
   defaultData: Funnel
   products: Stripe.Product[]
@@ -110,7 +112,7 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
                       switch (tableCellConfig?.labelContent) {
                         case TableHeaderSetting._Live || 'LIVE':
                           return (conditionalRendering("INPUT_ELEMENT",
-                              liveProducts, () => handleAddProduct(product), "w-4 h-4", product));
+                            liveProducts, () => handleAddProduct(product), "w-4 h-4", product));
                         case TableHeaderSetting._DIMENSION || 'DIMENSIONAL_MEASUREMENT':
                           return (conditionalRendering("DIMENSIONAL_MEASUREMENT",
                             [], undefined, _DEFAULT, product));
@@ -133,11 +135,17 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
         </TableBody>
       </Table>
       <Button
+      id={uniqueId('_id_cnx_btn')}
         disabled={isLoading}
         onClick={handleSaveProducts}
         className="mt-4"
       >
-        Save Products
+        {isLoading ? <BoxTypeIdentifier.Span id={CrypticRecord()}>
+          {ButtonTextConfig?.saveProducts?.loading}
+        </BoxTypeIdentifier.Span> :
+          <BoxTypeIdentifier.Span id={CrypticRecord()}>
+            {ButtonTextConfig?.saveProducts?.default}
+          </BoxTypeIdentifier.Span>}
       </Button>
     </>
   )
