@@ -6,10 +6,7 @@ import { EditorBtns } from '@/lib/constants'
 import { getFunnel, getSubaccountDetails } from '@/lib/queries'
 import { getStripe } from '@/lib/stripe/stripe-client'
 import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
-import {
-  EmbeddedCheckout,
-  EmbeddedCheckoutProvider,
-} from '@stripe/react-stripe-js'
+import { EmbeddedCheckout,EmbeddedCheckoutProvider} from '@stripe/react-stripe-js'
 import clsx from 'clsx'
 import { Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -91,6 +88,9 @@ const Checkout = (props: Props) => {
     }
   }, [livePrices, subaccountId, subAccountConnectAccId])
 
+  console.log("price",livePrices )
+  console.log("conn",subAccountConnectAccId )
+  console.log("sub",subaccountId )
   const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
     if (type === null) return
     e.dataTransfer.setData('componentType', type)

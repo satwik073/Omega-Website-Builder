@@ -168,7 +168,7 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
           {!!pages.length ? (
             <Card className="h-full flex justify-between flex-col">
               <CardHeader>
-                <p className="text-sm text-muted-foreground">Page name</p>
+                <div className="text-sm text-muted-foreground">Page name</div>
                 <CardTitle>{clickedPage?.name}</CardTitle>
                 <CardDescription className="flex flex-col gap-4">
                   <div className="border-2 rounded-lg sm:w-80 w-full  overflow-clip">

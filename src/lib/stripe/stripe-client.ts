@@ -8,5 +8,6 @@ export const getStripe = (connectedAccountId?: string) => {
       { stripeAccount: connectedAccountId }
     )
   }
+  console.log("this is ",stripePromise)
   return stripePromise
 }

@@ -1,10 +1,7 @@
+'use client'
+
 import React from 'react'
-
 import { Funnel, SubAccount } from '@prisma/client'
-import { db } from '@/lib/db'
-import { getConnectAccountProducts } from '@/lib/stripe/stripe-actions'
-
-
 import FunnelForm from '@/components/forms/funnel-form'
 import {
   Card,
@@ -15,28 +12,21 @@ import {
 } from '@/components/ui/card'
 import FunnelProductsTable from './funnel-products-table'
 
-interface FunnelSettingsProps {
-  subaccountId: string
+interface FunnelSettingsClientProps {
+  subaccountDetails: SubAccount
   defaultData: Funnel
+  products: any[]
 }
 
-const FunnelSettings: React.FC<FunnelSettingsProps> = async ({
-  subaccountId,
+const FunnelSettingsClient: React.FC<FunnelSettingsClientProps> = ({
+  subaccountDetails,
   defaultData,
+  products,
 }) => {
-  //CHALLENGE: go connect your stripe to sell products
-
-  const subaccountDetails = await db.subAccount.findUnique({
-    where: {
-      id: subaccountId,
-    },
-  })
-
-  if (!subaccountDetails) return
-  if (!subaccountDetails.connectAccountId) return
-  const products = await getConnectAccountProducts(
-    subaccountDetails.connectAccountId
-  )
+  // Handle potential edge cases for missing subaccountDetails or connectAccountId
+  if (!subaccountDetails || !subaccountDetails.connectAccountId) {
+    return <div>Connect your Stripe account to sell products.</div>
+  }
 
   return (
     <div className="flex gap-4 flex-col xl:!flex-row">
@@ -49,25 +39,16 @@ const FunnelSettings: React.FC<FunnelSettingsProps> = async ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <>
-            {subaccountDetails.connectAccountId ? (
-              <FunnelProductsTable
-                defaultData={defaultData}
-                products={products}
-              />
-            ) : (
-              'Connect your stripe account to sell products.'
-            )}
-          </>
+          <FunnelProductsTable
+            defaultData={defaultData}
+            products={products}
+          />
         </CardContent>
       </Card>
 
-      <FunnelForm
-        subAccountId={subaccountId}
-        defaultData={defaultData}
-      />
+      <FunnelForm subAccountId={subaccountDetails.id} defaultData={defaultData} />
     </div>
   )
 }
 
-export default FunnelSettings
+export default FunnelSettingsClient
