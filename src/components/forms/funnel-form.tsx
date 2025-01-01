@@ -20,7 +20,7 @@ import { Button } from '../ui/button'
 import Loading from '../global/loading'
 import { CreateFunnelFormSchema } from '@/lib/types'
 import { saveActivityLogsNotification, upsertFunnel } from '@/lib/queries'
-import { v4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { toast } from '../ui/use-toast'
 import { useModal } from '@/providers/modal-provider'
 import { useRouter } from 'next/navigation'
@@ -69,7 +69,7 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
     const response = await upsertFunnel(
       subAccountId,
       { ...values, liveProducts: defaultData?.liveProducts || '[]' },
-      defaultData?.id || v4()
+      defaultData?.id || uuidv4()
     )
     await saveActivityLogsNotification({
       agencyId: undefined,

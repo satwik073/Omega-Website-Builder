@@ -164,6 +164,36 @@ export const OptionsConfig = {
         DISABLE : ConfigSetting?.TEXT_CONFIG?.BLK_
     }
 }
+
+export enum InputTypes {
+    CHECKBOX = "checkbox",
+    RADIO = "radio",
+    TEXT = "text",
+    NUMBER = "number",
+    EMAIL = "email",
+    PASSWORD = "password",
+    DATE = "date",
+    TIME = "time",
+    URL = "url",
+    TEL = "tel",
+    RANGE = "range",
+    FILE = "file",
+    COLOR = "color",
+    SEARCH = "search",
+  }
+
+
+  export enum IntervalsSettings {
+    RECURRING = 'Recurring',
+    _ONE_TIME ='One Time'
+  }
+  
+export const __DEFAULT = ''
+
+export const VISIBILITY ={
+    SHOW : true,
+    HIDE : false
+}
 // export const runningEnviornment = {
 //     variations: {
 //         localTurbulence: typeof window !== HostedConfigs.EMPTY &&

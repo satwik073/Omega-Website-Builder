@@ -4,7 +4,7 @@ import React from 'react'
 const Loading = () => {
   return (
     <div role="status">
-      <CircularProgress size={60} />
+       <Loading></Loading>
     </div>
   )
 }
