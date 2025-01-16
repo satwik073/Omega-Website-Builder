@@ -90,7 +90,8 @@ const Navigation = ({ user }: Props) => {
             <Button variant={'default'} className={`text-black ml-2 hover:bg-white cursor-pointer tracking-tight bg-white`}> <span className='font-bold tracking-tight '>Get started - </span>it's free</Button>
           </Link>
 
-          <UserButton />
+          <UserButton 
+          afterSignOutUrl='/'/>
           <ModeToggle />
         </aside>
       )}

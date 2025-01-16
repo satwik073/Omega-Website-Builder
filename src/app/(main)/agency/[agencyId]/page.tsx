@@ -124,7 +124,7 @@ const Page = async ({ params }: Props) => {
       <div className="flex flex-col gap-4 pb-6">
         <div className="flex gap-4 flex-col xl:!flex-row">
           <Card className="flex-1 relative">
-            <CardHeader>
+            <CardHeader className=''>
               <CardDescription>Income</CardDescription>
               <CardTitle className="text-4xl">
                 {net ? `${currency} ${net.toFixed(2)}` : `$0.00`}

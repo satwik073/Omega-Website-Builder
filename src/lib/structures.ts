@@ -23,6 +23,7 @@ export enum AuthFlowIdentifier {
     REGISTER_VAR = 'Register'
 }
 
+
 export enum RolesIdentifier {
     ADMIN = 'admin',
     USER = 'user',
@@ -238,3 +239,5 @@ export enum IntervalsSettings {
 //         }
 //     }
 // }
+
+

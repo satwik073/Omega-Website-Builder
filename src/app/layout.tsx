@@ -7,7 +7,7 @@ import { ThemeProvider } from '@/providers/theme-provider'
 import ModalProvider from '@/providers/modal-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as SonnarToaster } from '@/components/ui/sonner'
-
+import ClientProvider from '../../ClientProvider'
 const font = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -26,22 +26,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-    >
+    <html lang="en" suppressHydrationWarning>
       <body className={font.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ModalProvider>
-            {children}
-            <Toaster />
-            <SonnarToaster position="bottom-left" />
-          </ModalProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ClientProvider>
+            <ModalProvider>
+              {children}
+              <Toaster />
+              <SonnarToaster position="bottom-left" />
+            </ModalProvider>
+          </ClientProvider>
         </ThemeProvider>
       </body>
     </html>
