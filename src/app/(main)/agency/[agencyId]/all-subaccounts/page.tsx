@@ -38,7 +38,7 @@ const AllSubaccountsPage = async ({ params }: Props) => {
   // Resolve the Promise for params
   const resolvedParams = await params
   const user = await getAuthUserDetails()
-  
+
   if (!user) return null // Return null or a fallback UI if no user is authenticated
 
   return (
@@ -93,7 +93,7 @@ const AllSubaccountsPage = async ({ params }: Props) => {
                   Showing {user?.Agency?.SubAccount?.length} Sub accounts
                 </div>
                 <div >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 my-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 my-6 max-w-7xl ">
                     {!!user.Agency?.SubAccount.length ? (
                       user.Agency.SubAccount.map((subaccount: SubAccount) => (
                         <div
@@ -106,11 +106,12 @@ const AllSubaccountsPage = async ({ params }: Props) => {
                               <Image
                                 src={subaccount.subAccountLogo || '/placeholder.png'}
                                 alt={`${subaccount.name} logo`}
-                                width={160}
+                                width={200}
                                 height={200}
-                                className="object-contain border-[6px] border-black rounded-md"
+                                className="sm:object-cover object-contain sm:w-full sm:h-full rounded-md border-[6px] border-black"
                               />
                             </div>
+
                             {/* Subaccount Info */}
                             <Separator />
                             <div className='flex justify-between w-full items-center '>
@@ -120,9 +121,9 @@ const AllSubaccountsPage = async ({ params }: Props) => {
                                   {subaccount.name}
                                 </h2>
                                 <div>
-                                  
+
                                   {/* Access Value */}
-                                  {user?.Permissions?.find(permission => permission.subAccountId === subaccount?.id )?.access === true
+                                  {user?.Permissions?.find(permission => permission.subAccountId === subaccount?.id)?.access === true
                                     ? <span className='text-sm text-green-600 dark:text-green-500 truncate items-center gap-2 flex'><IconCircleFilled size={10} />Published</span>
                                     : <span className=' text-sm truncate items-center gap-2 flex text-red-600'><IconCircleFilled size={10} />Pending</span>}
                                 </div>

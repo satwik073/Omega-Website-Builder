@@ -193,7 +193,7 @@ const CellActions: React.FC<CellActionsProps> = ({ rowData }) => {
                   title="Edit User Details"
                 >
                   <UserDetails
-                    type="agency"
+                    type="AGENCY_OWNER"
                     id={rowData?.Agency?.id || null}
                     subAccounts={rowData?.Agency?.SubAccount}
                   />

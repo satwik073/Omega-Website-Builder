@@ -46,7 +46,7 @@ const SubaccountSettingPage = async ({ params }: Props) => {
           userName={userDetails.name}
         />
         <UserDetails
-          type="subaccount"
+          type="SUBACCOUNT_USER"
           id={resolvedParams.subaccountId}
           subAccounts={subAccounts}
           userData={userDetails}

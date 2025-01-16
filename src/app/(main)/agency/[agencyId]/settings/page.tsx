@@ -57,11 +57,13 @@ const SettingsPage = async ({ params }: Props) => {
     return (
       <div className="flex lg:!flex-row flex-col gap-4">
         {/* Render agency details */}
-        <AgencyDetails data={agencyDetails} />
+        <AgencyDetails data={agencyDetails}  titleContent='Agency Information'
+            descriptionContent='Lets create an agency for you business. You can edit agency settings
+            later from the agency settings tab.'/>
 
         {/* Render user details with sub-accounts */}
         <UserDetails
-          type="agency"
+          type="AGENCY_OWNER"
           id={resolvedParams.agencyId}
           subAccounts={subAccounts}
           userData={userDetails}

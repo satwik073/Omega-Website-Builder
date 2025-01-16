@@ -29,8 +29,8 @@ const ProductImage: React.FC<EnhancedProductImageProps> = ({
       <Image
         src={ImageSource || '/assets/one-week-new.png'}
         alt={AlternateText}
-        height={Layout === "FILL" ? undefined : Height}
-        width={Layout === "FILL" ? undefined : Width}
+        height={Height ?? 100}
+        width={ Width ?? 100}
         layout={Layout.toLowerCase() as "fixed" | "intrinsic" | "responsive" | "fill"}
         priority={Priority}
         placeholder={Placeholder}

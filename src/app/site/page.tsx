@@ -1,3 +1,5 @@
+
+
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -23,12 +25,14 @@ import { Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Toaster } from '@/components/ui/toaster'
+import { useTranslation } from 'react-i18next'
+import { Config } from '@/lib/translation'
 
 export default async function Home() {
-  const prices = await stripe.prices.list({
-    product: process.env.NEXT_PLURA_PRODUCT_ID,
-    active: true,
-  });
+  // const prices = await stripe.prices.list({
+  //   product: process.env.NEXT_PLURA_PRODUCT_ID,
+  //   active: true,
+  // });
   const features = [
     {
       text: "Free custom domain",
@@ -55,12 +59,15 @@ export default async function Home() {
       icon: <IconCreditCard />, // Replace with your icon
     },
   ];
+  // { Config?.i18N?.t["HeaderAlignment"].Value}
+  // const {t} = useTranslation()
   return (
     <>
       <section
         className=" w-full relative flex items-center justify-center flex-col px-4 lg:px-12 "
         style={{ backgroundColor: `#${process.env.NEXT_OVERALL_PALLETE}` }}
       >
+        
         {/* Content */}
 
         {/* Spotlight */}
@@ -81,12 +88,12 @@ export default async function Home() {
                 <div className='md:text-5xl text-4xl w-full lg:w-full md:w-[70%]  xl:text-7xl text-white font-extrabold tracking-tighter'>The site you want without develop time</div>
               </div>
               <div className='lg:w-1/2 lg:justify-end flex items-end lg:ml-8'>
-                <p className='md:text-lg text-sm text-white my-4 md:my-5 max-w-md w-full'>Easiest develop design to website using Arobix and start your free website trial today. No credit required
+                <div className='md:text-lg text-sm text-white my-4 md:my-5 max-w-md w-full'>Easiest develop design to website using Arobix and start your free website trial today. No credit required
                   <div className='flex gap-4 mt-5'>
                     <Button variant={'default'} className={`text-black hover:bg-white cursor-pointer bg-white`}> Start building now!</Button>
                     <Button variant="outline" className={`bg-transparent border cursor-pointer ${ThemeSettings(OptionsConfig?._BORDER?.ENABLE, OptionsConfig?._TXTPALLETE?.ENABLE === "WHITE_FORMAT")} border-white hover:!text-black`}>Learn to know</Button>
                   </div>
-                </p>
+                </div>
               </div>
 
             </div>

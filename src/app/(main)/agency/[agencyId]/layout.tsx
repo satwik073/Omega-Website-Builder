@@ -101,11 +101,11 @@ const layout = async ({ children, params }: Props) => {
   if (notifications) allNoti = notifications
 
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-hidden ">
       <Sidebar id={resolvedParams.agencyId} type="agency" />
       <div className="md:pl-[300px]">
         <InfoBar notifications={allNoti} role={allNoti.User?.role} />
-        <div className="relative">
+        <div className="relative bg-black">
           <BlurPage>{children}</BlurPage>
         </div>
       </div>

@@ -133,27 +133,27 @@ const SettingsTab = (props: Props) => {
               <TabsList className="flex items-center flex-row justify-between border-[1px] rounded-md bg-transparent h-fit gap-4">
                 <TabsTrigger
                   value="left"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted border dark:bg-white dark:text-white bg-white text-black"
                 >
-                  <AlignLeft size={18} />
+                  <AlignLeft size={18} className='dark:bg-white dark:text-white bg-white text-black' />
                 </TabsTrigger>
                 <TabsTrigger
                   value="right"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted border dark:bg-white dark:text-white bg-white text-black"
                 >
-                  <AlignRight size={18} />
+                  <AlignRight size={18} className='dark:bg-white dark:text-white bg-white text-black' />
                 </TabsTrigger>
                 <TabsTrigger
                   value="center"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted dark:bg-white border dark:text-white bg-white text-black"
                 >
-                  <AlignCenter size={18} />
+                  <AlignCenter size={18} className='dark:bg-white dark:text-white bg-white text-black' />
                 </TabsTrigger>
                 <TabsTrigger
                   value="justify"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted "
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted dark:bg-white border dark:text-white bg-white text-black "
                 >
-                  <AlignJustify size={18} />
+                  <AlignJustify size={18}  className='dark:bg-white dark:text-white bg-white text-black'/>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
