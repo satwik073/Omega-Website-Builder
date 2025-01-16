@@ -52,7 +52,7 @@ import { v4 } from 'uuid'
 
 type Props = {
   id: string | null
-  type: 'agency' | 'subaccount'
+  type: 'AGENCY_OWNER' | 'SUBACCOUNT_USER'
   userData?: Partial<User>
   subAccounts?: SubAccount[]
 }
@@ -136,7 +136,7 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
       subAccountId,
       val
     )
-    if (type === 'agency') {
+    if (type === 'AGENCY_OWNER') {
       await saveActivityLogsNotification({
         agencyId: authUserData?.Agency?.id,
         description: `Gave ${userData?.name} access to | ${

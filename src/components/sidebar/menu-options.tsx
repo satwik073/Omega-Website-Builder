@@ -69,7 +69,7 @@ const MenuOptions = ({
   if (!isMounted) return
 
   return (
-    <Sheet
+    <Sheet 
       modal={false}
       {...openState}
     >
@@ -89,7 +89,7 @@ const MenuOptions = ({
         showX={!defaultOpen}
         side={'left'}
         className={clsx(
-          'bg-background/80 backdrop-blur-xl fixed top-0 border-r-[1px] p-6',
+          'bg-gray-100 backdrop-blur-xl fixed top-0 border-r-[1px] p-6',
           {
             'hidden md:inline-block z-0 w-[300px]': defaultOpen,
             'inline-block md:hidden z-[100] w-full': !defaultOpen,
@@ -105,18 +105,18 @@ const MenuOptions = ({
                   {/* Image */}
                   <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
                     {/* Uncomment this if using the Image */}
-                    {/* <Image
-        src={sidebarLogo}
-        alt="Sidebar Logo"
-        fill
-        className="rounded-md object-contain"
-      /> */}
                     <Image
-                      src={'/assets/one-week.png'}
+                      src={sidebarLogo}
                       alt="Sidebar Logo"
                       fill
                       className="rounded-md object-contain"
                     />
+                    {/* <Image
+                      src={'/assets/one-week.png'}
+                      alt="Sidebar Logo"
+                      fill
+                      className="rounded-md object-contain"
+                    /> */}
                   </div>
                   {/* Name and Details */}
 
@@ -156,18 +156,18 @@ const MenuOptions = ({
                               {/* Left Section: Image and Details */}
                               <div className="flex items-center gap-4 w-full">
                                 <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
-                                  {/* <Image
-                                  src={user?.Agency?.agencyLogo || '/placeholder.png'}
-                                  alt="Agency Logo"
-                                  fill
-                                  className="rounded-md object-contain aspect-square justify-center  items-center flex"
-                                /> */}
                                   <Image
+                                    src={user?.Agency?.agencyLogo || '/placeholder.png'}
+                                    alt="Agency Logo"
+                                    fill
+                                    className="rounded-md object-contain aspect-square justify-center  items-center flex"
+                                  />
+                                  {/* <Image
                                     src={'/assets/one-week.png'}
                                     alt="Sidebar Logo"
                                     fill
                                     className="rounded-md object-contain"
-                                  />
+                                  /> */}
                                 </div>
                                 <div className="flex flex-col">
                                   <span className="text-base text-start font-bold truncate">{user?.Agency?.name}</span>
@@ -192,18 +192,18 @@ const MenuOptions = ({
                               <div className="w-full cursor-pointer flex items-center justify-between">
                                 <div className="flex items-center gap-4 w-full">
                                   <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
-                                    {/* <Image
-                                  src={subaccount.subAccountLogo || '/placeholder.png'}
-                                  alt="Subaccount Logo"
-                                  fill
-                                  className="rounded-md object-contain"
-                                /> */}
                                     <Image
+                                      src={subaccount.subAccountLogo || '/placeholder.png'}
+                                      alt="Subaccount Logo"
+                                      fill
+                                      className="rounded-md object-contain"
+                                    />
+                                    {/* <Image
                                       src={'/assets/fireart.png'}
                                       alt="Sidebar Logo"
                                       fill
                                       className="rounded-md object-contain"
-                                    />
+                                    /> */}
                                   </div>
                                   <div className="flex flex-col">
                                     <span className="text-base text-start font-bold truncate">{subaccount.name}</span>
@@ -299,23 +299,23 @@ const MenuOptions = ({
                       const val = result ? <result.path /> : null;
                       return (
                         <TooltipProvider>
-                        <Tooltip>
+                          <Tooltip>
                             <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
                               <Link
                                 href={sidebarOptions.link}
                                 className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
                               >
                                 {val}
-                          <TooltipTrigger asChild>
-                                <span>{sidebarOptions.name}</span>
-                          </TooltipTrigger>
+                                <TooltipTrigger asChild>
+                                  <span>{sidebarOptions.name}</span>
+                                </TooltipTrigger>
                               </Link>
                             </CommandItem>
-                          <TooltipContent side="right" className="bg-gray-800 text-white text-sm p-2 rounded-md shadow-lg">
-                            {sidebarOptions.name || 'Tooltip content goes here'}
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                            <TooltipContent side="right" className="bg-gray-800 text-white text-sm p-2 rounded-md shadow-lg">
+                              {sidebarOptions.name || 'Tooltip content goes here'}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       );
                     })}
                   </CommandGroup>

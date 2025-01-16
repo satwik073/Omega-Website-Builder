@@ -1,13 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody,TableCell,TableHead,TableHeader,TableRow,} from '@/components/ui/table'
 import Stripe from 'stripe'
 import Image from 'next/image'
 import { saveActivityLogsNotification, updateFunnelProducts, } from '@/lib/queries'
@@ -35,7 +28,8 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
 }) => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [liveProducts, setLiveProducts] = useState<{ productId: string; recurring: boolean }[] | []>(JSON.parse(defaultData.liveProducts || '[]'))
+  const [liveProducts, setLiveProducts] = useState<{ productId: string; recurring: boolean }[] 
+  | []>(JSON.parse(defaultData.liveProducts || '[]'))
   const customBorderClass = getComputedBordersConfig("md")
 
   const handleSaveProducts = async () => {
@@ -78,25 +72,24 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
         },
       ])
   }
-  console.log(products)
-  console.log(liveProducts)
+
   return (
     <>
-      <Table className="bg-card border-[1px] border-border" style={{ borderRadius: customBorderClass }} id={uniqueId('_id_table')}>
+      <Table className="bg-card border-[1px] border-border"
+        style={{ borderRadius: customBorderClass }} id={uniqueId('_id_table')}>
 
         <TableHeader id={uniqueId('_id_table_header')} className="rounded-md">
           <TableRow key={uniqueId('_id_table_row')}>
-
             {Object.values(TableHeaderConfig).map((configController) => (
               <TableHead className={configController?.className}
                 key={configController?.key_salutation}
                 itemID={configController?._id ?? CrypticRecord()}
-                title={(configController?.metadata?.visibility === VISIBILITY.SHOW) ? configController?.labelContent : ''}
+                title={(configController?.metadata?.visibility === VISIBILITY.SHOW) ? configController?.labelContent : _DEFAULT}
               >
                 {(configController?.metadata?.visibility === VISIBILITY?.SHOW
                   && configController?.labelContent)
                   ? configController?.labelContent :
-                  ''}
+                  _DEFAULT}
               </TableHead>
             ))}
           </TableRow>
@@ -135,7 +128,7 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
         </TableBody>
       </Table>
       <Button
-      id={uniqueId('_id_cnx_btn')}
+        id={uniqueId('_id_cnx_btn')}
         disabled={isLoading}
         onClick={handleSaveProducts}
         className="mt-4"

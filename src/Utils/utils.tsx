@@ -9,49 +9,29 @@ export const getComputedBordersConfig = (size: keyof typeof TailwindBorderSizes)
 };
 
 export const conditionalRendering = (
-  typeOperator:
-    | "INPUT_ELEMENT"
-    | "DIMENSIONAL_MEASUREMENT"
-    | "RANGE"
-    | "AMOUNT_VALIDATOR"
-    | "DETAIL",
+  typeOperator: "INPUT_ELEMENT" | "DIMENSIONAL_MEASUREMENT" | "RANGE" | "AMOUNT_VALIDATOR" | "DETAIL",
   productCart?: { productId: string }[],
-  handleChange?: (itemSection: any) => void,
-  additionalClasses?: string,
-  product?: any
-  
-) => {
+  handleChange?: (itemSection: any) => void, additionalClasses?: string, product?: any) => {
   switch (typeOperator) {
     case "INPUT_ELEMENT":
       return (
-        <Input
-          defaultChecked={!!productCart?.find(
-            (productOverview) =>
-              productOverview.productId === product?.default_price?.id
-          )}
+        <Input defaultChecked={!!productCart?.find(
+          (productOverview) =>
+            productOverview.productId === product?.default_price?.id)}
           onChange={() => handleChange && handleChange(product)}
-          type={InputTypes.CHECKBOX}
-          className={`w-4 h-4 ${additionalClasses || ""}`}
-        />
-      );
+          type={InputTypes.CHECKBOX} className={`w-4 h-4 ${additionalClasses || ""}`}
+        />);
 
     case "DIMENSIONAL_MEASUREMENT":
       return (
-        <ProductImage
-          AlternateText={product?.name || "Product Image"}
-          Dimensions={{ Height: 60, Width: 60 }}
-          ImageSource={head(product?.images) || "/default-image.png"}
-          Layout="RESPONSIVE"
-          CustomClasses={additionalClasses}
+        <ProductImage AlternateText={product?.name || "Product Image"}
+          Dimensions={{ Height: 60, Width: 60 }} ImageSource={head(product?.images) || "/default-image.png"}
+          Layout="RESPONSIVE" CustomClasses={additionalClasses}
         />
       );
 
     case "RANGE":
-      return product?.default_price?.recurring ? (
-        IntervalsSettings.RECURRING
-      ) : (
-        IntervalsSettings.ONE_TIME
-      );
+      return product?.default_price?.recurring ? (IntervalsSettings.RECURRING) : (IntervalsSettings.ONE_TIME);
 
     case "AMOUNT_VALIDATOR":
       return (

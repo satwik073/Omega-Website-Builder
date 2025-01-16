@@ -1,0 +1,185 @@
+{
+  "HeaderAlignment": {
+    "Value": "Welcome to My Portfolio - Showcasing Projects and Skills for Impactful Software Solutions",
+    "AltConfigValue": "Welcome to My Portfolio - Explore my journey"
+},
+"LabelManagement": {
+    "Main": {
+        "SelectLanguage": "Select Language",
+        "OriginalText": "Original Text",
+        "TranslatedText": "Translated Text",
+        "DataCard": {
+            "Title": "Building Scalable & High-Performance Web Applications",
+            "Description": "Passionate about building scalable, high-performance web applications using the latest technologies like React, TypeScript, Node.js, and Tailwind CSS. Continuously learning and exploring new tools to create seamless user experiences.",
+            "Details": {
+                "KeyPoints": [
+                    {
+                        "Heading": "Core Technologies",
+                        "Points": [
+                            { "Technology": "React", "Usage": "Frontend Framework" },
+                            { "Technology": "TypeScript", "Usage": "Static Typing" },
+                            { "Technology": "Node.js", "Usage": "Backend Framework" },
+                            { "Technology": "Tailwind CSS", "Usage": "Styling Framework" }
+                        ]
+                    },
+                    {
+                        "Heading": "Goals",
+                        "Points": [
+                            { "Goal": "Optimize performance", "Priority": "High" },
+                            { "Goal": "Enhance scalability", "Priority": "Medium" },
+                            { "Goal": "Improve user engagement", "Priority": "Critical" }
+                        ]
+                    }
+                ],
+                "Summary": "Focus on innovation and adaptability to deliver impactful solutions.",
+                "DeepDive": {
+                    "Topics": [
+                        {
+                            "Topic": "Performance Optimization",
+                            "Description": "Techniques for improving speed and reliability."
+                        },
+                        {
+                            "Topic": "Scalability Strategies",
+                            "Description": "Approaches to handle growing user bases effectively."
+                        }
+                    ]
+                }
+            }
+        },
+        "Languages": {
+            "Available": {
+                "English": {
+                    "Title": "English",
+                    "Description": "Default language for the application.",
+                    "Meta": { "ISO": "en", "RTL": false }
+                },
+                "Spanish": {
+                    "Title": "Español",
+                    "Description": "Spanish translation available.",
+                    "Meta": { "ISO": "es", "RTL": false }
+                },
+                "French": {
+                    "Title": "Français",
+                    "Description": "French translation available.",
+                    "Meta": { "ISO": "fr", "RTL": false }
+                }
+            },
+            "Default": "English"
+        }
+    },
+    "Footer": {
+        "Sections": [
+            {
+                "Heading": "About",
+                "Content": "© 2025 My Portfolio. All rights reserved.",
+                "Links": [
+                    { "Text": "Contact Us", "URL": "/contact" },
+                    { "Text": "FAQs", "URL": "/faqs" }
+                ]
+            },
+            {
+                "Heading": "Policies",
+                "Links": [
+                    {
+                        "Text": "Privacy Policy",
+                        "URL": "https://myportfolio.com/privacy",
+                        "Meta": { "Updated": "2025-01-01", "Compliance": "GDPR" }
+                    },
+                    {
+                        "Text": "Terms of Service",
+                        "URL": "https://myportfolio.com/terms",
+                        "Meta": { "Updated": "2024-12-15", "Compliance": "Legal" }
+                    }
+                ]
+            }
+        ]
+    }
+},
+"MetaData": {
+  "Version": "2.0.0",
+  "LastUpdated": "2025-01-12T12:00:00Z",
+  "Author": "John Doe",
+  "Structure": {
+      "Content": {
+          "Pages": [
+              {
+                  "PageTitle": "Grow your business online with Arobix",
+                  "PageSections": [
+                      {
+                          "SectionTitle": "Introduction",
+                          "Description": "Select from any of our industry-leading website templates, designer fonts, and color palettes that best fit your personal style and professional needs.",
+                          "CTA": "Get Started",
+                          "Metadata": { "Priority": "High", "Visibility": "Public" }
+                      },
+                      {
+                          "SectionTitle": "Create Website",
+                          "Details": {
+                              "Description": "Select from any of our industry-leading website templates, designer fonts, and color palettes that best fit your personal style and professional needs.",
+                              "CTA": "Start building now!",
+                              "Metadata": { "Priority": "Critical", "Visibility": "Public" }
+                          }
+                      },
+                      {
+                          "SectionTitle": "Ecommerce Made Easy",
+                          "Details": {
+                              "Description": "Explore tools for setting up an online store, booking services, or adding your favorite third-party extensions.",
+                              "CTA": "Learn more",
+                              "Metadata": { "Priority": "Medium", "Visibility": "Public" }
+                          }
+                      }
+                  ]
+              },
+              {
+                  "PageTitle": "Find your perfect plan",
+                  "PageSections": [
+                      {
+                          "SectionTitle": "Plans",
+                          "Plans": [
+                              {
+                                  "Name": "Personal Plan",
+                                  "Price": "$49/month",
+                                  "Features": [
+                                      "Free custom domain",
+                                      "Mobile optimized websites",
+                                      "Templates to fit every need",
+                                      "Start free trial — 14 days"
+                                  ],
+                                  "Meta": { "Audience": "Individual Users", "SupportLevel": "Basic" }
+                              },
+                              {
+                                  "Name": "Business Plan",
+                                  "Price": "$79/month",
+                                  "Features": [
+                                      "Free custom domain",
+                                      "Mobile optimized websites",
+                                      "Templates to fit every need",
+                                      "Advanced website analytics",
+                                      "Start free trial — 14 days"
+                                  ],
+                                  "Meta": { "Audience": "Small Businesses", "SupportLevel": "Standard" }
+                              },
+                              {
+                                  "Name": "Commerce Plan",
+                                  "Price": "$99/month",
+                                  "Features": [
+                                      "Free custom domain",
+                                      "Mobile optimized websites",
+                                      "Templates to fit every need",
+                                      "Advanced website analytics",
+                                      "Powerful merchandising",
+                                      "Checkout on your domain",
+                                      "Start free trial — 14 days"
+                                  ],
+                                  "Meta": { "Audience": "Large Enterprises", "SupportLevel": "Premium" }
+                              }
+                          ],
+                          "Disclaimer": "All prices are in USD and charged per site with applicable taxes added at checkout."
+                      }
+                  ]
+              }
+          ]
+      }
+  }
+}
+  }
+  
