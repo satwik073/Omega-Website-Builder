@@ -1,0 +1,189 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Material Icons CDN -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
+</head>
+
+
+<div
+  class="video-container" id="wizorder-video"
+  onclick="loadVideo('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+>
+  <!-- Play Button / Thumbnail -->
+
+  <button
+    class="play-button"
+    onclick="loadVideo('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+  >
+    <i class="fa-solid fa-play iconss-btn" id="play-button-i"></i>
+  </button>
+</div>
+
+<!-- Modal -->
+<div
+  id="videoModal-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+  class="modal"
+  onclick="closeVideo('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+>
+  <div
+    class="modal-wrapper"
+    onclick="event.stopPropagation()"
+  >
+    <!-- Close Button -->
+    <span
+      class="close"
+      onclick="closeVideo('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+      >&times;</span
+    >
+
+    <div id="modal-full-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4" class="modal-content">
+      <!-- Loader -->
+      <div id="loader-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4" class="loader"></div>
+
+      <!-- Video Container -->
+      <div id="videoPlayer-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4" class="video-player">
+        <video
+          playsinline
+          webkit-playsinline
+          id="customVideo-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+          width="100%"
+          height="100%"
+          preload="none"
+          onclick="togglePlayPause('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+        >
+          <!-- Source is appended dynamically in JS -->
+        </video>
+
+        <!-- Overlay for big "Play" icon -->
+        <div
+          id="videoPlayOverlay-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+          class="video-play-overlay"
+          onclick="resumeVideo(event, 'v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+        ></div>
+
+        <!-- Custom Controls -->
+        <div class="custom-controls">
+          <div class="control-wrapper">
+            <!-- Play / Pause -->
+            <button
+              id="playPauseBtn-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+              onclick="togglePlayPause('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+            >
+              <i class="fa-solid fa-play iconss-btn" id="playIcon-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"></i>
+              <i
+                class="fa-solid fa-pause iconss-btn"
+                id="pauseIcon-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+                style="display: none;"
+              ></i>
+            </button>
+
+            <!-- Seek Bar -->
+            <input
+              id="seekBar-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+              type="range"
+              value="0"
+              min="0"
+              max="100"
+              step="0.1"
+              oninput="seekVideo('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+            />
+
+            <!-- Time Display -->
+            <span id="currentTime-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4">0:00</span>
+            <div
+              style="
+                color: white;
+                font-weight: bold;
+                padding-left: 2px;
+                padding-right: 2px;
+              "
+            >
+              /
+            </div>
+            <span id="totalTime-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4">0:00</span>
+
+            <!-- Mute / Unmute -->
+            <button id="muteBtn-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4" onclick="toggleMute('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')">
+              <i
+                class="fa-solid fa-volume-high iconss-btn"
+                id="volumeHigh-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+              ></i>
+              <i
+                class="fa-solid fa-volume-xmark iconss-btn"
+                id="volumeMute-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+                style="display: none;"
+              ></i>
+            </button>
+
+            <!-- Settings -->
+            <button
+              id="settingsBtn-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+              onclick="toggleSettings('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+            >
+              <i class="fa-solid fa-gear iconss-btn"></i>
+            </button>
+
+            <div id="settingsModal-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4" class="settings-modal">
+              <div class="settings-content">
+                <!-- Playback Speed -->
+                <div class="setting-controllers">
+                  <label for="playbackRate-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4">Playback speed:</label>
+                  <select
+                    id="playbackRate-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+                    onchange="changePlaybackRate('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+                  >
+                    <option value="0.25">0.25x</option>
+                    <option value="0.5">0.5x</option>
+                    <option value="0.75">0.75x</option>
+                    <option value="1" selected>Normal</option>
+                    <option value="1.25">1.25x</option>
+                    <option value="1.5">1.5x</option>
+                    <option value="2">2x</option>
+                  </select>
+                </div>
+
+                <!-- Video Quality -->
+                <div class="setting-controllers">
+                  <label for="videoQuality-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4">Video quality:</label>
+                  <select
+                    id="videoQuality-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+                    onchange="changeVideoQuality('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+                  >
+                    <option value="10">144p</option>
+                    <option value="30">240p</option>
+                    <option value="50" selected>360p</option>
+                    <option value="70">480p</option>
+                    <option value="80">720p</option>
+                    <option value="90">1080p</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fullscreen -->
+            <button
+              id="fullscreenBtn-v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4"
+              onclick="toggleFullscreen('v1738418107/WizAI-Product-Demo-Video-Trupeer.ai-Final-1-1_kifqa7_bdktj5.mp4')"
+            >
+              <i class="fa-solid fa-expand iconss-btn"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+
+    #wizorder-video{ 
+        background: url("https://res.cloudinary.com/df2m5kqib/image/upload/v1738652782/wiz_AI_web_thumbnail_2_yjmmxv.png") center center no-repeat  !important;
+        background-size: contain !important;
+    }
+    
+</style>
