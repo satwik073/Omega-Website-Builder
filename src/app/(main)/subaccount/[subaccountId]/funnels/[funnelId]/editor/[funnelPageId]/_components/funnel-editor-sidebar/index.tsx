@@ -31,13 +31,14 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
     >
       <Tabs
         className="w-full "
-        defaultValue="Settings"
+        defaultValue="Components"
+      
       >
         <SheetContent
           showX={false}
           side="right"
           className={clsx(
-            'mt-[97px] w-16 z-[80] shadow-none  p-0 focus:border-none transition-all overflow-hidden',
+            'mt-[97px] w-16 z-[80] border-[1px] shadow-none  p-0 transition-all overflow-hidden',
             { hidden: state.editor.previewMode }
           )}
         >
