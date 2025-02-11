@@ -15,6 +15,8 @@ const Recursive = ({ element }: Props) => {
   switch (element.type) {
     case 'text':
       return <TextComponent element={element} />
+    case 'heading':
+      return <TextComponent element={element} />
     case 'container':
       return <Container element={element} />
     case 'video':
@@ -24,6 +26,8 @@ const Recursive = ({ element }: Props) => {
     case 'paymentForm':
       return <Checkout element={element} />
     case '2Col':
+      return <Container element={element} />
+    case '3Col':
       return <Container element={element} />
     case '__body':
       return <Container element={element} />

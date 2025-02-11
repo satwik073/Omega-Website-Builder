@@ -222,7 +222,26 @@ export type EditorBtns =
   | 'image'
   | null
   | '3Col'
+  | 'form'
+  | 'input'
+  | 'textarea'
+  | 'select'
+  | 'button'
+  | 'label'
+  | 'checkbox'
+  | 'radio'
+  | 'navbar'
+  | 'footer'
+  | '1Col'
+  | '2Col3/7'
+  | 'divider'
+  | 'heading'
+  | 'linkBox'
+  | 'imageBox'
+  | 'map'
+  | 'icon';
 
+  
 export const defaultStyles: React.CSSProperties = {
   backgroundPosition: 'center',
   objectFit: 'cover',

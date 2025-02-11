@@ -15,10 +15,12 @@ const ContactFormComponentPlaceholder = (props: Props) => {
       onDragStart={(e) => handleDragStart(e, 'contactForm')}
       className=" h-14 w-14 bg-muted rounded-lg flex items-center justify-center"
     >
+       <div className='w-[50px]'>
       <Contact2Icon
-        size={40}
+        size={35}
         className="text-muted-foreground"
       />
+      </div>
     </div>
   )
 }

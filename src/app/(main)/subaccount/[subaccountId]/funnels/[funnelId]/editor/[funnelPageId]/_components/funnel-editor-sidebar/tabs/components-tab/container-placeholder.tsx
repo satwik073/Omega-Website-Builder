@@ -14,7 +14,12 @@ const ContainerPlaceholder = (props: Props) => {
       onDragStart={(e) => handleDragStart(e, 'container')}
       className=" h-14 w-14 bg-muted/70 rounded-lg p-2 flex flex-row gap-[4px]"
     >
-      <div className="border-dashed border-[1px] h-full rounded-sm bg-muted border-muted-foreground/50 w-full" />
+      {/* <div className="border-dashed border-[1px] h-full rounded-sm bg-muted border-muted-foreground/50 w-full" /> */}
+      <div className='w-[50px]'>
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M2 20h20V4H2v16Zm-1 0V4a1 1 0 0 1 1-1h20a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1Z"></path>
+      </svg>
+      </div>
     </div>
   )
 }

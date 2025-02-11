@@ -20,6 +20,26 @@ const TwoColumns = (props: Props) => {
     e.stopPropagation()
     const componentType = e.dataTransfer.getData('componentType') as EditorBtns
     switch (componentType) {
+      case 'heading':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: 'Text Component' },
+              id: v4(),
+              name: 'Text',
+              styles: {
+                color: 'black',
+                ...defaultStyles,
+                fontSize:36,
+                fontWeight:'bolder',
+              },
+              type: 'text',
+            },
+          },
+        })
+        break
       case 'text':
         dispatch({
           type: 'ADD_ELEMENT',
@@ -64,6 +84,21 @@ const TwoColumns = (props: Props) => {
               name: 'Two Columns',
               styles: { ...defaultStyles },
               type: '2Col',
+            },
+          },
+        })
+        break
+      case '3Col':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [],
+              id: v4(),
+              name: 'Three Columns',
+              styles: { ...defaultStyles },
+              type: '3Col',
             },
           },
         })

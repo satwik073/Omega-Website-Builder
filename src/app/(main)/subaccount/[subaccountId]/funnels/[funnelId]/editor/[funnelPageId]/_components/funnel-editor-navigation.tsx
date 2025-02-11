@@ -140,7 +140,7 @@ const FunnelEditorNavigation = ({
         <aside>
           <Tabs
             defaultValue="Desktop"
-            className="w-fit "
+            className="w-fit gap-3 "
             value={state.editor.device}
             onValueChange={(value) => {
               dispatch({
@@ -154,8 +154,7 @@ const FunnelEditorNavigation = ({
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Desktop"
-                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
-                  >
+                    className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"                  >
                     <Laptop />
                   </TabsTrigger>
                 </TooltipTrigger>
@@ -167,8 +166,7 @@ const FunnelEditorNavigation = ({
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Tablet"
-                    className="w-10 h-10 p-0 data-[state=active]:bg-muted"
-                  >
+                    className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"                  >
                     <Tablet />
                   </TabsTrigger>
                 </TooltipTrigger>
@@ -180,8 +178,7 @@ const FunnelEditorNavigation = ({
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Mobile"
-                    className="w-10 h-10 p-0 data-[state=active]:bg-muted"
-                  >
+                    className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"                  >
                     <Smartphone />
                   </TabsTrigger>
                 </TooltipTrigger>
