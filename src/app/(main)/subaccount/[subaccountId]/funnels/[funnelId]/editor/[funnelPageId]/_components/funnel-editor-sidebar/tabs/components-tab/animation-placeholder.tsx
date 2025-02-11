@@ -12,7 +12,7 @@ const AnimationPlaceholder = (props: Props) => {
   return (
     <div
       draggable
-      onDragStart={(e) => handleDragStart(e, 'link')}
+      onDragStart={(e) => handleDragStart(e, 'animation')}
       className=" h-14 w-14 bg-muted rounded-lg flex items-center justify-center"
     >
       <div className=' '>

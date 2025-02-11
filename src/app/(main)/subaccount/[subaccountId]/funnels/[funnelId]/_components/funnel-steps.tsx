@@ -171,7 +171,7 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
                 <div className="text-sm text-muted-foreground">Page name</div>
                 <CardTitle>{clickedPage?.name}</CardTitle>
                 <CardDescription className="flex flex-col gap-4">
-                  <div className="border-2 rounded-lg sm:w-80 w-full  overflow-clip">
+                  <div className="border-2 rounded-lg sm:w-60 w-full  overflow-clip">
                     <Link
                       href={`/subaccount/${subaccountId}/funnels/${funnelId}/editor/${clickedPage?.id}`}
                       className="relative group"
