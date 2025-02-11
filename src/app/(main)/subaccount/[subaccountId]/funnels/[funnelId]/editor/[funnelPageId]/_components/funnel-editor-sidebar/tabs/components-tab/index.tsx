@@ -44,6 +44,17 @@ import RadioPlaceholder from './radio-placeholder'
 import SelectPlaceholder from './select-placeholder'
 import FormBtnPlaceholder from './formbutton-placeholder'
 import CaptchaPlaceholder from './recaptcha-placeholder'
+import SearchPlaceholder from './search-placeholder'
+import BackVideoPlaceholder from './background-video-placeholder'
+import DropdownPlaceholder from './dropdown-placeholder'
+import CodePlaceholder from './codeblock-placeholder'
+import LightboxPlaceholder from './lightbox-placeholder'
+import NavPlaceholder from './navbar-placeholder'
+import SlidesPlaceholder from './slider-placeholder'
+import TabsPlaceholder from './tabs-placeholder'
+import MapPlaceholder from './map-placeholder'
+import FacebookPlaceholder from './facebook-placeholder'
+import TwitterPlaceholder from './twitter-placeholder'
 
 type Props = {}
 
@@ -244,12 +255,7 @@ const ComponentsTab = (props: Props) => {
         id: 'rive',
         group: 'media',
       },
-      {
-        Component: <RivePlaceholder />,
-        label: 'Rive',
-        id: 'rive',
-        group: 'media',
-      },
+    
       {
         Component: <CollectionPlaceholder />,
         label: 'Collection',
@@ -277,6 +283,72 @@ const ComponentsTab = (props: Props) => {
       {
         Component: <ButtonPlaceholder/>,
         label: 'Button',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component: <SearchPlaceholder/>,
+        label: 'Search',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component: <BackVideoPlaceholder/>,
+        label: 'Background Video',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component: <DropdownPlaceholder/>,
+        label: 'Dropdown',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component: <CodePlaceholder/>,
+        label: 'Code Block',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component: <LightboxPlaceholder/>,
+        label: 'Lightbox',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component:<NavPlaceholder/>,
+        label: 'Navbar',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component:<SlidesPlaceholder/>,
+        label: 'Slider',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component:<TabsPlaceholder/>,
+        label: 'Tabs',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component:<MapPlaceholder/>,
+        label: 'Map',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component:<FacebookPlaceholder/>,
+        label: 'Facebook',
+        id: 'button',
+        group: 'typography',
+      },
+      {
+        Component:<TwitterPlaceholder/>,
+        label: 'X (Twitter)',
         id: 'button',
         group: 'typography',
       },
@@ -349,7 +421,7 @@ const ComponentsTab = (props: Props) => {
                   </div>
                 )}
                 {element.Component}
-                <span className="text-[13px] dark:text-[#ffffffab]">{element.label}</span>
+                <span className="text-[13px] text-center dark:text-[#ffffffab]">{element.label}</span>
               </div>
             ))}
         </AccordionContent>
