@@ -25,6 +25,25 @@ import YoutubeVideoPlaceholder from './youtube-placeholder'
 import AnimationPlaceholder from './animation-placeholder'
 import SplinePlaceholder from './spline-placeholder'
 import RivePlaceholder from './rive-placeholder'
+import SectionPlaceholder from './section-placeholder'
+import DivPlaceholder from './div-placeholder'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import BlockQuotePlaceholder from './blockquote-placeholder'
+import RichPlaceholder from './richtext-placeholder'
+import CollectionPlaceholder from './collection-placeholder'
+import ListItemPlaceholder from './listitem-placeholder'
+import ListPlaceholder from './list-placeholder'
+import LinkBoxPlaceholder from './linkbox-placeholder'
+import ButtonPlaceholder from './button-placeholder'
+import InputPlaceholder from './input-placeholder'
+import FileUploadPlaceholder from './fileupload-placeholder'
+import TextAreaPlaceholder from './textarea-placeholder'
+import CheckboxPlaceholder from './checkbox-placeholder'
+import RadioPlaceholder from './radio-placeholder'
+import SelectPlaceholder from './select-placeholder'
+import FormBtnPlaceholder from './formbutton-placeholder'
+import CaptchaPlaceholder from './recaptcha-placeholder'
 
 type Props = {}
 
@@ -33,19 +52,37 @@ const ComponentsTab = (props: Props) => {
     Component: React.ReactNode
     label: string
     id: EditorBtns
-    group: 'layout' | 'elements' | 'structure' | 'media'
+    group: 'layout' | 'elements' | 'structure' | 'media' | 'cms' | 'typography' | 'forms'
   }[] = [
       {
         Component: <TextPlaceholder />,
         label: 'Text',
         id: 'text',
-        group: 'elements',
+        group: 'typography',
       },
       {
         Component: <HeadingPlaceholder />,
         label: 'Heading',
         id: 'heading',
-        group: 'elements',
+        group: 'typography',
+      },
+      {
+        Component: <ParaPlaceholder />,
+        label: 'Paragraph',
+        id: 'paragraph',
+        group: 'typography',
+      },
+      {
+        Component: <BlockQuotePlaceholder />,
+        label: 'Quote',
+        id: 'BlockQuote',
+        group: 'typography',
+      },
+      {
+        Component: <RichPlaceholder />,
+        label: 'Rich Text',
+        id: 'RichText',
+        group: 'typography',
       },
       {
         Component: <ContainerPlaceholder />,
@@ -59,7 +96,7 @@ const ComponentsTab = (props: Props) => {
         id: '2Col',
         group: 'structure',
       },
-      
+
       {
         Component: <ThreeColumnsPlaceholder />,
         label: '3 Columns',
@@ -67,48 +104,109 @@ const ComponentsTab = (props: Props) => {
         group: 'structure',
       },
       {
-        Component: <GridContainerPlaceholder/>,
+        Component: <GridContainerPlaceholder />,
         label: 'Grid',
         id: 'Grid',
         group: 'structure',
       },
       {
-        Component: <VFlexContainerPlaceholder/>,
+        Component: <VFlexContainerPlaceholder />,
         label: 'V Flex',
         id: 'VFlex',
         group: 'structure',
       },
       {
-        Component: <HFlexContainerPlaceholder/>,
+        Component: <HFlexContainerPlaceholder />,
         label: 'H Flex',
         id: 'HFlex',
         group: 'structure',
       },
       {
-        Component: <PageColumnsPlaceholder/>,
+        Component: <PageColumnsPlaceholder />,
         label: 'Page Slot',
         id: 'pageSlot',
         group: 'structure',
       },
       {
-        Component: <ParaPlaceholder/>,
-        label: 'Paragraph',
-        id: 'paragraph',
-        group: 'elements',
+        Component: <SectionPlaceholder />,
+        label: 'Section',
+        id: 'section',
+        group: 'structure',
       },
-    
+      {
+        Component: <DivPlaceholder />,
+        label: 'Div Block',
+        id: 'div',
+        group: 'structure',
+      },
+
+
       {
         Component: <ContactFormComponentPlaceholder />,
         label: 'Contact',
         id: 'contactForm',
         group: 'elements',
       },
-      
+      {
+        Component: <ContactFormComponentPlaceholder />,
+        label: 'Form Block',
+        id: 'contactForm',
+        group: 'elements',
+      },
+      {
+        Component: <InputPlaceholder/>,
+        label: 'Input',
+        id: 'input',
+        group: 'elements',
+      },
+      {
+        Component: <FileUploadPlaceholder/>,
+        label: 'File Upload',
+        id: 'input',
+        group: 'elements',
+      },
+      {
+        Component: <TextAreaPlaceholder/>,
+        label: 'Text Area',
+        id: 'input',
+        group: 'elements',
+      },
+      {
+        Component: <CheckboxPlaceholder/>,
+        label: 'Checkbox',
+        id: 'input',
+        group: 'elements',
+      },
+      {
+        Component: <RadioPlaceholder/>,
+        label: 'Radio',
+        id: 'input',
+        group: 'elements',
+      },
+      {
+        Component: <SelectPlaceholder/>,
+        label: 'Select',
+        id: 'input',
+        group: 'elements',
+      },
+      {
+        Component: <FormBtnPlaceholder/>,
+        label: 'Form Button',
+        id: 'input',
+        group: 'elements',
+      },
+      {
+        Component: <CaptchaPlaceholder/>,
+        label: 'reCAPTCHA',
+        id: 'input',
+        group: 'elements',
+      },
+
       {
         Component: <LinkPlaceholder />,
         label: 'Link',
         id: 'link',
-        group: 'elements',
+        group: 'typography',
       },
       {
         Component: <ImagePlaceholder />,
@@ -123,45 +221,75 @@ const ComponentsTab = (props: Props) => {
         group: 'media',
       },
       {
-        Component: <YoutubeVideoPlaceholder/>,
+        Component: <YoutubeVideoPlaceholder />,
         label: 'Youtube',
         id: 'video',
         group: 'media',
       },
       {
-        Component: <AnimationPlaceholder/>,
+        Component: <AnimationPlaceholder />,
         label: 'Animation',
         id: 'animation',
         group: 'media',
       },
       {
-        Component: <SplinePlaceholder/>,
+        Component: <SplinePlaceholder />,
         label: 'Spline',
         id: 'spline',
         group: 'media',
       },
       {
-        Component: <RivePlaceholder/>,
+        Component: <RivePlaceholder />,
         label: 'Rive',
         id: 'rive',
         group: 'media',
       },
       {
-        Component: <CheckoutPlaceholder />,
-        label: 'Checkout',
-        id: 'paymentForm',
-        group: 'elements',
+        Component: <RivePlaceholder />,
+        label: 'Rive',
+        id: 'rive',
+        group: 'media',
       },
-     
-     
-      
+      {
+        Component: <CollectionPlaceholder />,
+        label: 'Collection',
+        id: 'CMS',
+        group: 'cms',
+      },
+      {
+        Component: <ListItemPlaceholder />,
+        label: 'List Item',
+        id: 'CMS',
+        group: 'cms',
+      },
+      {
+        Component: <ListPlaceholder />,
+        label: 'List',
+        id: 'CMS',
+        group: 'cms',
+      },
+      {
+        Component: <LinkBoxPlaceholder/>,
+        label: 'Link Box',
+        id: 'linkBox',
+        group: 'typography',
+      },
+      {
+        Component: <ButtonPlaceholder/>,
+        label: 'Button',
+        id: 'button',
+        group: 'typography',
+      },
+
+
+
     ]
 
   return (
     <Accordion
       type="multiple"
       className="w-full"
-      defaultValue={['Layout', 'Elements', 'Structure' , 'Basic', 'Typography','CMS','Media','Forms','Advanced']}
+      defaultValue={['Layout', 'Elements', 'Structure', 'Basic', 'Typography', 'CMS', 'Media', 'Forms', 'Advanced', 'Forms']}
     >
       <AccordionItem value="Structure" className="px-6 py-0">
         <AccordionTrigger className="!no-underline">Structure</AccordionTrigger>
@@ -173,6 +301,11 @@ const ComponentsTab = (props: Props) => {
                 key={element.id}
                 className="flex-col items-center justify-center border text-sm  border-gray-300 dark:border-neutral-700 pb-4 rounded-md flex"
               >
+                {(element?.label === 'Section' || element?.label === 'Div Block') && (
+                  <div className='mt-[-10px]'>
+                    <Button className=' h-4  w-10 rounded-full bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px]' variant={'destructive'}>Soon</Button>
+                  </div>
+                )}
                 {element.Component}
                 <span className="text-[13px] dark:text-[#ffffffab]">{element.label}</span>
               </div>
@@ -189,12 +322,66 @@ const ComponentsTab = (props: Props) => {
                 key={element.id}
                 className="flex-col items-center justify-center border border-gray-300  dark:border-neutral-700 pb-4 rounded-md flex"
               >
+                {(element?.label === 'Animation' || element?.label === 'Spline' || element?.label === 'Rive' || element?.label === 'Image') && (
+                  <div className='mt-[-10px] z-50 relative'>
+                    <Button className=' h-4  z-50 rounded-full relative w-10 bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px]' variant={'destructive'}>Soon</Button>
+                  </div>
+                )}
                 {element.Component}
                 <span className="text-[13px] dark:text-[#ffffffab]">{element.label}</span>
               </div>
             ))}
         </AccordionContent>
       </AccordionItem>
+      <AccordionItem value="Typography" className="px-6 py-0">
+        <AccordionTrigger className="!no-underline">Typography</AccordionTrigger>
+        <AccordionContent className="grid grid-cols-3 gap-2">
+          {elements
+            .filter((element) => element.group === 'typography')
+            .map((element) => (
+              <div
+                key={element.id}
+                className="flex-col items-center justify-center border border-gray-300  dark:border-neutral-700 pb-4 rounded-md flex"
+              >
+                {(element?.label === 'Rich Text' || element?.label === 'Quote' || element?.label === 'Link Box' || element?.label === 'Button') && (
+                  <div className='mt-[-10px] z-50 relative'>
+                    <Button className=' h-4  z-50 relative w-10 rounded-full bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px]' variant={'destructive'}>Soon</Button>
+                  </div>
+                )}
+                {element.Component}
+                <span className="text-[13px] dark:text-[#ffffffab]">{element.label}</span>
+              </div>
+            ))}
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="CMS" className="px-6 py-0">
+        <AccordionTrigger className="!no-underline">CMS</AccordionTrigger>
+        <AccordionContent className="grid grid-cols-3 gap-2">
+          {elements
+            .filter((element) => element.group === 'cms')
+            .map((element) => (
+              <div
+                key={element.id}
+                className="flex-col items-center justify-center border border-gray-300 dark:border-neutral-700 pb-4 rounded-md flex"
+              >
+                {(element?.label === 'Collection' || element?.label === 'List Item' || element?.label === 'List') && (
+                  <div className='mt-[-10px] relative'>
+                    <Button
+                      className='h-4 rounded-full w-10 bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px] relative z-[9999]'
+                      variant={'destructive'}
+                    >
+                      Soon
+                    </Button>
+                  </div>
+                )}
+                {element.Component}
+                <span className="text-[13px] dark:text-[#ffffffab]">{element.label}</span>
+              </div>
+            ))}
+        </AccordionContent>
+      </AccordionItem>
+
+
       <AccordionItem value="Elements" className="px-6 py-0">
         <AccordionTrigger className="!no-underline">Elements</AccordionTrigger>
         <AccordionContent className="grid grid-cols-3 gap-2">
@@ -205,22 +392,16 @@ const ComponentsTab = (props: Props) => {
                 key={element.id}
                 className="flex-col items-center justify-center border border-gray-300  dark:border-neutral-700 pb-4 rounded-md flex"
               >
-                {element.Component}
-                <span className="text-[13px] dark:text-[#ffffffab]">{element.label}</span>
-              </div>
-            ))}
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="Elements" className="px-6 py-0">
-        <AccordionTrigger className="!no-underline">Elements</AccordionTrigger>
-        <AccordionContent className="grid grid-cols-3 gap-2">
-          {elements
-            .filter((element) => element.group === 'elements')
-            .map((element) => (
-              <div
-                key={element.id}
-                className="flex-col items-center justify-center border border-gray-300  dark:border-neutral-700 pb-4 rounded-md flex"
-              >
+                  {(element?.label === 'Input' || element?.label === 'File Upload' || element?.label === 'Text Area' || element?.label === 'Checkbox' || element?.label === 'Radio' || element?.label === 'Select' || element?.label === 'Form Button' || element?.label === 'reCAPTCHA') && (
+                  <div className='mt-[-10px] relative'>
+                    <Button
+                      className='h-4 rounded-full w-10 bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px] relative z-[9999]'
+                      variant={'destructive'}
+                    >
+                      Soon
+                    </Button>
+                  </div>
+                )}
                 {element.Component}
                 <span className="text-[13px] dark:text-[#ffffffab]">{element.label}</span>              </div>
             ))}
