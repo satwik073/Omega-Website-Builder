@@ -133,27 +133,27 @@ const SettingsTab = (props: Props) => {
               <TabsList className="flex items-center flex-row justify-between border-[1px] rounded-md bg-transparent h-fit gap-4">
                 <TabsTrigger
                   value="left"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black border dark:bg-white dark:text-white bg-white text-black"
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black border dark:bg-black dark:text-white bg-white text-black"
                 >
-                  <AlignLeft size={18} className='dark:bg-white dark:text-white bg-white text-black' />
+                  <AlignLeft size={18} className='dark:bg-black dark:text-white bg-white text-black' />
                 </TabsTrigger>
                 <TabsTrigger
                   value="right"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black border dark:bg-white dark:text-white bg-white text-black"
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black border dark:bg-black dark:text-white bg-white text-black"
                 >
-                  <AlignRight size={18} className='dark:bg-white dark:text-white bg-white text-black'  />
+                  <AlignRight size={18} className='dark:bg-black dark:text-white bg-white text-black'  />
                 </TabsTrigger>
                 <TabsTrigger
                   value="center"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black dark:bg-white border dark:text-white bg-white text-black"
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black dark:bg-black border dark:text-white bg-white text-black"
                 >
-                  <AlignCenter size={18} className='dark:bg-white dark:text-white bg-white text-black' />
+                  <AlignCenter size={18} className='dark:bg-black dark:text-white bg-white text-black' />
                 </TabsTrigger>
                 <TabsTrigger
                   value="justify"
-                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black dark:bg-white border dark:text-white bg-white text-black "
+                  className="w-10 h-10 p-0 data-[state=active]:bg-muted data-[state=active]:text-black dark:bg-black border dark:text-white bg-white text-black "
                 >
-                  <AlignJustify size={18}  className='dark:bg-white dark:text-white bg-white text-black'/>
+                  <AlignJustify size={18}  className='dark:bg-black dark:text-white bg-white text-black'/>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -515,31 +515,31 @@ const SettingsTab = (props: Props) => {
             <TabsList className="flex items-center flex-row justify-between border-[1px] rounded-md bg-transparent h-fit gap-4">
               <TabsTrigger
                 value="space-between"
-                className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
+                className="w-10 h-10 p-0 border dark:text-white bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
               >
                 <AlignHorizontalSpaceBetween size={18} />
               </TabsTrigger>
               <TabsTrigger
                 value="space-evenly"
-                className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
+                className="w-10 h-10 p-0 border dark:text-white bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
               >
                 <AlignHorizontalSpaceAround size={18} />
               </TabsTrigger>
               <TabsTrigger
                 value="center"
-                className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
+                className="w-10 h-10 p-0 border dark:text-white bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
               >
                 <AlignHorizontalJustifyCenterIcon size={18} />
               </TabsTrigger>
               <TabsTrigger
                 value="start"
-                className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
+                className="w-10 h-10 p-0 border bg-white dark:text-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
               >
                 <AlignHorizontalJustifyStart size={18} />
               </TabsTrigger>
               <TabsTrigger
                 value="end"
-                className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
+                className="w-10 h-10 p-0 border bg-white dark:text-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"
               >
                 <AlignHorizontalJustifyEndIcon size={18} />
               </TabsTrigger>

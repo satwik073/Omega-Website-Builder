@@ -240,51 +240,52 @@ const FunnelPagePlaceholder = () => {
     //     />
     //   </g>
     // </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 800">
+//     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 800">
 
-  <rect width="1440" height="800" fill="#E5E5E5"/>
+//   <rect width="1440" height="800" fill="#E5E5E5"/>
 
-  <rect x="0" y="0" width="1440" height="40" fill="#D0D0D0"/>
+//   <rect x="0" y="0" width="1440" height="40" fill="#D0D0D0"/>
 
-  <rect x="0" y="40" width="260" height="760" fill="#D0D0D0"/>
+//   <rect x="0" y="40" width="260" height="760" fill="#D0D0D0"/>
 
-  <rect x="1180" y="40" width="260" height="760" fill="#D0D0D0"/>
+//   <rect x="1180" y="40" width="260" height="760" fill="#D0D0D0"/>
 
-  <rect x="260" y="40" width="920" height="760" fill="#ffffff"/>
+//   <rect x="260" y="40" width="920" height="760" fill="#ffffff"/>
 
-  <rect x="10" y="50" width="240" height="40" fill="#E5E5E5" rx="6"/>
+//   <rect x="10" y="50" width="240" height="40" fill="#E5E5E5" rx="6"/>
 
-  <rect x="10" y="100" width="240" height="30" fill="#ffffff" rx="6"/>
+//   <rect x="10" y="100" width="240" height="30" fill="#ffffff" rx="6"/>
 
-  <rect x="20" y="140" width="220" height="40" fill="#E5E5E5" rx="6"/>
-  <rect x="20" y="185" width="220" height="40" fill="#E5E5E5" rx="6"/>
-  <rect x="20" y="230" width="220" height="40" fill="#E5E5E5" rx="6"/>
+//   <rect x="20" y="140" width="220" height="40" fill="#E5E5E5" rx="6"/>
+//   <rect x="20" y="185" width="220" height="40" fill="#E5E5E5" rx="6"/>
+//   <rect x="20" y="230" width="220" height="40" fill="#E5E5E5" rx="6"/>
 
-  <rect x="10" y="280" width="240" height="30" fill="#B8B8B8" rx="6"/>
+//   <rect x="10" y="280" width="240" height="30" fill="#B8B8B8" rx="6"/>
 
-  <rect x="20" y="320" width="70" height="70" fill="#E5E5E5" rx="6"/>
-  <rect x="95" y="320" width="70" height="70" fill="#E5E5E5" rx="6"/>
-  <rect x="170" y="320" width="70" height="70" fill="#E5E5E5" rx="6"/>
-  <rect x="20" y="395" width="70" height="70" fill="#E5E5E5" rx="6"/>
-  <rect x="95" y="395" width="70" height="70" fill="#E5E5E5" rx="6"/>
-  <rect x="170" y="395" width="70" height="70" fill="#E5E5E5" rx="6"/>
+//   <rect x="20" y="320" width="70" height="70" fill="#E5E5E5" rx="6"/>
+//   <rect x="95" y="320" width="70" height="70" fill="#E5E5E5" rx="6"/>
+//   <rect x="170" y="320" width="70" height="70" fill="#E5E5E5" rx="6"/>
+//   <rect x="20" y="395" width="70" height="70" fill="#E5E5E5" rx="6"/>
+//   <rect x="95" y="395" width="70" height="70" fill="#E5E5E5" rx="6"/>
+//   <rect x="170" y="395" width="70" height="70" fill="#E5E5E5" rx="6"/>
 
-  <rect x="1190" y="50" width="240" height="40" fill="#B8B8B8" rx="6"/>
+//   <rect x="1190" y="50" width="240" height="40" fill="#B8B8B8" rx="6"/>
 
-  <rect x="1190" y="100" width="240" height="60" fill="#E5E5E5" rx="6"/>
-  <rect x="1190" y="165" width="240" height="60" fill="#E5E5E5" rx="6"/>
-  <rect x="1190" y="230" width="240" height="60" fill="#E5E5E5" rx="6"/>
-  <rect x="1190" y="295" width="240" height="60" fill="#E5E5E5" rx="6"/>
+//   <rect x="1190" y="100" width="240" height="60" fill="#E5E5E5" rx="6"/>
+//   <rect x="1190" y="165" width="240" height="60" fill="#E5E5E5" rx="6"/>
+//   <rect x="1190" y="230" width="240" height="60" fill="#E5E5E5" rx="6"/>
+//   <rect x="1190" y="295" width="240" height="60" fill="#E5E5E5" rx="6"/>
 
-  <rect x="10" y="5" width="30" height="30" fill="#B8B8B8" rx="6"/>
-  <rect x="50" y="5" width="30" height="30" fill="#B8B8B8" rx="6"/>
-  <rect x="90" y="5" width="30" height="30" fill="#B8B8B8" rx="6"/>
+//   <rect x="10" y="5" width="30" height="30" fill="#B8B8B8" rx="6"/>
+//   <rect x="50" y="5" width="30" height="30" fill="#B8B8B8" rx="6"/>
+//   <rect x="90" y="5" width="30" height="30" fill="#B8B8B8" rx="6"/>
 
-  <rect x="1300" y="5" width="60" height="30" fill="#B8B8B8" rx="6"/>
-  <rect x="1370" y="5" width="60" height="30" fill="#B8B8B8" rx="6"/>
+//   <rect x="1300" y="5" width="60" height="30" fill="#B8B8B8" rx="6"/>
+//   <rect x="1370" y="5" width="60" height="30" fill="#B8B8B8" rx="6"/>
 
-  <rect x="270" y="50" width="900" height="740" fill="#B8B8B8" rx="6"/>
-</svg>
+//   <rect x="270" y="50" width="900" height="740" fill="#B8B8B8" rx="6"/>
+// </svg>
+<img src="https://d3e54v103j8qbb.cloudfront.net/img/placeholder.4daa7c5fe0.png" width={'100%'} alt="Satwik's Beautiful Site"></img>
 
   );
 };
