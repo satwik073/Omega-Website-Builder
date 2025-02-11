@@ -9,7 +9,7 @@ type Props = {
   element: EditorElement
 }
 
-const TextComponent = (props: Props) => {
+const ParagraphComponent = (props: Props) => {
   const { dispatch, state } = useEditor()
 
   const handleDeleteElement = () => {
@@ -48,39 +48,37 @@ const TextComponent = (props: Props) => {
     >
       {state.editor.selectedElement.id === props.element.id &&
         !state.editor.liveMode && (
-          <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg">
+          <Badge className="absolute -top-[23px] bg-[#2e4acd] hover:bg-[#2e4acd] -left-[1px] rounded-none rounded-t-lg">
             {state.editor.selectedElement.name}
           </Badge>
         )}
-      <div>
-        <span className=' tracking-tighter'
-          contentEditable={!state.editor.liveMode}
-          onBlur={(e) => {
-            const spanElement = e.target as HTMLSpanElement
-            dispatch({
-              type: 'UPDATE_ELEMENT',
-              payload: {
-                elementDetails: {
-                  ...props.element,
-                  content: {
-                    innerText: spanElement.innerText,
-                  },
+      <p
+        contentEditable={!state.editor.liveMode}
+        onBlur={(e) => {
+          const spanElement = e.target as HTMLSpanElement
+          dispatch({
+            type: 'UPDATE_ELEMENT',
+            payload: {
+              elementDetails: {
+                ...props.element,
+                content: {
+                  innerText: spanElement.innerText,
                 },
               },
-            })
-          }}
-        >
-          {!Array.isArray(props.element.content) &&
-            props.element.content.innerText}
-        </span>
-      </div>
+            },
+          })
+        }}
+      >
+        {!Array.isArray(props.element.content) &&
+          props.element.content.innerText}
+      </p>
       {state.editor.selectedElement.id === props.element.id &&
         !state.editor.liveMode && (
           <div className="absolute bg-[#2e4acd] px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
             <Trash
               size={16}
               onClick={handleDeleteElement}
-              className="text-white cursor-pointer"
+              className ="text-white cursor-pointer"
             />
           </div>
         )}
@@ -88,4 +86,4 @@ const TextComponent = (props: Props) => {
   )
 }
 
-export default TextComponent
+export default ParagraphComponent

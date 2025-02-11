@@ -88,6 +88,21 @@ const TwoColumns = (props: Props) => {
           },
         })
         break
+      case 'pageSlot':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [],
+              id: v4(),
+              name: 'Page Slot',
+              styles: { ...defaultStyles },
+              type: 'pageSlot',
+            },
+          },
+        })
+        break
       case '3Col':
         dispatch({
           type: 'ADD_ELEMENT',
@@ -103,6 +118,51 @@ const TwoColumns = (props: Props) => {
           },
         })
         break
+      case 'HFlex':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [],
+              id: v4(),
+              name: 'H Flex',
+              styles: { ...defaultStyles },
+              type: 'HFlex',
+            },
+          },
+        })
+        break
+        case 'VFlex':
+          dispatch({
+            type: 'ADD_ELEMENT',
+            payload: {
+              containerId: id,
+              elementDetails: {
+                content: [],
+                id: v4(),
+                name: 'V Flex',
+                styles: { ...defaultStyles },
+                type: 'VFlex',
+              },
+            },
+          })
+          break
+        case 'Grid':
+          dispatch({
+            type: 'ADD_ELEMENT',
+            payload: {
+              containerId: id,
+              elementDetails: {
+                content: [],
+                id: v4(),
+                name: 'Grid',
+                styles: { ...defaultStyles },
+                type: 'Grid',
+              },
+            },
+          })
+          break
     }
   }
 
