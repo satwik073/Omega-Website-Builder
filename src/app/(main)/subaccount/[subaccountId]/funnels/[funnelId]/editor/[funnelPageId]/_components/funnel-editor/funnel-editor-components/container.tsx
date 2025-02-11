@@ -25,7 +25,7 @@ const Container = ({ element }: Props) => {
           payload: {
             containerId: id,
             elementDetails: {
-              content: { innerText: 'Text Element' },
+              content: { innerText: 'This is some text inside of a div block.' },
               id: v4(),
               name: 'Text',
               styles: {
@@ -43,16 +43,34 @@ const Container = ({ element }: Props) => {
           payload: {
             containerId: id,
             elementDetails: {
-              content: { innerText: 'Text Element' },
+              content: { innerText: 'Heading' },
               id: v4(),
               name: 'Heading',
               styles: {
                 color: 'black',
                 ...defaultStyles,
-                fontSize:36,
-                fontWeight:'bolder'
+                fontSize: 36,
+                fontWeight: 'bolder'
               },
               type: 'heading',
+            },
+          },
+        })
+        break
+      case 'paragraph':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.' },
+              id: v4(),
+              name: 'Paragraph',
+              styles: {
+                color: 'black',
+                ...defaultStyles,
+              },
+              type: 'paragraph',
             },
           },
         })
@@ -85,7 +103,7 @@ const Container = ({ element }: Props) => {
             containerId: id,
             elementDetails: {
               content: {
-                src:'#'
+                src: 'https://res.cloudinary.com/df2m5kqib/video/upload/v1737025065/WizShop_product_dem_secreen_recording_video_compressed_fomunn.mp4'
               },
               id: v4(),
               name: 'Video',
@@ -170,6 +188,30 @@ const Container = ({ element }: Props) => {
           },
         })
         break
+      case 'pageSlot':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Page Slot',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+              
+              ],
+              id: v4(),
+              name: 'Page Slot',
+              styles: { ...defaultStyles, display: 'flex' },
+              type: 'pageSlot',
+            },
+          },
+        })
+        break
       case '3Col':
         dispatch({
           type: 'ADD_ELEMENT',
@@ -198,7 +240,7 @@ const Container = ({ element }: Props) => {
                   styles: { ...defaultStyles, width: '100%' },
                   type: 'container',
                 }
-                
+
               ],
               id: v4(),
               name: 'Three Columns',
@@ -208,6 +250,127 @@ const Container = ({ element }: Props) => {
           },
         })
         break
+      case 'HFlex':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                }
+              ],
+              id: v4(),
+              name: 'H Flex',
+              styles: { ...defaultStyles, display: 'flex' },
+              type: 'HFlex',
+            },
+          },
+        })
+        break
+      case 'VFlex':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                }
+              ],
+              id: v4(),
+              name: 'V Flex',
+              styles: { ...defaultStyles, display: 'block' },
+              type: 'VFlex',
+            },
+          },
+        })
+        break
+      case 'Grid':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  content: [
+                    {
+                      content: [],
+                      id: v4(),
+                      name: 'Container 1',
+                      styles: { ...defaultStyles, width: '50%' },
+                      type: 'container',
+                    },
+                    {
+                      content: [],
+                      id: v4(),
+                      name: 'Container 2',
+                      styles: { ...defaultStyles, width: '50%' },
+                      type: 'container',
+                    }
+                  ],
+                  id: v4(),
+                  name: 'Row 1',
+                  styles: { ...defaultStyles, display: 'flex', width: '100%' },
+                  type: 'VFlex',  // row container
+                },
+                {
+                  content: [
+                    {
+                      content: [],
+                      id: v4(),
+                      name: 'Container 3',
+                      styles: { ...defaultStyles, width: '50%' },
+                      type: 'container',
+                    },
+                    {
+                      content: [],
+                      id: v4(),
+                      name: 'Container 4',
+                      styles: { ...defaultStyles, width: '50%' },
+                      type: 'container',
+                    }
+                  ],
+                  id: v4(),
+                  name: 'Row 2',
+                  styles: { ...defaultStyles, display: 'flex', width: '100%' },
+                  type: 'Grid',  // row container
+                }
+              ],
+              id: v4(),
+              name: 'Grid',
+              styles: { ...defaultStyles, display: 'block' },
+              type: 'Grid',
+            },
+          },
+        });
+        break;
+
     }
   }
 
@@ -243,11 +406,11 @@ const Container = ({ element }: Props) => {
     <div
       style={styles}
       className={clsx('relative p-4 transition-all group no-scrollbar', {
-        'max-w-full w-full': type === 'container' || type === '2Col' || type === '3Col',
+        'max-w-full w-full': type === 'container' || type === '2Col' || type === '3Col' || type === 'HFlex' || type === 'VFlex' || type === 'Grid',
         'h-fit': type === 'container',
         'h-full': type === '__body',
         'overflow-scroll ': type === '__body',
-        'flex flex-col md:!flex-row': type === '2Col'  || type === '3Col',
+        'flex flex-col md:!flex-row': type === '2Col' || type === '3Col' || type === 'HFlex' || type === 'VFlex' ||  type === 'Grid',
         '!border-blue-500':
           state.editor.selectedElement.id === id &&
           !state.editor.liveMode &&
@@ -268,7 +431,7 @@ const Container = ({ element }: Props) => {
     >
       <Badge
         className={clsx(
-          'absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg hidden',
+          'absolute -top-[23px] bg-[#2e4acd] hover:bg-[#2e4acd] -left-[1px] rounded-none rounded-t-lg hidden',
           {
             block:
               state.editor.selectedElement.id === element.id &&
@@ -290,10 +453,11 @@ const Container = ({ element }: Props) => {
       {state.editor.selectedElement.id === element.id &&
         !state.editor.liveMode &&
         state.editor.selectedElement.type !== '__body' && (
-          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg ">
+          <div className="absolute bg-[#2e4acd] px-2.5 py-1 dark:text-white text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg ">
             <Trash
               size={16}
               onClick={handleDeleteElement}
+              className='text-white'
             />
           </div>
         )}

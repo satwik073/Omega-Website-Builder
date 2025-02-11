@@ -1,6 +1,7 @@
 import { EditorElement } from '@/providers/editor/editor-provider'
 import React from 'react'
 import TextComponent from './text'
+import ParagraphComponent from './paragraph'
 import Container from './container'
 import VideoComponent from './video'
 import LinkComponent from './link-component'
@@ -27,7 +28,17 @@ const Recursive = ({ element }: Props) => {
       return <Checkout element={element} />
     case '2Col':
       return <Container element={element} />
+    case 'paragraph':
+      return <ParagraphComponent element={element}/>
+    case 'pageSlot':
+      return <Container element={element} />
     case '3Col':
+      return <Container element={element} />
+    case 'Grid':
+      return <Container element={element} />
+    case 'HFlex':
+      return <Container element={element} />
+    case 'VFlex':
       return <Container element={element} />
     case '__body':
       return <Container element={element} />

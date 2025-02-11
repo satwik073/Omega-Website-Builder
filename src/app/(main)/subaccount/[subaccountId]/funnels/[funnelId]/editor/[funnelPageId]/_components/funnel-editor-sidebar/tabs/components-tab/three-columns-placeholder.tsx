@@ -18,11 +18,9 @@ const ThreeColumnsPlaceholder = (props: Props) => {
       {/* <div className="border-dashed border-[1px] h-full rounded-sm bg-muted border-muted-foreground/50 w-full"></div>
       <div className="border-dashed border-[1px] h-full rounded-sm bg-muted border-muted-foreground/50 w-full"></div>
       <div className="border-dashed border-[1px] h-full rounded-sm bg-muted border-muted-foreground/50 w-full"></div> */}
-      <div className='w-[50px]'>
+      <div className='flex items-center ml-[-11px] '>
 
-      <svg viewBox="0 0 23 24">
-        <path fill="currentColor" d="M2 20h4V4H2v16Zm-1 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1ZM17 20h4V4h-4v16Zm-1 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1ZM9.5 20h4V4h-4v16Zm-1 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1Z"></path>
-      </svg>
+      <svg data-wf-icon="AddPanelQuickStack64Icon" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M32 16H16V31H32V16ZM32 15H16C15.4477 15 15 15.4477 15 16V31V32V48C15 48.5523 15.4477 49 16 49H32H33H48C48.5523 49 49 48.5523 49 48V16C49 15.4477 48.5523 15 48 15H33H32ZM33 48H48V16H33V31V32V48ZM32 48V32H16V48H32Z" fill="currentColor"></path></svg>
       </div>
     </div>
   )

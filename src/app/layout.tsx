@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="UTF-8" />
-        <title>'Arobix  | All in one Agency Solution '</title>
+        <title>Arobix  | All in one Agency Solution</title>
         <meta name="description" content="Explore the portfolio of Satwik Kanhere, showcasing expertise in software development, automation, and SaaS. Learn more about his professional experience." />
 
         <meta property="og:image" content="https://arobix.vercel.app/assets/one-week.png" />
