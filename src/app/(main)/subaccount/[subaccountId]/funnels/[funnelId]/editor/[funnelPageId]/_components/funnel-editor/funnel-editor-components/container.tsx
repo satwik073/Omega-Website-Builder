@@ -37,6 +37,26 @@ const Container = ({ element }: Props) => {
           },
         })
         break
+      case 'heading':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: 'Text Element' },
+              id: v4(),
+              name: 'Heading',
+              styles: {
+                color: 'black',
+                ...defaultStyles,
+                fontSize:36,
+                fontWeight:'bolder'
+              },
+              type: 'heading',
+            },
+          },
+        })
+        break
       case 'link':
         dispatch({
           type: 'ADD_ELEMENT',
@@ -65,7 +85,7 @@ const Container = ({ element }: Props) => {
             containerId: id,
             elementDetails: {
               content: {
-                src: 'https://www.youtube.com/embed/A3l6YYkXzzg?si=zbcCeWcpq7Cwf8W1',
+                src:'#'
               },
               id: v4(),
               name: 'Video',
@@ -150,6 +170,44 @@ const Container = ({ element }: Props) => {
           },
         })
         break
+      case '3Col':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                }
+                
+              ],
+              id: v4(),
+              name: 'Three Columns',
+              styles: { ...defaultStyles, display: 'flex' },
+              type: '3Col',
+            },
+          },
+        })
+        break
     }
   }
 
@@ -184,12 +242,12 @@ const Container = ({ element }: Props) => {
   return (
     <div
       style={styles}
-      className={clsx('relative p-4 transition-all group', {
-        'max-w-full w-full': type === 'container' || type === '2Col',
+      className={clsx('relative p-4 transition-all group no-scrollbar', {
+        'max-w-full w-full': type === 'container' || type === '2Col' || type === '3Col',
         'h-fit': type === 'container',
         'h-full': type === '__body',
         'overflow-scroll ': type === '__body',
-        'flex flex-col md:!flex-row': type === '2Col',
+        'flex flex-col md:!flex-row': type === '2Col'  || type === '3Col',
         '!border-blue-500':
           state.editor.selectedElement.id === id &&
           !state.editor.liveMode &&

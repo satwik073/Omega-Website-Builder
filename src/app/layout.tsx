@@ -27,6 +27,36 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta charSet="UTF-8" />
+        <title>'Arobix  | All in one Agency Solution '</title>
+        <meta name="description" content="Explore the portfolio of Satwik Kanhere, showcasing expertise in software development, automation, and SaaS. Learn more about his professional experience." />
+
+        <meta property="og:image" content="https://arobix.vercel.app/assets/one-week.png" />
+        <meta property="og:site_name" content="Arobix  | All in one Agency Solution " />
+        <meta property="og:title" content="Satwik Kanhere - Software Engineer & Innovator" />
+        <meta property="og:description" content="Explore the portfolio of Satwik Kanhere, showcasing expertise in software development, automation, and SaaS." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://arobix.vercel.app/" />
+
+        <meta property="twitter:image" content="https://arobix.vercel.app/assets/one-week.png" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content="Arobix  | All in one Agency Solution " />
+        <meta property="twitter:description" content="Explore the portfolio of Satwik Kanhere, showcasing expertise in software development, automation, and SaaS." />
+
+        <meta name="google-site-verification" content="N8Hm68Zy6ALf8JajWRVnxlSa-MdqvJPQjwJ0VLL4OjM" />
+        <meta name="seobility" content="7f1a1abb031e509f7b80da16cc07d81c" />
+
+        <link rel="icon" type="image/png" href="https://arobix.vercel.app/assets/one-week.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="https://arobix.vercel.app/assets/one-week.png" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.17.0/css/grapes.min.css" />
+      </head>
       <body className={font.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientProvider>
