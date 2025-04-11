@@ -253,6 +253,7 @@ export type EditorBtns =
   | 'heading'
   | 'linkBox'
   | 'section'
+  | 'fileUpload'
   | 'imageBox'
   | 'map'
   | 'icon';
