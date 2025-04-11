@@ -359,7 +359,7 @@ const Container = ({ element }: Props) => {
                   id: v4(),
                   name: 'Row 2',
                   styles: { ...defaultStyles, display: 'flex', width: '100%' },
-                  type: 'Grid',  // row container
+                  type: 'Grid',
                 }
               ],
               id: v4(),
