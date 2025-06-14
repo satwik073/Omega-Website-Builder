@@ -394,7 +394,7 @@ const ComponentsTab = (props: Props) => {
                 key={element.id}
                 className="flex-col items-center justify-center border border-gray-300  dark:border-neutral-700 pb-4 rounded-md flex"
               >
-                {(element?.label === 'Animation' || element?.label === 'Spline' || element?.label === 'Rive' || element?.label === 'Image') && (
+                {(element?.label === 'Animation' || element?.label === 'Spline' || element?.label === 'Rive') && (
                   <div className='mt-[-10px] z-50 relative'>
                     <Button className=' h-4  z-50 rounded-full relative w-10 bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px]' variant={'destructive'}>Soon</Button>
                   </div>
@@ -415,7 +415,7 @@ const ComponentsTab = (props: Props) => {
                 key={element.id}
                 className="flex-col items-center justify-center border border-gray-300  dark:border-neutral-700 pb-4 rounded-md flex"
               >
-                {(element?.label === 'Rich Text' || element?.label === 'Quote' || element?.label === 'Link Box' || element?.label === 'Button') && (
+                {(element?.label === 'Quote' || element?.label === 'Link Box') && (
                   <div className='mt-[-10px] z-50 relative'>
                     <Button className=' h-4  z-50 relative w-10 rounded-full bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px]' variant={'destructive'}>Soon</Button>
                   </div>
@@ -464,7 +464,7 @@ const ComponentsTab = (props: Props) => {
                 key={element.id}
                 className="flex-col items-center justify-center border border-gray-300  dark:border-neutral-700 pb-4 rounded-md flex"
               >
-                  {(element?.label === 'Input' || element?.label === 'File Upload' || element?.label === 'Text Area' || element?.label === 'Checkbox' || element?.label === 'Radio' || element?.label === 'Select' || element?.label === 'Form Button' || element?.label === 'reCAPTCHA') && (
+                {(element?.label === 'reCAPTCHA') && (
                   <div className='mt-[-10px] relative'>
                     <Button
                       className='h-4 rounded-full w-10 bg-red-200 border-red-600 border text-red-600 hover:bg-red-200 text-[10px] relative z-[9999]'
