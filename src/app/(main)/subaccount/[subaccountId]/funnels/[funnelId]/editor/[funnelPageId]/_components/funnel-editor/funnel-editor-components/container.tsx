@@ -70,7 +70,127 @@ const Container = ({ element }: Props) => {
                 color: 'black',
                 ...defaultStyles,
               },
-              type: 'paragraph',
+            type: 'paragraph',
+          },
+        },
+        })
+        break
+      case 'RichText':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: 'Rich text' },
+              id: v4(),
+              name: 'Rich Text',
+              styles: { ...defaultStyles },
+              type: 'RichText',
+            },
+          },
+        })
+        break
+      case 'input':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: '' },
+              id: v4(),
+              name: 'Input',
+              styles: { ...defaultStyles },
+              type: 'input',
+            },
+          },
+        })
+        break
+      case 'textarea':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: '' },
+              id: v4(),
+              name: 'Text Area',
+              styles: { ...defaultStyles },
+              type: 'textarea',
+            },
+          },
+        })
+        break
+      case 'checkbox':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: '' },
+              id: v4(),
+              name: 'Checkbox',
+              styles: { ...defaultStyles },
+              type: 'checkbox',
+            },
+          },
+        })
+        break
+      case 'radio':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: '' },
+              id: v4(),
+              name: 'Radio',
+              styles: { ...defaultStyles },
+              type: 'radio',
+            },
+          },
+        })
+        break
+      case 'select':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: '' },
+              id: v4(),
+              name: 'Select',
+              styles: { ...defaultStyles },
+              type: 'select',
+            },
+          },
+        })
+        break
+      case 'button':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: 'Button' },
+              id: v4(),
+              name: 'Button',
+              styles: { ...defaultStyles },
+              type: 'button',
+            },
+          },
+        })
+        break
+      case 'fileUpload':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: '' },
+              id: v4(),
+              name: 'File Upload',
+              styles: { ...defaultStyles },
+              type: 'fileUpload',
             },
           },
         })
@@ -109,6 +229,21 @@ const Container = ({ element }: Props) => {
               name: 'Video',
               styles: {},
               type: 'video',
+            },
+          },
+        })
+        break
+      case 'image':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { src: '/placeholder.svg' },
+              id: v4(),
+              name: 'Image',
+              styles: { ...defaultStyles },
+              type: 'image',
             },
           },
         })

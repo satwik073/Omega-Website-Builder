@@ -7,6 +7,15 @@ import VideoComponent from './video'
 import LinkComponent from './link-component'
 import ContactFormComponent from './contact-form-component'
 import Checkout from './checkout'
+import ImageComponent from './image'
+import RichTextComponent from './rich-text'
+import InputField from './input-field'
+import TextAreaField from './textarea-field'
+import CheckboxField from './checkbox-field'
+import RadioField from './radio-field'
+import SelectField from './select-field'
+import ButtonElement from './button-element'
+import FileUpload from './file-upload'
 
 type Props = {
   element: EditorElement
@@ -22,6 +31,8 @@ const Recursive = ({ element }: Props) => {
       return <Container element={element} />
     case 'video':
       return <VideoComponent element={element} />
+    case 'image':
+      return <ImageComponent element={element} />
     case 'contactForm':
       return <ContactFormComponent element={element} />
     case 'paymentForm':
@@ -30,6 +41,22 @@ const Recursive = ({ element }: Props) => {
       return <Container element={element} />
     case 'paragraph':
       return <ParagraphComponent element={element}/>
+    case 'RichText':
+      return <RichTextComponent element={element} />
+    case 'input':
+      return <InputField element={element} />
+    case 'textarea':
+      return <TextAreaField element={element} />
+    case 'checkbox':
+      return <CheckboxField element={element} />
+    case 'radio':
+      return <RadioField element={element} />
+    case 'select':
+      return <SelectField element={element} />
+    case 'button':
+      return <ButtonElement element={element} />
+    case 'fileUpload':
+      return <FileUpload element={element} />
     case 'pageSlot':
       return <Container element={element} />
     case '3Col':
