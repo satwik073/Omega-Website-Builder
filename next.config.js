@@ -8,7 +8,7 @@ const nextConfig = {
   fastRefresh: true,
   onDemandEntries: {
     maxInactiveAge: 15 * 60 * 1000,
-    pageBufferLenth: 4
+    pagesBufferLength: 4,
   },
   concurrentFeatures: true,
   swcMinify: true,
