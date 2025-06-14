@@ -34,6 +34,7 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Tooltip, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip'
 import { TooltipContent } from '../ui/tooltip'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   defaultOpen?: boolean
@@ -56,6 +57,7 @@ const MenuOptions = ({
 }: Props) => {
   const { setOpen } = useModal()
   const [isMounted, setIsMounted] = useState(false)
+  const router = useRouter()
 
   const openState = useMemo(
     () => (defaultOpen ? { open: true } : {}),
@@ -65,6 +67,15 @@ const MenuOptions = ({
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  useEffect(() => {
+    const routes: string[] = []
+    if (user?.Agency?.id) {
+      routes.push(`/agency/${user.Agency.id}`)
+    }
+    subAccounts.forEach((sa) => routes.push(`/subaccount/${sa.id}`))
+    routes.forEach((r) => router.prefetch(r))
+  }, [router, user?.Agency?.id, subAccounts])
 
   if (!isMounted) return
 
