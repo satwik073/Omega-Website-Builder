@@ -17,9 +17,6 @@ export default function DevelopmentScreen() {
                 {/* Content */}
                 <div className="p-6">
                     <div className="text-center">
-                        <div className="mx-auto w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                            <Settings className="w-8 h-8 text-[#264acd]" />
-                        </div>
                         <h4 className="text-2xl font-bold text-gray-800 mb-2">We're Cooking Something Big!</h4>
                         <p className="text-gray-600 text-sm">Major updates in development</p>
                     </div>
