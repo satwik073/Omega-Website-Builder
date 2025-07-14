@@ -90,7 +90,7 @@ export const saveActivityLogsNotification = async ({
   if (!foundAgencyId) {
     if (!subaccountId) {
       throw new Error(
-        'You need to provide atleast an agency Id or subaccount Id'
+        'You need to provide server atleast an agency Id or subaccount Id'
       )
     }
     const response = await db.subAccount.findUnique({
@@ -853,14 +853,14 @@ export const upsertFunnelPage = async (
       content: funnelPage.content
         ? funnelPage.content
         : JSON.stringify([
-            {
-              content: [],
-              id: '__body',
-              name: 'Body',
-              styles: { backgroundColor: 'white' },
-              type: '__body',
-            },
-          ]),
+          {
+            content: [],
+            id: '__body',
+            name: 'Body',
+            styles: { backgroundColor: 'white' },
+            type: '__body',
+          },
+        ]),
       funnelId,
     },
   })

@@ -352,6 +352,12 @@ const ComponentsTab = (props: Props) => {
         id: 'button',
         group: 'typography',
       },
+      {
+        Component:<CheckoutPlaceholder/>,
+        label: 'X (Twitter)',
+        id: 'button',
+        group: 'typography',
+      },
 
 
 
