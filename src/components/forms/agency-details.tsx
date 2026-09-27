@@ -35,13 +35,35 @@ const FormSchema = z.object({
   companyEmail: z.string().min(1),
   companyPhone: z.string().min(1),
   whiteLabel: z.boolean(),
-  address: z.string().min(1),
-  city: z.string().min(1),
-  zipCode: z.string().min(1),
-  state: z.string().min(1),
-  country: z.string().min(1),
-  agencyLogo: z.string().min(1),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  zipCode: z.string().optional(),
+  state: z.string().optional(),
+  country: z.string().optional(),
+  agencyLogo: z.string().optional(),
 })
+
+
+// Only include address keys the user actually filled; Stripe rejects empty
+// strings (notably `country`). Returns {} when nothing was entered.
+const buildStripeAddress = (values: {
+  name: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  country?: string
+}) => {
+  const address = {
+    ...(values.city ? { city: values.city } : {}),
+    ...(values.country ? { country: values.country } : {}),
+    ...(values.address ? { line1: values.address } : {}),
+    ...(values.zipCode ? { postal_code: values.zipCode } : {}),
+    ...(values.state ? { state: values.state } : {}),
+  }
+  if (Object.keys(address).length === 0) return {}
+  return { address, shipping: { address, name: values.name } }
+}
 
 const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionContent }: Props) => {
   const { toast } = useToast()
@@ -51,25 +73,27 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
     mode: 'onChange',
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: data?.name,
-      companyEmail: data?.companyEmail,
-      companyPhone: data?.companyPhone,
+      name: data?.name || "",
+      companyEmail: data?.companyEmail || "",
+      companyPhone: data?.companyPhone || "",
       whiteLabel: data?.whiteLabel || false,
-      address: data?.address,
-      city: data?.city,
-      zipCode: data?.zipCode,
-      state: data?.state,
-      country: data?.country,
-      agencyLogo: data?.agencyLogo,
+      address: data?.address || "",
+      city: data?.city || "",
+      zipCode: data?.zipCode || "",
+      state: data?.state || "",
+      country: data?.country || "",
+      agencyLogo: data?.agencyLogo || '',
     },
   })
   const isLoading = form.formState.isSubmitting
 
   useEffect(() => {
-    if (data) {
-      form.reset(data)
-    }
-  }, [data])
+    if (!data) return
+    // reset() replaces the entire form state, so a partial `data`
+    // (e.g. only companyEmail) would blank every other field.
+    form.reset({ ...form.getValues(), ...data }, { keepDirtyValues: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data ?? null)])
 
   const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
@@ -79,23 +103,10 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
         const bodyData = {
           email: values.companyEmail,
           name: values.name,
-          shipping: {
-            address: {
-              city: values.city,
-              country: values.country,
-              line1: values.address,
-              postal_code: values.zipCode,
-              state: values.zipCode,
-            },
-            name: values.name,
-          },
-          address: {
-            city: values.city,
-            country: values.country,
-            line1: values.address,
-            postal_code: values.zipCode,
-            state: values.zipCode,
-          },
+          // Address is optional now, so only send the fields that were filled.
+          // Stripe rejects empty strings for `country`, and an address object
+          // with nothing in it, so omit both entirely when nothing was entered.
+          ...buildStripeAddress(values),
         }
 
         const customerResponse = await fetch('/api/stripe/create-customer', {
@@ -105,6 +116,11 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
           },
           body: JSON.stringify(bodyData),
         })
+        if (!customerResponse.ok) {
+          throw new Error(
+            `Could not create Stripe customer: ${await customerResponse.text()}`
+          )
+        }
         const customerData: { customerId: string } =
           await customerResponse.json()
         custId = customerData.customerId
@@ -116,15 +132,15 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
       const response = await upsertAgency({
         id: data?.id ? data.id : v4(),
         customerId: data?.customerId || custId || '',
-        address: values.address,
-        agencyLogo: values.agencyLogo,
-        city: values.city,
+        address: values.address || "",
+        agencyLogo: values.agencyLogo || '',
+        city: values.city || "",
         companyPhone: values.companyPhone,
-        country: values.country,
+        country: values.country || "",
         name: values.name,
-        state: values.state,
+        state: values.state || "",
         whiteLabel: values.whiteLabel,
-        zipCode: values.zipCode,
+        zipCode: values.zipCode || "",
         createdAt: new Date(),
         updatedAt: new Date(),
         companyEmail: values.companyEmail,
@@ -187,12 +203,11 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
               className="space-y-4"
             >
               <FormField
-                disabled={isLoading}
                 control={form.control}
                 name="agencyLogo"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Agency Logo</FormLabel>
+                    <FormLabel>Agency Logo (optional)</FormLabel>
                     <FormControl>
                       <FileUpload
                         apiEndpoint="agencyLogo"
@@ -206,7 +221,6 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
               />
               <div className="flex md:flex-row gap-4">
                 <FormField
-                  disabled={isLoading}
                   control={form.control}
                   name="name"
                   render={({ field }) => (
@@ -216,6 +230,7 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
                         <Input
                           placeholder="Your agency name"
                           {...field}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -233,6 +248,7 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
                           readOnly
                           placeholder="Email"
                           {...field}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -242,7 +258,6 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
               </div>
               <div className="flex md:flex-row gap-4">
                 <FormField
-                  disabled={isLoading}
                   control={form.control}
                   name="companyPhone"
                   render={({ field }) => (
@@ -252,6 +267,7 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
                         <Input
                           placeholder="Phone"
                           {...field}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -261,7 +277,6 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
               </div>
 
               <FormField
-                disabled={isLoading}
                 control={form.control}
                 name="whiteLabel"
                 render={({ field }) => {
@@ -278,6 +293,7 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
 
                       <FormControl>
                         <Switch
+                          disabled={isLoading}
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
@@ -287,16 +303,16 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
                 }}
               />
               <FormField
-                disabled={isLoading}
                 control={form.control}
                 name="address"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Address (optional)</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="123 st..."
                         {...field}
+                        disabled={isLoading}
                       />
                     </FormControl>
                     <FormMessage />
@@ -305,16 +321,16 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
               />
               <div className="flex md:flex-row gap-4">
                 <FormField
-                  disabled={isLoading}
                   control={form.control}
                   name="city"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>City</FormLabel>
+                      <FormLabel>City (optional)</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="City"
                           {...field}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -322,16 +338,16 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
                   )}
                 />
                 <FormField
-                  disabled={isLoading}
                   control={form.control}
                   name="state"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>State</FormLabel>
+                      <FormLabel>State (optional)</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="State"
                           {...field}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -339,16 +355,16 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
                   )}
                 />
                 <FormField
-                  disabled={isLoading}
                   control={form.control}
                   name="zipCode"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Zipcpde</FormLabel>
+                      <FormLabel>Zipcpde (optional)</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Zipcode"
                           {...field}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -357,16 +373,16 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
                 />
               </div>
               <FormField
-                disabled={isLoading}
                 control={form.control}
                 name="country"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Country</FormLabel>
+                    <FormLabel>Country (optional)</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Country"
                         {...field}
+                        disabled={isLoading}
                       />
                     </FormControl>
                     <FormMessage />
