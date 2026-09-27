@@ -63,9 +63,4 @@ const CustomText: React.FC<CustomTextProps> = memo(
   }
 );
 
-CustomText.defaultProps = {
-  children: '',
-  type: TextTypeIdentifier.Body,
-};
-
 export default CustomText;

@@ -56,9 +56,9 @@ const Page = async ({ params }: Props) => {
   })
 
   if (agencyDetails.connectAccountId) {
-    const response = await stripe.accounts.retrieve({
-      stripeAccount: agencyDetails.connectAccountId,
-    })
+    const response = await stripe.accounts.retrieve(
+      agencyDetails.connectAccountId
+    )
 
     currency = response.default_currency?.toUpperCase() || 'USD'
     const checkoutSessions = await stripe.checkout.sessions.list(

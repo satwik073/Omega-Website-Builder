@@ -24,7 +24,10 @@ export const subscriptionCreated = async (
       active: subscription.status === 'active',
       agencyId: agency.id,
       customerId,
-      currentPeriodEndDate: new Date(subscription.current_period_end * 1000),
+      currentPeriodEndDate: new Date(
+        ((subscription as { current_period_end?: number }).current_period_end ??
+          0) * 1000
+      ),
       //@ts-ignore
       priceId: subscription.plan.id,
       subscritiptionId: subscription.id,

@@ -59,9 +59,9 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
   if (!subaccountDetails) return null
 
   if (subaccountDetails.connectAccountId) {
-    const response = await stripe.accounts.retrieve({
-      stripeAccount: subaccountDetails.connectAccountId,
-    })
+    const response = await stripe.accounts.retrieve(
+      subaccountDetails.connectAccountId
+    )
     currency = response.default_currency?.toUpperCase() || 'USD'
     const checkoutSessions = await stripe.checkout.sessions.list(
       { created: { gte: startDate, lte: endDate }, limit: 100 },
