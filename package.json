@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:push": "set -a && . ./.env.local && set +a && prisma db push",
+    "db:studio": "set -a && . ./.env.local && set +a && prisma studio"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.7",
