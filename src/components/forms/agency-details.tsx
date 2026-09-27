@@ -435,7 +435,7 @@ const AgencyDetails = ({ data, typeConfiguration  , titleContent, descriptionCon
               </div>
               <AlertDialogTrigger
                 disabled={isLoading || deletingAgency}
-                className="text-red-600 p-2 text-center mt-2 rounded-md hove:bg-red-600 hover:text-white whitespace-nowrap"
+                className="mt-2 whitespace-nowrap rounded-md p-2 text-center text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground"
               >
                 {deletingAgency ? 'Deleting...' : 'Delete Agency'}
               </AlertDialogTrigger>

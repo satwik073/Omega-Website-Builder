@@ -1,5 +1,5 @@
-import BlurPage from '@/components/global/blur-page'
 import MediaComponent from '@/components/media'
+import PageHeader from '@/components/global/page-header'
 import { getMedia } from '@/lib/queries'
 import React from 'react'
 
@@ -12,12 +12,16 @@ const MediaPage = async ({ params }: Props) => {
   const data = await getMedia(resolvedParams.subaccountId)
 
   return (
-    <BlurPage>
-      <MediaComponent
+    <>
+      <PageHeader
+        title="Media"
+        description="Images and files available to this sub account."
+      />
+            <MediaComponent
         data={data}
         subaccountId={resolvedParams.subaccountId}
       />
-    </BlurPage>
+    </>
   )
 }
 

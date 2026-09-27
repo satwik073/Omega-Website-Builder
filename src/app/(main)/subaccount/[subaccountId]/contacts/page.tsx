@@ -1,5 +1,6 @@
-import BlurPage from '@/components/global/blur-page'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import PageHeader from '@/components/global/page-header'
+import { EmptyState } from '@/components/global/states'
 import { Badge } from '@/components/ui/badge'
 import {
   Table,
@@ -12,8 +13,9 @@ import {
 import { db } from '@/lib/db'
 import { Contact, SubAccount, Ticket } from '@prisma/client'
 import { format } from 'date-fns/format'
+import { Users } from 'lucide-react'
 import React from 'react'
-import CraeteContactButton from './_components/create-contact-btn'
+import CreateContactButton from './_components/create-contact-btn'
 
 type Props = {
   params: Promise<{ subaccountId: string }>
@@ -66,10 +68,26 @@ const ContactPage = async ({ params }: Props) => {
   }
 
   return (
-    <BlurPage>
-      <h1 className="text-4xl p-4">Contacts</h1>
-      <CraeteContactButton subaccountId={resolvedParams.subaccountId} />
-      <Table>
+    <>
+      <PageHeader
+        title="Contacts"
+        description="Everyone who has come through a funnel on this sub account."
+        actions={
+          <CreateContactButton subaccountId={resolvedParams.subaccountId} />
+        }
+      />
+      {allContacts.length === 0 ? (
+        <EmptyState
+          icon={<Users />}
+          title="No contacts yet"
+          description="Contacts are created when someone submits a form in one of this sub account's funnels. You can also add one by hand."
+          action={
+            <CreateContactButton subaccountId={resolvedParams.subaccountId} />
+          }
+        />
+      ) : (
+      <div className="overflow-hidden rounded-card border border-border bg-background">
+      <Table className="min-w-[680px]">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
@@ -85,7 +103,7 @@ const ContactPage = async ({ params }: Props) => {
               <TableCell>
                 <Avatar>
                   <AvatarImage alt={contact.name} />
-                  <AvatarFallback className="bg-primary text-white">
+                  <AvatarFallback className="bg-primary text-primary-foreground">
                     {contact.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -106,7 +124,9 @@ const ContactPage = async ({ params }: Props) => {
           ))}
         </TableBody>
       </Table>
-    </BlurPage>
+      </div>
+      )}
+    </>
   )
 }
 

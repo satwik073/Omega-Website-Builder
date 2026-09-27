@@ -1,12 +1,5 @@
-import BlurPage from '@/components/global/blur-page'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import PageHeader from '@/components/global/page-header'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
 import { getStripeOAuthLink } from '@/lib/utils'
@@ -72,18 +65,14 @@ const LaunchPad = async ({ params, searchParams }: Props) => {
   }
 
   return (
-    <BlurPage>
-      <div className="flex flex-col justify-center items-center">
-        <div className="w-full h-full max-w-[800px]">
-          <Card className="border-none ">
-            <CardHeader>
-              <CardTitle>Let's get started!</CardTitle>
-              <CardDescription>
-                Follow the steps below to get your account set up correctly.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-4">
-              <div className="flex justify-between items-center w-full h-20 border p-4 rounded-lg ">
+    <>
+      <PageHeader
+        title="Launchpad"
+        description="Finish these steps to get this sub account fully set up."
+      />
+      <div className="max-w-3xl">
+        <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-background p-5">
                 <div className="flex items-center gap-4">
                   <Image
                     src="/appstore.png"
@@ -118,7 +107,7 @@ const LaunchPad = async ({ params, searchParams }: Props) => {
                   />
                 ) : (
                   <Link
-                    className="bg-primary py-2 px-4 rounded-md text-white"
+                    className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius)] bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/85"
                     href={stripeOAuthLink}
                   >
                     Start
@@ -143,18 +132,16 @@ const LaunchPad = async ({ params, searchParams }: Props) => {
                   />
                 ) : (
                   <Link
-                    className="bg-primary py-2 px-4 rounded-md text-white"
+                    className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius)] bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/85"
                     href={`/subaccount/${subaccountDetails.id}/settings`}
                   >
                     Start
                   </Link>
                 )}
               </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
-    </BlurPage>
+    </>
   )
 }
 

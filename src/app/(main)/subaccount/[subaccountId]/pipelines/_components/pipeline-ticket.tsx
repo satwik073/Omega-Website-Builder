@@ -209,7 +209,7 @@ const PipelineTicket = ({
                           alt="contact"
                           src={ticket.Assigned?.avatarUrl}
                         />
-                        <AvatarFallback className="bg-primary text-sm text-white">
+                        <AvatarFallback className="bg-primary text-sm text-primary-foreground">
                           {ticket.Assigned?.name}
                           {!ticket.assignedUserId && <User2 size={14} />}
                         </AvatarFallback>

@@ -118,22 +118,27 @@ const FunnelEditorNavigation = ({
     <TooltipProvider>
       <nav
         className={clsx(
-          'border-b-[1px] flex items-center justify-between py-2 px-6  gap-2 transition-all',
+          'flex h-14 items-center justify-between gap-4 border-b border-border bg-background px-4 transition-all',
           { '!h-0 !p-0 !overflow-hidden': state.editor.previewMode }
         )}
       >
-        <aside className="flex items-center gap-4 max-w-[260px] w-[300px]">
-          <Link href={`/subaccount/${subaccountId}/funnels/${funnelId}`}>
-            <ArrowLeftCircle />
+        <aside className="flex w-[300px] max-w-[300px] items-center gap-3">
+          <Link
+            href={`/subaccount/${subaccountId}/funnels/${funnelId}`}
+            aria-label="Back to funnel"
+            className="flex size-9 shrink-0 items-center justify-center rounded-[var(--radius)] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <ArrowLeftCircle className="size-[18px]" />
           </Link>
-          <div className="flex flex-col w-full ">
+          <div className="flex min-w-0 flex-col">
             <Input
               defaultValue={funnelPageDetails.name}
-              className="border-none h-5 m-0 p-0 text-lg"
+              aria-label="Page name"
+              className="h-7 border-none bg-transparent px-0 text-sm font-medium focus-visible:ring-0"
               onBlur={handleOnBlurTitleChange}
             />
-            <span className="text-sm text-muted-foreground">
-              Path: /{funnelPageDetails.pathName}
+            <span className="truncate text-xs text-muted-foreground">
+              /{funnelPageDetails.pathName}
             </span>
           </div>
         </aside>
@@ -149,12 +154,13 @@ const FunnelEditorNavigation = ({
               })
             }}
           >
-            <TabsList className="grid w-full grid-cols-3 bg-transparent h-fit">
+            <TabsList className="grid h-fit w-full grid-cols-3 gap-1 bg-transparent p-0">
               <Tooltip>
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Desktop"
-                    className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"                  >
+                    className="size-9 rounded-[var(--radius)] p-0 text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-foreground"
+                  >
                     <Laptop />
                   </TabsTrigger>
                 </TooltipTrigger>
@@ -166,7 +172,8 @@ const FunnelEditorNavigation = ({
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Tablet"
-                    className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"                  >
+                    className="size-9 rounded-[var(--radius)] p-0 text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-foreground"
+                  >
                     <Tablet />
                   </TabsTrigger>
                 </TooltipTrigger>
@@ -178,7 +185,8 @@ const FunnelEditorNavigation = ({
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Mobile"
-                    className="w-10 h-10 p-0 border bg-white data-[state=active]:text-black dark:bg-black dark:border-black/40 border-gray-300 data-[state=active]:bg-muted"                  >
+                    className="size-9 rounded-[var(--radius)] p-0 text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-foreground"
+                  >
                     <Smartphone />
                   </TabsTrigger>
                 </TooltipTrigger>
@@ -193,7 +201,6 @@ const FunnelEditorNavigation = ({
           <Button
             variant={'ghost'}
             size={'icon'}
-            className="hover:bg-slate-800"
             onClick={handlePreviewClick}
           >
             <EyeIcon />
@@ -203,7 +210,6 @@ const FunnelEditorNavigation = ({
             onClick={handleUndo}
             variant={'ghost'}
             size={'icon'}
-            className="hover:bg-slate-800"
           >
             <Undo2 />
           </Button>
@@ -214,24 +220,22 @@ const FunnelEditorNavigation = ({
             onClick={handleRedo}
             variant={'ghost'}
             size={'icon'}
-            className="hover:bg-slate-800 mr-4"
           >
             <Redo2 />
           </Button>
-          <div className="flex flex-col item-center mr-4">
-            <div className="flex flex-row items-center gap-4">
-              Draft
-              <Switch
-                disabled
-                defaultChecked={true}
-              />
-              Publish
+          <div className="mx-3 hidden flex-col items-end lg:flex">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span>Draft</span>
+              <Switch disabled defaultChecked />
+              <span>Publish</span>
             </div>
-            <span className="text-muted-foreground text-sm">
-              Last updated {funnelPageDetails.updatedAt.toLocaleDateString()}
+            <span className="text-xs text-muted-foreground">
+              Updated {funnelPageDetails.updatedAt.toLocaleDateString()}
             </span>
           </div>
-          <Button onClick={handleOnSave}>Save</Button>
+          <Button size="sm" onClick={handleOnSave}>
+            Save
+          </Button>
         </aside>
       </nav>
     </TooltipProvider>

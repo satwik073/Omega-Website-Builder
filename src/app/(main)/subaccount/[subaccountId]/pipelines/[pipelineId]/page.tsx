@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import PageHeader from '@/components/global/page-header'
 import { db } from '@/lib/db'
 import {
   getLanesWithTicketAndTags,
@@ -33,19 +34,32 @@ const PipelinePage = async ({ params }: Props) => {
   )) as LaneDetail[]
 
   return (
-    <Tabs
-      defaultValue="view"
-      className="w-full"
-    >
-      <TabsList className="bg-transparent border-b-2 h-16 w-full justify-between mb-4">
+    <>
+      <PageHeader
+        title={pipelineDetails?.name ?? 'Pipeline'}
+        description="Drag tickets between lanes to move work forward."
+        className="mb-6"
+      />
+    <Tabs defaultValue="view" className="w-full">
+      <TabsList className="mb-6 h-auto w-full justify-between gap-4 rounded-none border-b border-border bg-transparent p-0 pb-3">
         <PipelineInfoBar
           pipelineId={resolvedParams.pipelineId}
           subAccountId={resolvedParams.subaccountId}
           pipelines={pipelines}
         />
-        <div>
-          <TabsTrigger value="view">Pipeline View</TabsTrigger>
-          <TabsTrigger value="settings">Settings</TabsTrigger>
+        <div className="flex gap-1">
+          <TabsTrigger
+            value="view"
+            className="rounded-[var(--radius)] px-3 py-1.5 text-sm data-[state=active]:bg-muted data-[state=active]:shadow-none"
+          >
+            Board
+          </TabsTrigger>
+          <TabsTrigger
+            value="settings"
+            className="rounded-[var(--radius)] px-3 py-1.5 text-sm data-[state=active]:bg-muted data-[state=active]:shadow-none"
+          >
+            Settings
+          </TabsTrigger>
         </div>
       </TabsList>
       <TabsContent value="view">
@@ -66,6 +80,7 @@ const PipelinePage = async ({ params }: Props) => {
         />
       </TabsContent>
     </Tabs>
+    </>
   )
 }
 

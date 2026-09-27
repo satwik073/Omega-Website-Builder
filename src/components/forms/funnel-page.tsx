@@ -121,7 +121,6 @@ const CreateFunnelPage: React.FC<CreateFunnelPageProps> = ({
             className="flex flex-col gap-6"
           >
             <FormField
-              disabled={form.formState.isSubmitting}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -131,6 +130,7 @@ const CreateFunnelPage: React.FC<CreateFunnelPageProps> = ({
                     <Input
                       placeholder="Name"
                       {...field}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -138,7 +138,6 @@ const CreateFunnelPage: React.FC<CreateFunnelPageProps> = ({
               )}
             />
             <FormField
-              disabled={form.formState.isSubmitting || order === 0}
               control={form.control}
               name="pathName"
               render={({ field }) => (
@@ -148,7 +147,8 @@ const CreateFunnelPage: React.FC<CreateFunnelPageProps> = ({
                     <Input
                       placeholder="Path for the page"
                       {...field}
-                      value={field.value?.toLowerCase()}
+                      value={field.value?.toLowerCase() || ''}
+                      disabled={form.formState.isSubmitting || order === 0}
                     />
                   </FormControl>
                   <FormMessage />

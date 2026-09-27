@@ -222,7 +222,6 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
             className="space-y-4"
           >
             <FormField
-              disabled={form.formState.isSubmitting}
               control={form.control}
               name="avatarUrl"
               render={({ field }) => (
@@ -241,7 +240,6 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
             />
 
             <FormField
-              disabled={form.formState.isSubmitting}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -252,6 +250,7 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
                       required
                       placeholder="Full Name"
                       {...field}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -259,7 +258,6 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
               )}
             />
             <FormField
-              disabled={form.formState.isSubmitting}
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -273,6 +271,7 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
                       }
                       placeholder="Email"
                       {...field}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -280,14 +279,16 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
               )}
             />
             <FormField
-              disabled={form.formState.isSubmitting}
               control={form.control}
               name="role"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel> User Role</FormLabel>
                   <Select
-                    disabled={field.value === 'AGENCY_OWNER'}
+                    disabled={
+                      field.value === 'AGENCY_OWNER' ||
+                      form.formState.isSubmitting
+                    }
                     onValueChange={(value) => {
                       if (
                         value === 'SUBACCOUNT_USER' ||

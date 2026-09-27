@@ -1,11 +1,7 @@
-import AgencyDetails from '@/components/forms/agency-details'
 import OnboardAgencyDetails from '@/components/forms/onboard-agency'
-import { Button } from '@/components/ui/button'
 import { getAuthUserDetails, verifyAndAcceptInvitation } from '@/lib/queries'
 import { currentUser } from '@clerk/nextjs/server'
 import { Plan } from '@prisma/client'
-import { IconArrowUpRight } from '@tabler/icons-react'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
@@ -16,7 +12,6 @@ const Page = async ({
 }) => {
   const resolvedSearchParams = await searchParams
   const agencyId = await verifyAndAcceptInvitation()
-  console.log(agencyId)
 
   // Get the user's details
   const user = await getAuthUserDetails()
@@ -43,40 +38,33 @@ const Page = async ({
   }
 
   const authUser = await currentUser()
+
   return (
-    <div className="flex lg:!flex-row flex-col gap-4 justify-start items-center min-h-screen">
-    {/* Uncomment this if you want a title */}
-    {/* <div className='text-3xl lg:text-4xl tracking-tighter font-bold mb-2 text-left'>Create An Agency</div> */}
-  <div className='md:w-1/2 scroll-smooth relative border-none  lg:overflow-y-scroll no-scrollbar lg:h-[100vh]'>
+    // Onboarding mirrors the sign-in split: the form on the left, a calm
+    // product-led column on the right that collapses away on small screens.
+    <div className="grid min-h-screen lg:grid-cols-2">
+      <div className="no-scrollbar flex flex-col overflow-y-auto px-6 py-10 md:px-12 lg:h-screen">
+        <div className="mx-auto w-full max-w-xl">
+          <OnboardAgencyDetails
+            typeConfiguration="AGENCY_CONFIGURATION"
+            data={{ companyEmail: authUser?.emailAddresses[0].emailAddress }}
+            titleContent="Company Information"
+            descriptionContent="Let's create an agency for your business. You can edit agency settings later from the agency settings tab."
+          />
+        </div>
+      </div>
 
-    <OnboardAgencyDetails
-      typeConfiguration="AGENCY_CONFIGURATION"
-      data={{ companyEmail: authUser?.emailAddresses[0].emailAddress }}
-      titleContent="Company Information"
-      descriptionContent="Let's create an agency for your business. You can edit agency settings later from the agency settings tab."
-    />
-  </div>
-    <div className='md:w-1/2 lg:w-2/3 '>
-      {/* <Image src={'/assets/dash.png'} width={800} height={800} alt='image'/> */}
-      <video
-              src="/assets/using2.mp4"
-              className="  border-none"
-              height="100%"
-              width="100%"
-              autoPlay
-              preload='1'
-              loop
-              muted
-              playsInline
-
-            >
-              Your browser does not support the video tag.
-            </video>
+      <div className="relative hidden overflow-hidden bg-foreground lg:block">
+        <video
+          src="/assets/using2.mp4"
+          className="size-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </div>
     </div>
-  </div>
-  
-  
- 
   )
 }
 

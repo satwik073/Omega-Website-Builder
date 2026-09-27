@@ -1,5 +1,6 @@
-import BlurPage from '@/components/global/blur-page'
 import CircleProgress from '@/components/global/circle-progress'
+import PageHeader from '@/components/global/page-header'
+import StatCard from '@/components/global/stat-card'
 import PipelineValue from '@/components/global/pipeline-value'
 import SubaccountFunnelChart from '@/components/global/subaccount-funnel-chart'
 import { Badge } from '@/components/ui/badge'
@@ -125,92 +126,83 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
   }))
 
   return (
-    <BlurPage>
-      <div className="relative h-full">
-        {!subaccountDetails.connectAccountId && (
-          <div className="absolute -top-10 -left-10 right-0 bottom-0 z-30 flex items-center justify-center backdrop-blur-md bg-background/50">
-            <Card>
-              <CardHeader>
-                <CardTitle>Connect Your Stripe</CardTitle>
-                <CardDescription>
-                  You need to connect your stripe account to see metrics
-                </CardDescription>
-                <Link
-                  href={`/subaccount/${subaccountDetails.id}/launchpad`}
-                  className="p-2 w-fit bg-secondary text-white rounded-md flex items-center gap-2"
-                >
-                  <ClipboardIcon />
-                  Launch Pad
-                </Link>
-              </CardHeader>
-            </Card>
+    <>
+      <PageHeader
+        title={subaccountDetails.name}
+        description={`Performance for this sub account in ${currentYear}.`}
+      />
+
+      {!subaccountDetails.connectAccountId && (
+        <div className="mb-8 flex flex-col gap-4 rounded-lg border border-border bg-muted p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-medium">Connect Stripe to see revenue</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Income and conversion metrics stay empty until an account is
+              connected.
+            </p>
           </div>
-        )}
-        <div className="flex flex-col gap-4 pb-6">
-          <div className="flex gap-4 flex-col xl:!flex-row">
-            <Card className="flex-1 relative">
-              <CardHeader>
-                <CardDescription>Income</CardDescription>
-                <CardTitle className="text-4xl">
-                  {net ? `${currency} ${net.toFixed(2)}` : `$0.00`}
-                </CardTitle>
-                <small className="text-xs text-muted-foreground">
-                  For the year {currentYear}
-                </small>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                Total revenue generated as reflected in your stripe dashboard.
-              </CardContent>
-              <DollarSign className="absolute right-4 top-4 text-muted-foreground" />
-            </Card>
-            <Card className="flex-1 relative">
-              <CardHeader>
-                <CardDescription>Potential Income</CardDescription>
-                <CardTitle className="text-4xl">
-                  {potentialIncome
-                    ? `${currency} ${potentialIncome.toFixed(2)}`
-                    : `$0.00`}
-                </CardTitle>
-                <small className="text-xs text-muted-foreground">
-                  For the year {currentYear}
-                </small>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                This is how much you can close.
-              </CardContent>
-              <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
-            </Card>
+          <Link
+            href={`/subaccount/${subaccountDetails.id}/launchpad`}
+            className="inline-flex h-10 shrink-0 items-center gap-2 rounded-[var(--radius)] bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/85"
+          >
+            <ClipboardIcon className="size-4" />
+            Go to launchpad
+          </Link>
+        </div>
+      )}
+
+      <div>
+        <div className="flex flex-col gap-6 pb-6">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <StatCard
+              label="Income"
+              value={net ? `${currency} ${net.toFixed(2)}` : '$0.00'}
+              hint="Total revenue reflected in your Stripe dashboard."
+              icon={<DollarSign />}
+            />
+            <StatCard
+              label="Potential income"
+              value={
+                potentialIncome
+                  ? `${currency} ${potentialIncome.toFixed(2)}`
+                  : '$0.00'
+              }
+              hint="Value of sessions still open."
+              icon={<Contact2 />}
+            />
             <PipelineValue subaccountId={resolvedParams.subaccountId} />
 
-            <Card className="xl:w-fit">
-              <CardHeader>
-                <CardDescription>Conversions</CardDescription>
+            <Card className="p-6 sm:col-span-2 xl:col-span-1">
+              <CardHeader className="p-0 pb-5">
+                <CardTitle>Conversions</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
                 <CircleProgress
                   value={closingRate}
                   description={
                     <>
                       {sessions && (
-                        <div className="flex flex-col">
-                          Total Carts Opened
-                          <div className="flex gap-2">
-                            <ShoppingCart className="text-rose-700" />
+                        <div className="flex flex-col gap-1">
+                          <span className="eyebrow">Carts opened</span>
+                          <span className="flex items-center gap-2 text-sm tabular-nums">
+                            <ShoppingCart className="size-4 text-muted-foreground" />
                             {sessions.length}
-                          </div>
+                          </span>
                         </div>
                       )}
                       {totalClosedSessions && (
-                        <div className="flex flex-col">
-                          Won Carts
-                          <div className="flex gap-2">
-                            <ShoppingCart className="text-emerald-700" />
+                        <div className="flex flex-col gap-1">
+                          <span className="eyebrow">Won carts</span>
+                          <span className="flex items-center gap-2 text-sm tabular-nums">
+                            <ShoppingCart className="size-4 text-muted-foreground" />
                             {totalClosedSessions.length}
-                          </div>
+                          </span>
                         </div>
                       )}
                     </>
                   }
                 />
-              </CardHeader>
+              </CardContent>
             </Card>
           </div>
 
@@ -298,7 +290,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
           </div>
         </div>
       </div>
-    </BlurPage>
+    </>
   )
 }
 

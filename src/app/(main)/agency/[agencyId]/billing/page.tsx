@@ -1,4 +1,5 @@
 import React from 'react'
+import PageHeader from '@/components/global/page-header'
 import { stripe } from '@/lib/stripe'
 import { addOnProducts, pricingCards } from '@/lib/constants'
 import { db } from '@/lib/db'
@@ -68,10 +69,13 @@ const page = async ({ params }: Props) => {
         customerId={agencySubscription?.customerId || ''}
         planExists={agencySubscription?.Subscription?.active === true}
       />
-      <h1 className="text-4xl p-4">Billing</h1>
-      <Separator className=" mb-6" />
-      <h2 className="text-2xl p-4">Current Plan</h2>
-      <div className="flex flex-col lg:!flex-row justify-between gap-8">
+      <PageHeader
+        title="Billing"
+        description="Your current plan, add-ons and payment history."
+      />
+
+      <h2 className="section-label mb-4">Current plan</h2>
+      <div className="grid gap-6 lg:grid-cols-2">
         <PricingCard
           planExists={agencySubscription?.Subscription?.active === true}
           prices={prices.data}
@@ -86,13 +90,12 @@ const page = async ({ params }: Props) => {
               ? 'Change Plan'
               : 'Get Started'
           }
-          highlightDescription="Want to modify your plan? You can do this here. If you have
-          further question contact support@plura-app.com"
+          highlightDescription="Change your plan whenever you need to. If you have questions, get in touch with support."
           highlightTitle="Plan Options"
           description={
             agencySubscription?.Subscription?.active === true
-              ? currentPlanDetails?.description || 'Lets get started'
-              : 'Lets get started! Pick a plan that works best for you.'
+              ? currentPlanDetails?.description || 'Get started'
+              : 'Pick the plan that fits how you work. You can change it any time.'
           }
           duration="/ month"
           features={
@@ -132,10 +135,11 @@ const page = async ({ params }: Props) => {
           />
         ))}
       </div>
-      <h2 className="text-2xl p-4">Payment History</h2>
-      <Table className="bg-card border-[1px] border-border rounded-md">
-        <TableHeader className="rounded-md">
-          <TableRow>
+      <h2 className="section-label mb-4 mt-12">Payment history</h2>
+      <div className="overflow-hidden rounded-lg border border-border bg-background">
+      <Table>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent [&_th]:h-11 [&_th]:text-[11px] [&_th]:font-medium [&_th]:uppercase [&_th]:tracking-[0.1em] [&_th]:text-muted-foreground">
             <TableHead className="w-[200px]">Description</TableHead>
             <TableHead className="w-[200px]">Invoice Id</TableHead>
             <TableHead className="w-[300px]">Date</TableHead>
@@ -143,7 +147,7 @@ const page = async ({ params }: Props) => {
             <TableHead className="text-right">Amount</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="font-medium truncate">
+        <TableBody>
           {allCharges.map((charge) => (
             <TableRow key={charge.id}>
               <TableCell>{charge.description}</TableCell>
@@ -152,22 +156,35 @@ const page = async ({ params }: Props) => {
               </TableCell>
               <TableCell>{charge.date}</TableCell>
               <TableCell>
-                <p
-                  className={clsx('', {
-                    'text-emerald-500': charge.status.toLowerCase() === 'paid',
-                    'text-orange-600':
-                      charge.status.toLowerCase() === 'pending',
-                    'text-red-600': charge.status.toLowerCase() === 'failed',
-                  })}
+                <span
+                  className={clsx(
+                    'inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-[0.08em]',
+                    {
+                      'border-border text-muted-foreground':
+                        charge.status.toLowerCase() === 'paid',
+                      'border-amber-600/30 text-amber-700 dark:text-amber-500':
+                        charge.status.toLowerCase() === 'pending',
+                      'border-destructive/30 text-destructive':
+                        charge.status.toLowerCase() === 'failed',
+                    }
+                  )}
                 >
-                  {charge.status.toUpperCase()}
-                </p>
+                  {charge.status}
+                </span>
               </TableCell>
-              <TableCell className="text-right">{charge.amount}</TableCell>
+              <TableCell className="text-right tabular-nums">{charge.amount}</TableCell>
             </TableRow>
           ))}
+          {allCharges.length === 0 && (
+            <TableRow className="hover:bg-transparent">
+              <TableCell colSpan={5} className="h-28 text-center text-sm text-muted-foreground">
+                No payments yet.
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
+      </div>
     </>
   )
 }
