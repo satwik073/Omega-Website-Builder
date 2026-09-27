@@ -1,30 +1,16 @@
-const { m } = require('framer-motion')
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  fastRefresh: true,
-  onDemandEntries: {
-    maxInactiveAge: 15 * 60 * 1000,
-    pagesBufferLength: 4,
-  },
-  concurrentFeatures: true,
-  swcMinify: true,
-  productionBrowserSourceMaps: false,
-  optimizeFonts: false,
-  minify: false,
   images: {
-    domains: [
-      'uploadthing.com',
-      'utfs.io',
-      'img.clerk.com',
-      'subdomain',
-      'files.stripe.com',
-      'images.unsplash.com',
-      'assets.aceternity.com'
-
+    remotePatterns: [
+      { protocol: 'https', hostname: 'uploadthing.com' },
+      { protocol: 'https', hostname: 'utfs.io' },
+      { protocol: 'https', hostname: 'img.clerk.com' },
+      { protocol: 'https', hostname: 'files.stripe.com' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'assets.aceternity.com' },
     ],
   },
   reactStrictMode: false,

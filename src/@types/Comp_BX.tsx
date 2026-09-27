@@ -84,9 +84,4 @@ const CustomBox: FC<CustomBoxProps> = memo(
   }
 );
 
-CustomBox.defaultProps = {
-  children: null,
-  type: BoxTypeIdentifier.Default,
-};
-
 export default CustomBox;
