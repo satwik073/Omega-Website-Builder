@@ -13,7 +13,7 @@ const FileUploadPlaceholder = (props: Props) => {
   return (
     <div
       draggable
-      onDragStart={(e) => handleDragStart(e, 'list')}
+      onDragStart={(e) => handleDragStart(e, 'fileUpload')}
       className=" h-14 w-14 bg-muted rounded-lg flex items-center justify-center"
     >
       {/* <Image
