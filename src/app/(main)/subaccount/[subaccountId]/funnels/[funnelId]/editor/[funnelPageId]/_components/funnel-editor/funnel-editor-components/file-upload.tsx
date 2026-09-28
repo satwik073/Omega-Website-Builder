@@ -54,7 +54,7 @@ const FileUpload = ({ element }: Props) => {
       )}
       <input type="file" className="w-full" readOnly={state.editor.liveMode} />
       {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
-        <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
+        <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-primary-foreground">
           <Trash className="cursor-pointer" size={16} onClick={handleDeleteElement} />
         </div>
       )}

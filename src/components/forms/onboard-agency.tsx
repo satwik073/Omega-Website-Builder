@@ -42,13 +42,35 @@ const FormSchema = z.object({
     companyEmail: z.string().min(1),
     companyPhone: z.string().min(1),
     whiteLabel: z.boolean(),
-    address: z.string().min(1),
-    city: z.string().min(1),
-    zipCode: z.string().min(1),
-    state: z.string().min(1),
-    country: z.string().min(1),
-    agencyLogo: z.string().min(1),
+    address: z.string().optional(),
+    city: z.string().optional(),
+    zipCode: z.string().optional(),
+    state: z.string().optional(),
+    country: z.string().optional(),
+    agencyLogo: z.string().optional(),
 })
+
+
+// Only include address keys the user actually filled; Stripe rejects empty
+// strings (notably `country`). Returns {} when nothing was entered.
+const buildStripeAddress = (values: {
+  name: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  country?: string
+}) => {
+  const address = {
+    ...(values.city ? { city: values.city } : {}),
+    ...(values.country ? { country: values.country } : {}),
+    ...(values.address ? { line1: values.address } : {}),
+    ...(values.zipCode ? { postal_code: values.zipCode } : {}),
+    ...(values.state ? { state: values.state } : {}),
+  }
+  if (Object.keys(address).length === 0) return {}
+  return { address, shipping: { address, name: values.name } }
+}
 
 const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descriptionContent }: Props) => {
     const { toast } = useToast()
@@ -58,25 +80,27 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
         mode: 'onChange',
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            name: data?.name,
-            companyEmail: data?.companyEmail,
-            companyPhone: data?.companyPhone,
+            name: data?.name || "",
+            companyEmail: data?.companyEmail || "",
+            companyPhone: data?.companyPhone || "",
             whiteLabel: data?.whiteLabel || false,
-            address: data?.address,
-            city: data?.city,
-            zipCode: data?.zipCode,
-            state: data?.state,
-            country: data?.country,
-            agencyLogo: data?.agencyLogo,
+            address: data?.address || "",
+            city: data?.city || "",
+            zipCode: data?.zipCode || "",
+            state: data?.state || "",
+            country: data?.country || "",
+            agencyLogo: data?.agencyLogo || '',
         },
     })
     const isLoading = form.formState.isSubmitting
 
     useEffect(() => {
-        if (data) {
-            form.reset(data)
-        }
-    }, [data])
+    if (!data) return
+    // reset() replaces the entire form state, so a partial `data`
+    // (e.g. only companyEmail) would blank every other field.
+    form.reset({ ...form.getValues(), ...data }, { keepDirtyValues: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data ?? null)])
 
     const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
         try {
@@ -84,25 +108,12 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
             let custId
             if (!data?.id) {
                 const bodyData = {
-                    email: values.companyEmail,
-                    name: values.name,
-                    shipping: {
-                        address: {
-                            city: values.city,
-                            country: values.country,
-                            line1: values.address,
-                            postal_code: values.zipCode,
-                            state: values.zipCode,
-                        },
-                        name: values.name,
-                    },
-                    address: {
-                        city: values.city,
-                        country: values.country,
-                        line1: values.address,
-                        postal_code: values.zipCode,
-                        state: values.zipCode,
-                    },
+                  email: values.companyEmail,
+                  name: values.name,
+                  // Address is optional now, so only send the fields that were filled.
+                  // Stripe rejects empty strings for `country`, and an address object
+                  // with nothing in it, so omit both entirely when nothing was entered.
+                  ...buildStripeAddress(values),
                 }
 
                 const customerResponse = await fetch('/api/stripe/create-customer', {
@@ -112,6 +123,11 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                     },
                     body: JSON.stringify(bodyData),
                 })
+                if (!customerResponse.ok) {
+                    throw new Error(
+                        `Could not create Stripe customer: ${await customerResponse.text()}`
+                    )
+                }
                 const customerData: { customerId: string } =
                     await customerResponse.json()
                 custId = customerData.customerId
@@ -123,15 +139,15 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
             const response = await upsertAgency({
                 id: data?.id ? data.id : v4(),
                 customerId: data?.customerId || custId || '',
-                address: values.address,
-                agencyLogo: values.agencyLogo,
-                city: values.city,
+                address: values.address || "",
+                agencyLogo: values.agencyLogo || '',
+                city: values.city || "",
                 companyPhone: values.companyPhone,
-                country: values.country,
+                country: values.country || "",
                 name: values.name,
-                state: values.state,
+                state: values.state || "",
                 whiteLabel: values.whiteLabel,
-                zipCode: values.zipCode,
+                zipCode: values.zipCode || "",
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 companyEmail: values.companyEmail,
@@ -216,7 +232,6 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
 
                             <CustomBox type={BoxTypeIdentifier?.Div} className="flex md:flex-col gap-4">
                                 <FormField
-                                    disabled={isLoading}
                                     control={form.control}
                                     name="name"
                                     render={({ field }) => (
@@ -226,6 +241,7 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                                 <Input
                                                     placeholder="Ex : Example"
                                                     {...field}
+                                                    disabled={isLoading}
                                                     type="text"
                                                     className="w-full px-4 py-2 border placeholder:text-gray-500 border-gray-200 rounded-lg focus:outline-none focus:ring focus:ring-gray-200"
 
@@ -249,6 +265,7 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
 
                                                     placeholder="Your agency name"
                                                     {...field}
+                                                    disabled={isLoading}
                                                     type="text"
                                                     className="w-full px-4 py-2 border  placeholder:text-gray-500 border-gray-200 rounded-lg focus:outline-none focus:ring focus:ring-gray-200"
 
@@ -263,7 +280,6 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
 
                                 <div className="md:w-1/2">
                                     <FormField
-                                        disabled={isLoading}
                                         control={form.control}
                                         name="companyPhone"
                                         render={({ field }) => (
@@ -274,6 +290,7 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                                     className='placeholder:text-gray-500'
                                                         placeholder="Ex : +91 98XXXXXXXX"
                                                         {...field}
+                                                        disabled={isLoading}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -283,12 +300,11 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                 </div>
                             </div>
                             <FormField
-                                disabled={isLoading}
                                 control={form.control}
                                 name="agencyLogo"
                                 render={({ field }) => (
                                     <FormItem>
-                                         <Label className='font-bold text-[13px]'>Agency Logo</Label>
+                                         <Label className='font-bold text-[13px]'>Agency Logo (optional)</Label>
                                         <FormControl>
                                             <FileUpload
                                                 apiEndpoint="agencyLogo"
@@ -301,7 +317,6 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                 )}
                             />
                             <FormField
-                                disabled={isLoading}
                                 control={form.control}
                                 name="whiteLabel"
                                 render={({ field }) => {
@@ -317,6 +332,7 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
 
                                             <FormControl>
                                                 <Switch
+                                                  disabled={isLoading}
                                                     checked={field.value}
                                                     onCheckedChange={field.onChange}
                                                 />
@@ -326,17 +342,17 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                 }}
                             />
                             <FormField
-                                disabled={isLoading}
                                 control={form.control}
                                 name="address"
                                 render={({ field }) => (
                                     <FormItem className="flex-1">
-                                          <Label className='font-bold text-[13px]'>Address</Label>
+                                          <Label className='font-bold text-[13px]'>Address (optional)</Label>
                                         <FormControl>
                                             <Input
                                               className='placeholder:text-gray-500'
                                                 placeholder="Ex : 123 Blueberry Street"
                                                 {...field}
+                                                disabled={isLoading}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -345,17 +361,17 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                             />
                             <div className="flex md:flex-row gap-4">
                                 <FormField
-                                    disabled={isLoading}
                                     control={form.control}
                                     name="city"
                                     render={({ field }) => (
                                         <FormItem className="flex-1">
-                                              <Label className='font-bold text-[13px]'>City</Label>
+                                              <Label className='font-bold text-[13px]'>City (optional)</Label>
                                             <FormControl>
                                                 <Input
                                                   className='placeholder:text-gray-500'
                                                     placeholder="City"
                                                     {...field}
+                                                    disabled={isLoading}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -363,17 +379,17 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                     )}
                                 />
                                 <FormField
-                                    disabled={isLoading}
                                     control={form.control}
                                     name="state"
                                     render={({ field }) => (
                                         <FormItem className="flex-1">
-                                              <Label className='font-bold text-[13px]'>State</Label>
+                                              <Label className='font-bold text-[13px]'>State (optional)</Label>
                                             <FormControl>
                                                 <Input
                                                   className='placeholder:text-gray-500'
                                                     placeholder="State"
                                                     {...field}
+                                                    disabled={isLoading}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -381,17 +397,17 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                     )}
                                 />
                                 <FormField
-                                    disabled={isLoading}
                                     control={form.control}
                                     name="zipCode"
                                     render={({ field }) => (
                                         <FormItem className="flex-1">
-                                              <Label className='font-bold text-[13px]'>Zipcpde</Label>
+                                              <Label className='font-bold text-[13px]'>Zipcpde (optional)</Label>
                                             <FormControl>
                                                 <Input
                                                   className='placeholder:text-gray-500'
                                                     placeholder="Zipcode"
                                                     {...field}
+                                                    disabled={isLoading}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -400,17 +416,17 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                                 />
                             </div>
                             <FormField
-                                disabled={isLoading}
                                 control={form.control}
                                 name="country"
                                 render={({ field }) => (
                                     <FormItem className="flex-1">
-                                          <Label className='font-bold text-[13px]'>Country</Label>
+                                          <Label className='font-bold text-[13px]'>Country (optional)</Label>
                                         <FormControl>
                                             <Input
                                               className='placeholder:text-gray-500'
                                                 placeholder="Country"
                                                 {...field}
+                                                disabled={isLoading}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -463,7 +479,7 @@ const OnboardAgencyDetails = ({ data, typeConfiguration, titleContent, descripti
                             </div>
                             <AlertDialogTrigger
                                 disabled={isLoading || deletingAgency}
-                                className="text-red-600 p-2 text-center mt-2 rounded-md hove:bg-red-600 hover:text-white whitespace-nowrap"
+                                className="mt-2 whitespace-nowrap rounded-md p-2 text-center text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground"
                             >
                                 {deletingAgency ? 'Deleting...' : 'Delete Agency'}
                             </AlertDialogTrigger>

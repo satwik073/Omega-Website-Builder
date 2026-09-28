@@ -38,7 +38,10 @@ const SubscriptionHelper = ({ customerId, planExists, prices }: Props) => {
       )
   }, [plan])
 
-  return <div>SubscriptionHelper</div>
+  // Effect-only: this component exists to open the upgrade modal when the
+  // page is reached with a ?plan= param. It renders nothing — it was
+  // printing its own name into the billing page.
+  return null
 }
 
 export default SubscriptionHelper

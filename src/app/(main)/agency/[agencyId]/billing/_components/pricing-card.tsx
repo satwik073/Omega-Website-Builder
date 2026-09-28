@@ -66,16 +66,18 @@ const PricingCard = ({
     )
   }
   return (
-    <Card className="flex flex-col justify-between lg:w-1/2">
+    <Card className="flex w-full flex-col justify-between">
       <div>
-        <CardHeader className="flex flex-col md:!flex-row justify-between">
-          <div>
+        <CardHeader className="flex flex-col justify-between gap-4 md:!flex-row md:items-start">
+          <div className="min-w-0">
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
           </div>
-          <p className="text-6xl font-bold">
+          {/* Price set in the display serif, like the marketing pricing
+              cards, and kept on one line beside its unit. */}
+          <p className="flex shrink-0 items-baseline gap-1.5 font-display text-[40px] font-normal leading-none tracking-[-0.04em] tabular-nums">
             {amt}
-            <small className="text-xs font-light text-muted-foreground">
+            <small className="text-[13px] font-normal tracking-normal text-muted-foreground">
               {duration}
             </small>
           </p>

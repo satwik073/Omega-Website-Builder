@@ -90,7 +90,6 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
             className="flex flex-col gap-6"
           >
             <FormField
-              disabled={form.formState.isSubmitting}
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -100,6 +99,7 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
                     <Input
                       placeholder="Email"
                       {...field}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -107,13 +107,13 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
               )}
             />
             <FormField
-              disabled={form.formState.isSubmitting}
               control={form.control}
               name="role"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>User role</FormLabel>
                   <Select
+                    disabled={form.formState.isSubmitting}
                     onValueChange={(value) => field.onChange(value)}
                     defaultValue={field.value}
                   >

@@ -97,7 +97,6 @@ const ContactUserForm: React.FC<ContactUserFormProps> = ({ subaccountId }) => {
             className="flex flex-col gap-4"
           >
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -107,6 +106,7 @@ const ContactUserForm: React.FC<ContactUserFormProps> = ({ subaccountId }) => {
                     <Input
                       placeholder="Name"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -114,7 +114,6 @@ const ContactUserForm: React.FC<ContactUserFormProps> = ({ subaccountId }) => {
               )}
             />
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -125,6 +124,7 @@ const ContactUserForm: React.FC<ContactUserFormProps> = ({ subaccountId }) => {
                       type="email"
                       placeholder="Email"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />

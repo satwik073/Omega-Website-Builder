@@ -6,16 +6,17 @@ export async function POST(req: Request) {
   const { address, email, name, shipping }: StripeCustomerType =
     await req.json()
 
-  if (!email || !address || !name || !shipping)
-    return new NextResponse('Missing data', {
+  // address/shipping are optional — the agency form no longer requires them.
+  if (!email || !name)
+    return new NextResponse('Missing data: email and name are required', {
       status: 400,
     })
   try {
     const customer = await stripe.customers.create({
       email,
       name,
-      address,
-      shipping,
+      ...(address ? { address } : {}),
+      ...(shipping ? { shipping } : {}),
     })
     return Response.json({ customerId: customer.id })
   } catch (error) {

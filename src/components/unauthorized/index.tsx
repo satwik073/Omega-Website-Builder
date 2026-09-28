@@ -6,19 +6,25 @@ type Props = {}
 
 const Unauthorized = (props: Props) => {
   return (
-    <div className="p-4 text-center h-screen w-screen flex justify-center items-center flex-col">
-      <h1 className="text-3xl md:text-6xl tracking-tighter font-bold mb-2">Unauthorized access!</h1>
-      <p className='mb-5'>Please contact support or your agency owner to get access</p>
-      <Link
-        href="/"
-
-        className='mt-4'
-      >
-        <Button>
-
-        Back to home
-        </Button>
-      </Link>
+    <div className="flex min-h-screen items-center justify-center px-6">
+      <div className="w-full max-w-md text-center">
+        <p className="eyebrow mb-6">Error 403</p>
+        <h1 className="display-sm">
+          You don&apos;t have access
+        </h1>
+        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+          Ask your agency owner to grant you permission, or contact support if
+          you believe this is a mistake.
+        </p>
+        <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button asChild>
+            <Link href="/">Back to home</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/agency">Switch account</Link>
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

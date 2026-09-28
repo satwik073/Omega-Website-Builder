@@ -1,20 +1,34 @@
-import { clerkMiddleware } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
 
-const isProtectedPath = (pathname: string) =>
-  pathname.startsWith('/agency') || pathname.startsWith('/subaccount')
+// Auth pages live under /agency/(auth)/... so they must stay public,
+// otherwise protecting them redirects to themselves forever.
+const isPublicRoute = createRouteMatcher([
+  '/agency/sign-in(.*)',
+  '/agency/sign-up(.*)',
+  '/agency/unauthorized',
+  '/api/uploadthing(.*)',
+  '/api/stripe/webhook',
+])
 
-export default clerkMiddleware(async (auth : any, req: NextRequest) => {
+const isProtectedRoute = createRouteMatcher([
+  '/agency(.*)',
+  '/subaccount(.*)',
+])
+
+export default clerkMiddleware(async (auth, req: NextRequest) => {
   const url = req.nextUrl
   const searchParams = url.searchParams.toString()
   const pathWithSearchParams = `${url.pathname}${
     searchParams.length > 0 ? `?${searchParams}` : ''
   }`
 
-  const customSubDomain = req.headers
-    .get('host')
-    ?.split(`${process.env.NEXT_PUBLIC_DOMAIN}`)
-    .filter(Boolean)[0]
+  const host = req.headers.get('host') ?? ''
+  const domain = process.env.NEXT_PUBLIC_DOMAIN ?? ''
+  const customSubDomain =
+    domain && host !== domain
+      ? host.split(domain).filter(Boolean)[0]?.replace(/\.$/, '')
+      : undefined
 
   // Published funnel sites on custom subdomains stay public
   if (customSubDomain) {
@@ -24,19 +38,15 @@ export default clerkMiddleware(async (auth : any, req: NextRequest) => {
   }
 
   if (url.pathname === '/sign-in' || url.pathname === '/sign-up') {
-    return NextResponse.redirect(new URL(`/agency/sign-in`, req.url))
+    return NextResponse.redirect(new URL('/agency/sign-in', req.url))
   }
 
-  if (
-    url.pathname === '/' ||
-    (url.pathname === '/site' && url.host === process.env.NEXT_PUBLIC_DOMAIN)
-  ) {
+  if (url.pathname === '/' || url.pathname === '/site') {
     return NextResponse.rewrite(new URL('/site', req.url))
   }
 
-  if (isProtectedPath(url.pathname)) {
+  if (isProtectedRoute(req) && !isPublicRoute(req)) {
     await auth.protect()
-    return NextResponse.rewrite(new URL(pathWithSearchParams, req.url))
   }
 })
 

@@ -1,6 +1,6 @@
 import SubAccountDetails from '@/components/forms/subaccount-details'
+import PageHeader from '@/components/global/page-header'
 import UserDetails from '@/components/forms/user-details'
-import BlurPage from '@/components/global/blur-page'
 import { db } from '@/lib/db'
 import { currentUser } from '@clerk/nextjs/server'
 import React from 'react'
@@ -37,8 +37,12 @@ const SubaccountSettingPage = async ({ params }: Props) => {
   const subAccounts = agencyDetails.SubAccount
 
   return (
-    <BlurPage>
-      <div className="flex lg:!flex-row flex-col gap-4">
+    <>
+      <PageHeader
+        title="Settings"
+        description="Manage this sub account and the people who can access it."
+      />
+            <div className="flex lg:!flex-row flex-col gap-4">
         <SubAccountDetails
           agencyDetails={agencyDetails}
           details={subAccount}
@@ -52,7 +56,7 @@ const SubaccountSettingPage = async ({ params }: Props) => {
           userData={userDetails}
         />
       </div>
-    </BlurPage>
+    </>
   )
 }
 

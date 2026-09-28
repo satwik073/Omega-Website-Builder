@@ -1,17 +1,35 @@
-import * as React from "react"
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  /** Renders the error treatment. Pair with <Field error="..."> for the message. */
+  invalid?: boolean
+}
 
+/**
+ * Text input, product register.
+ *
+ * Pill-shaped inputs read as marketing; a tighter radius reads as a form you
+ * are meant to fill in. Focus is a 1px ring plus a border swap rather than a
+ * glow, so dense forms don't shimmer as you tab through them.
+ */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, invalid, ...props }, ref) => {
     return (
       <input
         type={type}
+        aria-invalid={invalid || undefined}
         className={cn(
-          "flex h-10 w-full rounded-md border border-input border-gray-200 dark:border-neutral-800 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          'flex h-control-md w-full rounded-sm border border-input bg-background px-3 py-2 text-sm text-foreground',
+          'transition-[border-color,box-shadow] duration-fast ease-standard',
+          'file:border-0 file:bg-transparent file:text-sm file:font-medium',
+          'placeholder:text-muted-foreground/60',
+          'hover:border-muted-foreground/40',
+          'focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground',
+          'disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-60',
+          'aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:border-destructive aria-[invalid=true]:focus-visible:ring-destructive',
           className
         )}
         ref={ref}
@@ -20,6 +38,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     )
   }
 )
-Input.displayName = "Input"
+Input.displayName = 'Input'
 
 export { Input }

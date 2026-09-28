@@ -6,15 +6,20 @@ import {
   SubAccount,
   SubAccountSidebarOption,
 } from '@prisma/client'
-import React, { useEffect, useMemo, useState } from 'react'
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet'
-import { Button } from '../ui/button'
-import { ChevronsUpDown, Compass, Menu, PlusCircleIcon } from 'lucide-react'
 import clsx from 'clsx'
-import { AspectRatio } from '../ui/aspect-ratio'
-import Image from 'next/image'
-import { IconChevronUp, IconHome, IconSearch, IconSelector } from '@tabler/icons-react';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { ArrowUpRight, Check, ChevronsUpDown, Menu, PlusCircle } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import React, { useEffect, useMemo, useState } from 'react'
+
+import { icons } from '@/lib/constants'
+import { cn, displayName } from '@/lib/utils'
+import { useModal } from '@/providers/modal-provider'
+import SubAccountDetails from '../forms/subaccount-details'
+import { BrandMark } from '../global/brand-mark'
+import CustomModal from '../global/custom-modal'
+import EntityLogo from '../global/entity-logo'
+import { Button } from '../ui/button'
 import {
   Command,
   CommandEmpty,
@@ -23,18 +28,8 @@ import {
   CommandItem,
   CommandList,
 } from '../ui/command'
-import Link from 'next/link'
-import { twMerge } from 'tailwind-merge'
-import { useModal } from '@/providers/modal-provider'
-import CustomModal from '../global/custom-modal'
-import SubAccountDetails from '../forms/subaccount-details'
-import { Separator } from '../ui/separator'
-import { icons } from '@/lib/constants'
-import { Input } from '../ui/input'
-import { Label } from '../ui/label'
-import { Tooltip, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip'
-import { TooltipContent } from '../ui/tooltip'
-import { useRouter } from 'next/navigation'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet'
 
 type Props = {
   defaultOpen?: boolean
@@ -45,6 +40,43 @@ type Props = {
   user: any
   id: string
 }
+
+/** Identity row: logo, name, and one line of context. */
+const AccountRow = ({
+  logo,
+  name,
+  meta,
+  selected,
+}: {
+  logo?: string | null
+  name?: string | null
+  meta?: string | null
+  selected?: boolean
+}) => (
+  <div className="flex min-w-0 flex-1 items-center gap-2.5">
+    <div className="relative size-8 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+      <EntityLogo
+        src={logo}
+        name={name ?? '—'}
+        fill
+        rounded="none"
+        className="size-full"
+        imageClassName="p-1"
+      />
+    </div>
+    <div className="flex min-w-0 flex-col text-left">
+      <span className="truncate text-[13px] font-medium leading-tight">
+        {name}
+      </span>
+      {meta && (
+        <span className="truncate text-[11px] leading-tight text-muted-foreground">
+          {meta}
+        </span>
+      )}
+    </div>
+    {selected && <Check className="size-3.5 shrink-0 text-muted-foreground" />}
+  </div>
+)
 
 const MenuOptions = ({
   details,
@@ -58,6 +90,7 @@ const MenuOptions = ({
   const { setOpen } = useModal()
   const [isMounted, setIsMounted] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
 
   const openState = useMemo(
     () => (defaultOpen ? { open: true } : {}),
@@ -70,177 +103,130 @@ const MenuOptions = ({
 
   useEffect(() => {
     const routes: string[] = []
-    if (user?.Agency?.id) {
-      routes.push(`/agency/${user.Agency.id}`)
-    }
+    if (user?.Agency?.id) routes.push(`/agency/${user.Agency.id}`)
     subAccounts.forEach((sa) => routes.push(`/subaccount/${sa.id}`))
     routes.forEach((r) => router.prefetch(r))
   }, [router, user?.Agency?.id, subAccounts])
 
-  if (!isMounted) return
+  if (!isMounted) return null
+
+  // Exactly one item lights up: the longest link matching the current path.
+  // Marking every prefix match left the dashboard permanently lit.
+  const activeLink = sidebarOpt
+    .map((option) => option.link)
+    .filter(
+      (link) =>
+        pathname === link || (link !== '/' && pathname.startsWith(`${link}/`))
+    )
+    .sort((a, b) => b.length - a.length)[0]
+
+  const isAgencyStaff =
+    user?.role === 'AGENCY_OWNER' || user?.role === 'AGENCY_ADMIN'
+  const isAgencyContext = pathname.startsWith('/agency')
 
   return (
-    <Sheet 
-      modal={false}
-      {...openState}
-    >
-      <SheetTrigger
-        asChild
-        className="absolute left-4 z-[100] md:!hidden felx"
-      >
-        <Button
-          variant="outline"
-          size={'icon'}
-        >
+    <Sheet modal={false} {...openState}>
+      <SheetTrigger asChild className="absolute left-4 top-3 z-[100] md:!hidden">
+        <Button variant="outline" size="icon-sm" aria-label="Open navigation">
           <Menu />
         </Button>
       </SheetTrigger>
 
       <SheetContent
         showX={!defaultOpen}
-        side={'left'}
+        side="left"
         className={clsx(
-          'bg-gray-100 backdrop-blur-xl fixed top-0 border-r-[1px] p-6',
+          'fixed top-0 flex flex-col gap-0 border-r border-border bg-card p-0',
           {
-            'hidden md:inline-block z-0 w-[300px]': defaultOpen,
-            'inline-block md:hidden z-[100] w-full': !defaultOpen,
+            'hidden md:flex z-0 w-[272px]': defaultOpen,
+            'flex md:hidden z-[100] w-full': !defaultOpen,
           }
         )}
       >
-        <div>
+        {/* Workspace switcher. Doubles as the brand anchor, so the sidebar
+            opens with identity rather than a bare list of links. */}
+        <div className="p-2.5">
           <Popover>
             <PopoverTrigger asChild>
-              <div className="w-full   cursor-pointer mb-4 flex items-center justify-between">
-                {/* Left Section: Image and Details */}
-                <div className="flex items-center gap-4 w-full">
-                  {/* Image */}
-                  <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
-                    {/* Uncomment this if using the Image */}
-                    <Image
-                      src={sidebarLogo}
-                      alt="Sidebar Logo"
-                      fill
-                      className="rounded-md object-contain"
-                    />
-                    {/* <Image
-                      src={'/assets/one-week.png'}
-                      alt="Sidebar Logo"
-                      fill
-                      className="rounded-md object-contain"
-                    /> */}
-                  </div>
-                  {/* Name and Details */}
-
-                  <div className='flex flex-col'>
-
-                    <span className="text-base text-start font-bold truncate ">{details?.name}</span>
-                    <span className="text-xs text-start">{details?.address}</span>
-                  </div>
-                </div>
-
-                {/* Right Section: Selector Icon */}
-                <div className="flex items-center flex-shrink-0">
-                  <IconSelector size={24} className="text-muted-foreground" />
-                </div>
-              </div>
-
+              <button
+                type="button"
+                className="flex w-full items-center gap-2 rounded-md border border-border bg-background p-2 text-left transition-colors duration-fast ease-standard hover:border-muted-foreground/30 hover:bg-muted"
+              >
+                <AccountRow
+                  logo={sidebarLogo}
+                  name={details?.name}
+                  meta={isAgencyContext ? 'Agency' : 'Sub account'}
+                />
+                <ChevronsUpDown className="size-3.5 shrink-0 text-muted-foreground" />
+              </button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 mx-6 mt-3 z-[10000]">
-              <div className="grid gap-4">
-                <div className="space-y-2">
-                  <h4 className="font-medium leading-none">Dimensions</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Set the dimensions for the layer.
-                  </p>
-                </div>
-                <Command className="rounded-lg">
-                  <CommandInput placeholder="Search Accounts..." />
-                  <CommandList className="pb-16  overflow-y-scroll no-scrollbar max-h-[305px]">
-                    <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
 
-                    {/* Agency Section */}
-                    {(user?.role === 'AGENCY_OWNER' || user?.role === 'AGENCY_ADMIN') && user?.Agency && (
-                      <CommandGroup heading="Agency">
-                        <CommandItem className="my-2 text-primary border-[1px] border-border p-2 rounded-md cursor-pointer transition-all">
-                          <Link href={`/agency/${user?.Agency?.id}`} className="flex gap-4 w-full h-full">
-                            <div className="w-full cursor-pointer flex items-center justify-between">
-                              {/* Left Section: Image and Details */}
-                              <div className="flex items-center gap-4 w-full">
-                                <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
-                                  <Image
-                                    src={user?.Agency?.agencyLogo || '/placeholder.png'}
-                                    alt="Agency Logo"
-                                    fill
-                                    className="rounded-md object-contain aspect-square justify-center  items-center flex"
-                                  />
-                                  {/* <Image
-                                    src={'/assets/one-week.png'}
-                                    alt="Sidebar Logo"
-                                    fill
-                                    className="rounded-md object-contain"
-                                  /> */}
-                                </div>
-                                <div className="flex flex-col">
-                                  <span className="text-base text-start font-bold truncate">{user?.Agency?.name}</span>
-                                  <span className="text-xs text-start truncate w-[80%]">{user?.Agency?.address}</span>
-                                </div>
-                              </div>
-                            </div>
+            <PopoverContent align="start" className="z-[10000] w-[268px] p-0">
+              <Command className="rounded-md">
+                <CommandInput placeholder="Search workspaces…" />
+                <CommandList className="max-h-[320px]">
+                  <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
+                    Nothing found
+                  </CommandEmpty>
+
+                  {isAgencyStaff && user?.Agency && (
+                    <CommandGroup heading="Agency">
+                      <CommandItem className="cursor-pointer p-0">
+                        <Link
+                          href={`/agency/${user.Agency.id}`}
+                          className="flex w-full px-2 py-1.5"
+                        >
+                          <AccountRow
+                            logo={user.Agency.agencyLogo}
+                            name={user.Agency.name}
+                            meta="Agency"
+                            selected={isAgencyContext}
+                          />
+                        </Link>
+                      </CommandItem>
+                    </CommandGroup>
+                  )}
+
+                  <CommandGroup heading="Sub accounts">
+                    {subAccounts?.length ? (
+                      subAccounts.map((subaccount) => (
+                        <CommandItem
+                          key={subaccount.id}
+                          className="cursor-pointer p-0"
+                        >
+                          <Link
+                            href={`/subaccount/${subaccount.id}`}
+                            className="flex w-full px-2 py-1.5"
+                          >
+                            <AccountRow
+                              logo={subaccount.subAccountLogo}
+                              name={subaccount.name}
+                              meta={subaccount.city || 'Sub account'}
+                              selected={!isAgencyContext && subaccount.id === id}
+                            />
                           </Link>
                         </CommandItem>
-                      </CommandGroup>
+                      ))
+                    ) : (
+                      <p className="px-3 py-4 text-sm text-muted-foreground">
+                        No sub accounts yet
+                      </p>
                     )}
+                  </CommandGroup>
+                </CommandList>
 
-                    {/* Subaccounts Section */}
-                    <CommandGroup heading="Accounts" >
-                      {subAccounts?.length ? (
-                        subAccounts.map((subaccount) => (
-                          <CommandItem
-                            key={subaccount?.id}
-                            className="my-2 text-primary border-[1px] border-border p-2 rounded-md cursor-pointer transition-all"
-                          >
-                            <Link href={`/subaccount/${subaccount.id}`} className="flex gap-4 w-full h-full">
-                              <div className="w-full cursor-pointer flex items-center justify-between">
-                                <div className="flex items-center gap-4 w-full">
-                                  <div className="w-12 h-12 flex-shrink-0 flex justify-center items-center relative bg-gradient-to-br from-black/10 to-gray-500 rounded-xl">
-                                    <Image
-                                      src={subaccount.subAccountLogo || '/placeholder.png'}
-                                      alt="Subaccount Logo"
-                                      fill
-                                      className="rounded-md object-contain"
-                                    />
-                                    {/* <Image
-                                      src={'/assets/fireart.png'}
-                                      alt="Sidebar Logo"
-                                      fill
-                                      className="rounded-md object-contain"
-                                    /> */}
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <span className="text-base text-start font-bold truncate">{subaccount.name}</span>
-                                    <span className="text-xs text-start truncate w-[80%]">{subaccount.address}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </Link>
-                          </CommandItem>
-                        ))
-                      ) : (
-                        <CommandEmpty>No Accounts</CommandEmpty>
-                      )}
-                    </CommandGroup>
-                  </CommandList>
-
-                  {/* Create Subaccount Section */}
-                  {(user?.role === 'AGENCY_OWNER' || user?.role === 'AGENCY_ADMIN') && (
-                    <SheetClose>
+                {isAgencyStaff && (
+                  <div className="border-t border-border p-1.5">
+                    <SheetClose asChild>
                       <Button
-                        className="w-full flex gap-2"
-                        onClick={() => {
+                        size="sm"
+                        variant="ghost"
+                        className="w-full justify-start"
+                        onClick={() =>
                           setOpen(
                             <CustomModal
-                              title="Create A Subaccount"
-                              subheading="You can switch between your agency account and the subaccount from the sidebar"
+                              title="Create a sub account"
+                              subheading="Sub accounts are the client workspaces you build and publish sites in."
                             >
                               <SubAccountDetails
                                 agencyDetails={user?.Agency as Agency}
@@ -248,122 +234,99 @@ const MenuOptions = ({
                                 userName={user?.name}
                               />
                             </CustomModal>
-                          );
-                        }}
+                          )
+                        }
                       >
-                        <PlusCircleIcon size={15} />
-                        Create Sub Account
+                        <PlusCircle />
+                        Create sub account
                       </Button>
                     </SheetClose>
-                  )}
-                </Command>
-
-              </div>
+                  </div>
+                )}
+              </Command>
             </PopoverContent>
           </Popover>
-          <p className="text-muted-foreground text-xs mb-2">MENU LINKS</p>
-          <Separator className="mb-4" />
-          <nav className="relative h-screen overflow-y-scroll no-scrollbar">
-            <Command className="rounded-lg overflow-hidden bg-transparent h-full">
-              <CommandInput placeholder="Search..." />
-              {/* Scrollable Container */}
-              <div className="h-[calc(100%-3rem)]  overflow-y-scroll no-scrollbar">
-                {/* Command List 1 */}
-                <div className='w-full py-0.5 flex justify-between items-center mt-6'>
+        </div>
 
-                  <p className="text-muted-foreground flex items-center text-xs">WORKFLOWS</p>
-                  <IconChevronUp size={16} className='flex items-center text-inherit' />
-                </div>
-                <Separator className='mt-2' />
-                <CommandList className="py-4">
-                  <CommandEmpty className='text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
-                  <CommandGroup>
-                    {sidebarOpt.map((sidebarOptions) => {
-                      const result = icons.find((icon) => icon.value === sidebarOptions.icon);
-                      const val = result ? <result.path /> : null;
-                      return (
-                        <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
-                          <Link
-                            href={sidebarOptions.link}
-                            className="flex items-center text-inherit gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
-                          >
-                            {val}
-                            <span>{sidebarOptions.name}</span>
-                          </Link>
-                        </CommandItem>
-                      );
-                    })}
-                  </CommandGroup>
-                </CommandList>
-                {/* Command List 2 */}
-                <div className='w-full py-0.5 flex justify-between items-center'>
+        {/* Primary navigation */}
+        <nav className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-2.5 pb-4">
+          <ul className="flex flex-col gap-0.5">
+            {sidebarOpt.map((option) => {
+              const result = icons.find((icon) => icon.value === option.icon)
+              const Glyph = result?.path
+              const active = option.link === activeLink
 
-                  <p className="text-muted-foreground flex items-center text-xs">DOCUMENTS</p>
-                  <IconChevronUp size={16} className='flex items-center text-inherit' />
-                </div>
-                <Separator className='mt-2' />
-                <CommandList className="py-4">
-                  <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
-                  <CommandGroup>
-                    {sidebarOpt.map((sidebarOptions) => {
-                      const result = icons.find((icon) => icon.value === sidebarOptions.icon);
-                      const val = result ? <result.path /> : null;
-                      return (
-                        <TooltipProvider>
-                          <Tooltip>
-                            <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
-                              <Link
-                                href={sidebarOptions.link}
-                                className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
-                              >
-                                {val}
-                                <TooltipTrigger asChild>
-                                  <span>{sidebarOptions.name}</span>
-                                </TooltipTrigger>
-                              </Link>
-                            </CommandItem>
-                            <TooltipContent side="right" className="bg-gray-800 text-white text-sm p-2 rounded-md shadow-lg">
-                              {sidebarOptions.name || 'Tooltip content goes here'}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      );
-                    })}
-                  </CommandGroup>
-                </CommandList>
-                {/* Command List 3 */}
-                <div className='w-full py-0.5 flex justify-between items-center'>
+              return (
+                <li key={option.id}>
+                  <Link
+                    href={option.link}
+                    aria-current={active ? 'page' : undefined}
+                    className={cn(
+                      'group relative flex items-center gap-2.5 rounded-md py-2 pl-3 pr-2.5 text-[13px] transition-colors duration-fast ease-standard',
+                      active
+                        ? 'bg-accent font-medium text-foreground'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    )}
+                  >
+                    {/* Accent rule on the active row, echoing the marketing
+                        eyebrow dot. */}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        'absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full bg-brand transition-opacity duration-fast',
+                        active ? 'opacity-100' : 'opacity-0'
+                      )}
+                    />
+                    {Glyph && (
+                      <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+                        <Glyph />
+                      </span>
+                    )}
+                    <span className="truncate">{option.name}</span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
 
-                  <p className="text-muted-foreground flex items-center text-xs">CONTACTS</p>
-                  <IconChevronUp size={16} className='flex items-center text-inherit' />
-                </div>
-                <Separator className='mt-2' />
-                <CommandList className="mb-36">
-                  <CommandEmpty className=' text-red-600 text-center text-sm pt-4'>No Results Found</CommandEmpty>
-                  <CommandGroup>
-                    {sidebarOpt.map((sidebarOptions) => {
-                      const result = icons.find((icon) => icon.value === sidebarOptions.icon);
-                      const val = result ? <result.path /> : null;
-                      return (
-                        <CommandItem key={sidebarOptions.id} className="md:w-[320px] w-full px-0">
-                          <Link
-                            href={sidebarOptions.link}
-                            className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
-                          >
-                            {val}
-                            <span>{sidebarOptions.name}</span>
-                          </Link>
-                        </CommandItem>
-                      );
-                    })}
-                  </CommandGroup>
-                </CommandList>
+        {/* Footer: who you are, and a way back out to the public site. */}
+        <div className="mt-auto border-t border-border p-2.5">
+          {user?.name && (
+            <div className="mb-1 flex items-center gap-2.5 rounded-md px-3 py-2">
+              <div className="relative size-6 shrink-0 overflow-hidden rounded-full">
+                <EntityLogo
+                  src={user.avatarUrl}
+                  name={displayName(user.name, user.email)}
+                  fill
+                  rounded="full"
+                  className="size-full"
+                  imageClassName="object-cover"
+                />
               </div>
-            </Command>
-          </nav>
+              <div className="flex min-w-0 flex-col">
+                <span className="truncate text-[12px] font-medium leading-tight">
+                  {displayName(user.name, user.email)}
+                </span>
+                <span className="truncate text-[11px] capitalize leading-tight text-muted-foreground">
+                  {String(user.role ?? '')
+                    .toLowerCase()
+                    .replace(/_/g, ' ')}
+                </span>
+              </div>
+            </div>
+          )}
 
-
-
+          <Link
+            href="/site"
+            className="flex items-center justify-between gap-2 rounded-md px-3 py-2 text-[13px] text-muted-foreground transition-colors duration-fast hover:bg-muted hover:text-foreground"
+          >
+            <span className="flex items-center gap-2.5">
+              <BrandMark className="size-4" />
+              Arobix
+            </span>
+            <ArrowUpRight className="size-3.5" />
+          </Link>
         </div>
       </SheetContent>
     </Sheet>

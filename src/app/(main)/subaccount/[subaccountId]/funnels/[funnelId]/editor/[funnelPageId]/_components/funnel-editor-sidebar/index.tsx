@@ -38,7 +38,7 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
           showX={false}
           side="right"
           className={clsx(
-            'mt-[97px] w-16 z-[80] border-[1px] shadow-none  p-0 transition-all overflow-hidden',
+            'mt-14 w-14 border-l border-border bg-background p-0 shadow-none transition-all overflow-hidden z-[80]',
             { hidden: state.editor.previewMode }
           )}
         >
@@ -48,17 +48,16 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
           showX={false}
           side="right"
           className={clsx(
-            'mt-[97px] w-80 z-[40] shadow-none p-0 mr-16 bg-background h-full transition-all overflow-hidden ',
+            'mt-14 mr-14 w-80 border-l border-border bg-background p-0 shadow-none transition-all overflow-hidden z-[40]',
             { hidden: state.editor.previewMode }
           )}
         >
-          <div className="grid gap-4 h-full pb-36 overflow-scroll no-scrollbar">
+          <div className="h-full overflow-y-auto no-scrollbar pb-36">
             <TabsContent value="Settings">
-              <SheetHeader className="text-left p-6">
-                <SheetTitle>Styles</SheetTitle>
-                <SheetDescription>
-                  Show your creativity! You can customize every component as you
-                  like.
+              <SheetHeader className="border-b border-border p-5 text-left">
+                <SheetTitle className="text-base">Styles</SheetTitle>
+                <SheetDescription className="text-xs">
+                  Customise any component on the canvas.
                 </SheetDescription>
               </SheetHeader>
               <SettingsTab />
@@ -67,10 +66,10 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
               <MediaBucketTab subaccountId={subaccountId} />
             </TabsContent>
             <TabsContent value="Components">
-              <SheetHeader className="text-left p-6 ">
-                <SheetTitle>Components</SheetTitle>
-                <SheetDescription>
-                  You can drag and drop components on the canvas
+              <SheetHeader className="border-b border-border p-5 text-left">
+                <SheetTitle className="text-base">Components</SheetTitle>
+                <SheetDescription className="text-xs">
+                  Drag and drop components onto the canvas.
                 </SheetDescription>
               </SheetHeader>
               <ComponentsTab />

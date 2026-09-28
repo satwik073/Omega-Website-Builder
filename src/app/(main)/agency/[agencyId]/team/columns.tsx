@@ -11,6 +11,8 @@ import {
   SubAccount,
   User,
 } from '@prisma/client'
+import { displayName } from '@/lib/utils'
+import EntityLogo from '@/components/global/entity-logo'
 import Image from 'next/image'
 
 import { Badge } from '@/components/ui/badge'
@@ -59,17 +61,24 @@ export const columns: ColumnDef<UsersWithAgencySubAccountPermissionsSidebarOptio
       header: 'Name',
       cell: ({ row }) => {
         const avatarUrl = row.getValue('avatarUrl') as string
+        const email = row.original?.email as string | undefined
         return (
-          <div className="flex items-center gap-4">
-            <div className="h-11 w-11 relative flex-none">
-              <Image
+          <div className="flex items-center gap-3">
+            <div className="relative size-9 flex-none overflow-hidden rounded-full">
+              <EntityLogo
                 src={avatarUrl}
+                name={displayName(row.getValue('name'), email)}
                 fill
-                className="rounded-full object-cover"
-                alt="avatar image"
+                rounded="full"
+                className="size-full"
+                imageClassName="object-cover"
               />
             </div>
-            <span>{row.getValue('name')}</span>
+            {/* Names written before the null-name fix still read
+                "First null" in the database, so clean them on the way out. */}
+            <span className="whitespace-nowrap">
+              {displayName(row.getValue('name'), email)}
+            </span>
           </div>
         )
       },
@@ -96,7 +105,7 @@ export const columns: ColumnDef<UsersWithAgencySubAccountPermissionsSidebarOptio
           return (
             <div className="flex flex-col items-start">
               <div className="flex flex-col gap-2">
-                <Badge className="bg-slate-600 whitespace-nowrap">
+                <Badge variant="secondary" className="whitespace-nowrap">
                   Agency - {row?.original?.Agency?.name}
                 </Badge>
               </div>
@@ -109,7 +118,7 @@ export const columns: ColumnDef<UsersWithAgencySubAccountPermissionsSidebarOptio
                 ownedAccounts.map((account) => (
                   <Badge
                     key={account.id}
-                    className="bg-slate-600 w-fit whitespace-nowrap"
+                    variant="secondary" className="w-fit whitespace-nowrap"
                   >
                     Sub Account - {account.SubAccount.name}
                   </Badge>

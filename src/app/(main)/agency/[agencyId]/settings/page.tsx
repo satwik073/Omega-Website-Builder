@@ -1,4 +1,5 @@
 import AgencyDetails from '@/components/forms/agency-details'
+import PageHeader from '@/components/global/page-header'
 import UserDetails from '@/components/forms/user-details'
 import { db } from '@/lib/db'
 import { currentUser } from '@clerk/nextjs/server'
@@ -47,18 +48,26 @@ const SettingsPage = async ({ params }: Props) => {
     ])
 
     // Handle missing data
-    if (!authUser) return <p>Authentication required</p>
-    if (!userDetails) return <p>User details not found</p>
-    if (!agencyDetails) return <p>Agency details not found</p>
+    if (!authUser)
+      return <p className="text-sm text-muted-foreground">Authentication required</p>
+    if (!userDetails)
+      return <p className="text-sm text-muted-foreground">User details not found</p>
+    if (!agencyDetails)
+      return <p className="text-sm text-muted-foreground">Agency details not found</p>
 
     // Extract sub-accounts for rendering
     const subAccounts = agencyDetails.SubAccount
 
     return (
-      <div className="flex lg:!flex-row flex-col gap-4">
+      <>
+        <PageHeader
+          title="Settings"
+          description="Manage your agency profile and the people who can access it."
+        />
+        <div className="grid gap-6 lg:grid-cols-2">
         {/* Render agency details */}
         <AgencyDetails data={agencyDetails}  titleContent='Agency Information'
-            descriptionContent='Lets create an agency for you business. You can edit agency settings
+            descriptionContent='Create an agency for your business. You can change these settings
             later from the agency settings tab.'/>
 
         {/* Render user details with sub-accounts */}
@@ -68,11 +77,16 @@ const SettingsPage = async ({ params }: Props) => {
           subAccounts={subAccounts}
           userData={userDetails}
         />
-      </div>
+        </div>
+      </>
     )
   } catch (error) {
     console.error('Error loading settings page:', error)
-    return <p>An error occurred while loading the settings. Please try again later.</p>
+    return (
+      <p className="text-sm text-muted-foreground">
+        An error occurred while loading the settings. Please try again later.
+      </p>
+    )
   }
 }
 

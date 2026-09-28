@@ -53,13 +53,13 @@ const ButtonElement = ({ element }: Props) => {
         </Badge>
       )}
       <button
-        className="border px-3 py-1 bg-primary text-white"
+        className="border px-3 py-1 bg-primary text-primary-foreground"
         contentEditable={false}
       >
         {!Array.isArray(element.content) ? element.content.innerText : 'Button'}
       </button>
       {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
-        <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
+        <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-primary-foreground">
           <Trash className="cursor-pointer" size={16} onClick={handleDeleteElement} />
         </div>
       )}

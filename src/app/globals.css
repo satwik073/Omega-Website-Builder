@@ -2,147 +2,431 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  height: 100vh;
-}
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Editorial / monochrome. A calibrated neutral ramp with a single near-black
+   accent. Every value below is intentional — do not reintroduce pure #000
+   borders or pure-white "muted" surfaces.
+   --------------------------------------------------------------------------- */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* 
-R (0)
-G (110)
-B (255 */
 @layer base {
   :root {
-    --background: 0 0% 100%; /* White */
-    --foreground: 0 0% 0%; /* Black */
+    /* ---- Type -----------------------------------------------------------
+       The product is the default theme, so the WizCommerce stack lives at the
+       root: General Sans for UI, a low-contrast serif for display, Geist Mono
+       for labels. The marketing site overrides these under .marketing-theme.
+       Radix renders menus, sheets and dialogs through a portal attached to
+       <body>, so anything scoped below the root would not reach them. */
+    --font-general-sans: 'General Sans';
+    --font-sans: var(--font-general-sans);
+    --font-display: var(--font-newsreader);
 
-    --primary: 0 0% 0%; /* Black */
-    --primary-foreground: 0 0% 100%; /* White */
+    /* ---- Surfaces — wizcommerce.com ------------------------------------- */
+    --background: 36 20% 96%;          /* #F7F5F2  warm paper */
+    --foreground: 224 100% 3%;         /* #00040F  ink navy */
 
-    --card: 0 0% 100%; /* White */
-    --card-foreground: 0 0% 0%; /* Black */
+    --card: 0 0% 100%;
+    --card-foreground: 224 100% 3%;
 
-    --popover: 0 0% 100%; /* White */
-    --popover-foreground: 0 0% 0%; /* Black */
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 100% 3%;
 
-    --secondary: 0 0% 100%; /* White */
-    --secondary-foreground: 0 0% 0%; /* Black */
+    --primary: 224 100% 3%;
+    --primary-foreground: 37 27% 96%;
 
-    --muted: 0 0% 100%; /* White */
-    --muted-foreground: 0 0% 0%; /* Black */
+    --secondary: 35 24% 92%;           /* #F1EDE7 */
+    --secondary-foreground: 224 100% 3%;
 
-    --accent: 0 0% 100%; /* White */
-    --accent-foreground: 0 0% 0%; /* Black */
+    --muted: 35 24% 92%;
+    --muted-foreground: 35 5% 52%;     /* #8A857F */
 
-    --destructive: 0 0% 0%; /* Black */
-    --destructive-foreground: 0 0% 100%; /* White */
+    --accent: 38 25% 89%;              /* #EAE5DC */
+    --accent-foreground: 224 100% 3%;
 
-    --border: 0 0% 0%; /* Black */
-    --input: 0 0% 0%; /* Black */
-    --ring: 0 0% 0%; /* Black */
+    /* ---- Signal ---------------------------------------------------------
+       The WizCommerce orange. Active markers and section dots only — never a
+       large fill. */
+    --brand: 19 100% 59%;              /* #FF702D */
+    --brand-foreground: 0 0% 100%;
+    --accent-dot: 19 100% 59%;
 
-    --radius: 0.5rem;
+    --destructive: 4 72% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 42% 33%;
+    --success-foreground: 0 0% 100%;
+    --warning: 32 88% 45%;
+    --warning-foreground: 0 0% 100%;
+
+    /* ---- Lines ----------------------------------------------------------
+       Structure comes from hairlines, not shadows. */
+    --border: 38 22% 87%;              /* #E5E0D8 */
+    --input: 38 20% 83%;
+    --ring: 19 100% 59%;
+
+    /* ---- Radius scale -------------------------------------------------
+       The marketing site is pill-shaped and soft; the product is denser and
+       needs tighter corners to read as a tool rather than a landing page.
+       Both draw from one scale so they stay related. */
+    --radius-xs: 4px;    /* badges, tags, swatches */
+    --radius-sm: 6px;    /* inputs, product buttons */
+    --radius-md: 8px;    /* cards, popovers, menus */
+    --radius-lg: 12px;   /* modals, panels */
+    --radius-xl: 20px;   /* marketing cards */
+    --radius-pill: 999px;
+
+    /* shadcn primitives read --radius; point it at the product value. */
+    --radius: var(--radius-sm);
+    --radius-card: var(--radius-md);
+
+    /* ---- Elevation ------------------------------------------------------
+       Deliberately shallow. Depth comes from hairlines and surface shifts,
+       not from drop shadows. */
+    --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.04);
+    --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.04);
+    --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 4px rgb(0 0 0 / 0.04);
+    --shadow-lg: 0 16px 40px -12px rgb(0 0 0 / 0.16);
+
+    /* ---- Motion ---------------------------------------------------------
+       Two registers: `expressive` for the marketing page, `standard` for the
+       product, where motion should confirm an action and then get out of the
+       way. Durations are shared so nothing feels out of family. */
+    --ease-expressive: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+    --dur-fast: 120ms;   /* hover, focus, toggles */
+    --dur-base: 200ms;   /* dropdowns, tabs, selection */
+    --dur-slow: 320ms;   /* modals, panels, sheets */
+    --dur-page: 520ms;   /* route and section transitions */
+
+    /* ---- Product control heights ---------------------------------------
+       One ladder for buttons, inputs, selects and toolbar controls, so rows
+       of mixed controls always align. */
+    --control-xs: 28px;
+    --control-sm: 32px;
+    --control-md: 36px;
+    --control-lg: 44px;
   }
 
   .dark {
-    --background: 0 0% 10%; /* Black */
-    --foreground: 0 0% 100%; /* White */
+    /* wizcommerce.com's dark sections are a near-black navy, not a neutral
+       grey — a grey dark mode beside a warm light mode reads as two products. */
+    --background: 224 100% 3%;         /* #00040F */
+    --foreground: 37 27% 94%;          /* #F4F1EC */
 
-    --muted: 0 0% 10%; /* Black */
-    --muted-foreground: 0 0% 100%; /* White */
+    --card: 221 43% 7%;                /* #0A0F1A */
+    --card-foreground: 37 27% 94%;
 
-    --popover: 0 0% 10%; /* Black */
-    --popover-foreground: 0 0% 100%; /* White */
+    --popover: 221 43% 8%;
+    --popover-foreground: 37 27% 94%;
 
-    --card: 0 0% 10%; /* Black */
-    --card-foreground: 0 0% 100%; /* White */
+    --primary: 37 27% 94%;
+    --primary-foreground: 224 100% 3%;
 
-    --border: 0 0% 10%; /* White */
-    --input: 0 0% 100%; /* White */
+    --secondary: 218 33% 11%;          /* #131A26 */
+    --secondary-foreground: 37 27% 94%;
 
-    --primary: 0 0% 100%; /* White */
-    --primary-foreground: 0 0% 10%; /* Black */
+    --muted: 218 33% 11%;
+    --muted-foreground: 216 11% 62%;
 
-    --secondary: 0 0% 10%; /* Black */
-    --secondary-foreground: 0 0% 100%; /* White */
+    --accent: 220 30% 15%;             /* #1A2130 */
+    --accent-foreground: 37 27% 94%;
 
-    --accent: 0 0% 10%; /* Black */
-    --accent-foreground: 0 0% 100%; /* White */
+    --brand: 19 100% 62%;
+    --brand-foreground: 224 100% 3%;
+    --accent-dot: 19 100% 62%;
 
-    --destructive: 0 0% 10%; /* Black */
-    --destructive-foreground: 0 0% 100%; /* White */
+    --destructive: 4 70% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 38% 48%;
+    --success-foreground: 224 100% 3%;
+    --warning: 32 85% 58%;
+    --warning-foreground: 224 100% 3%;
 
-    --ring: 0 0% 100%; /* White */
-    
+    --border: 218 26% 16%;             /* #1E2532 */
+    --input: 218 24% 20%;
+    --ring: 19 100% 62%;
+
+    /* Shadows need more weight to read against a dark surface. */
+    --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.5);
+    --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.6), 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.65), 0 2px 4px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 16px 40px -12px rgb(0 0 0 / 0.8);
   }
 }
-@layer utilities {
-  /* Hide scrollbar for Chrome, Safari, and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-  display: none;
-  }
-  /* Hide scrollbar for IE, Edge, and Firefox */
-  .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  }
-  .controller-stylus-light {
-    border: 1px solid white;
-    color: white;
-  }
-  .controller-stylus-dark {
-    border: 1px solid rgb(0, 0, 0);
-    color: rgb(0, 0, 0);
-  }
-  }
+
 @layer base {
   * {
     @apply border-border;
   }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'cv11' 1;
+  }
+
+  /* Editorial headline treatment: tight tracking, tight leading. */
+  h1,
+  h2,
+  h3 {
+    @apply tracking-[-0.04em];
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
+  }
+
+  /* Visible, on-brand focus ring — replaces the browser default. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 }
 
-.light {
-  --background: 0 0% 100%; /* White */
-  --foreground: 0 0% 0%; /* Black */
+@layer components {
+  /* ---------------------------------------------------------------------
+     Reference metrics, measured at a 1440px viewport:
+       outer frame   1440, inset 8px on each side for the rounded panels
+       content       1296 wide  ->  72px gutters
+       section pad   80px top/bottom, 64-72px sides
+     The 12-column grid used by the work section is 97px columns / 12px gaps.
+     --------------------------------------------------------------------- */
+  .ori-frame {
+    @apply mx-auto w-full max-w-[1440px] px-2;
+  }
 
-  --muted: 0 0% 100%; /* White */
-  --muted-foreground: 0 0% 0%; /* Black */
+  .ori-container {
+    @apply mx-auto w-full max-w-[1440px] px-6 md:px-16 lg:px-[72px];
+  }
 
-  --popover: 0 0% 100%; /* White */
-  --popover-foreground: 0 0% 0%; /* Black */
+  .ori-section {
+    @apply py-14 md:py-20;
+  }
 
-  --card: 0 0% 100%; /* White */
-  --card-foreground: 0 0% 0%; /* Black */
+  /* ---- Display scale (Fraunces, wght 400, tracking -0.04em) ---- */
+  .ori-display {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
 
-  --border: 0 0% 90%; /* Black */
-  --input: 0 0% 0%; /* Black */
+  /* 72/76 at desktop — the hero */
+  .ori-h1 {
+    @apply ori-display;
+    font-size: clamp(2.75rem, 1.35rem + 4.4vw, 4.5rem);
+    line-height: 1.055;
+  }
 
-  --primary: 0 0% 0%; /* Black */
-  --primary-foreground: 0 0% 100%; /* White */
+  /* 64/68 — services */
+  .ori-h2-lg {
+    @apply ori-display;
+    font-size: clamp(2.5rem, 1.4rem + 3.5vw, 4rem);
+    line-height: 1.0625;
+  }
 
-  --secondary: 0 0% 100%; /* White */
-  --secondary-foreground: 0 0% 0%; /* Black */
+  /* 56/60 — standard section heading */
+  .ori-h2 {
+    @apply ori-display;
+    font-size: clamp(2.25rem, 1.45rem + 2.5vw, 3.5rem);
+    line-height: 1.07;
+  }
 
-  --accent: 0 0% 100%; /* White */
-  --accent-foreground: 0 0% 0%; /* Black */
+  /* 48/52 — stat numerals */
+  .ori-h3 {
+    @apply ori-display;
+    font-size: clamp(2rem, 1.5rem + 1.6vw, 3rem);
+    line-height: 1.084;
+  }
 
-  --destructive: 0 0% 100%; /* White */
-  --destructive-foreground: 0 0% 0%; /* Black */
+  /* 40/44 — process step */
+  .ori-h4 {
+    @apply ori-display;
+    font-size: clamp(1.75rem, 1.4rem + 1.1vw, 2.5rem);
+    line-height: 1.1;
+  }
 
-  --ring: 0 0% 0%; /* Black */
+  /* 32/36 — card titles */
+  .ori-h5 {
+    @apply ori-display;
+    font-size: clamp(1.5rem, 1.3rem + 0.6vw, 2rem);
+    line-height: 1.125;
+  }
+
+  /* 128/128 — the reel marquee */
+  .ori-marquee {
+    @apply ori-display;
+    font-size: clamp(3.5rem, 1rem + 7.8vw, 8rem);
+    line-height: 1;
+  }
+
+  /* ---- Text scale (Inter, tracking -0.02em) ---- */
+  .ori-body {
+    @apply text-base font-normal;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  .ori-sm {
+    @apply text-sm font-normal;
+    line-height: 1.43;
+    letter-spacing: -0.02em;
+  }
+
+  /* ---- Metadata (Geist Mono, 12/16, +0.03em, uppercase) ---- */
+  .ori-meta {
+    @apply font-mono text-xs uppercase;
+    line-height: 1.334;
+    letter-spacing: 0.03em;
+  }
+
+  /* Pill control — 40px tall, fully rounded. The reference's only button. */
+  .ori-pill {
+    @apply inline-flex h-10 items-center justify-center rounded-full px-5 text-sm font-medium;
+    letter-spacing: -0.02em;
+  }
+
+  .rule {
+    @apply h-px w-full bg-border;
+  }
+
+  /* The nav is fixed and transparent, so anchor jumps must clear its 96px
+     band or the section heading lands underneath it. */
+  section[id] {
+    scroll-margin-top: 96px;
+  }
+
+  /* -----------------------------------------------------------------------
+     Authenticated app (agency / subaccount).
+     The marketing page pins itself to the light palette and uses the `ori-*`
+     scale above. The app runs on the design tokens instead, so it follows
+     light and dark, and uses the shorter names below.
+     ----------------------------------------------------------------------- */
+
+  /* Small uppercase label — mono, matching the marketing metadata. Used for
+     stat-card labels, sidebar group headings and table captions, where a dot
+     per item would just be noise. */
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase text-muted-foreground;
+    line-height: 1.45;
+    letter-spacing: 0.1em;
+  }
+
+  /* Section label — the eyebrow plus the marketing accent dot. Reserved for
+     headings that divide a page into sections, one or two per screen. */
+  .section-label {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase text-muted-foreground;
+    line-height: 1.45;
+    letter-spacing: 0.1em;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    flex: none;
+    border-radius: 999px;
+    background: hsl(var(--accent-dot));
+  }
+
+  /* Metadata: timestamps, counts, IDs. */
+  .meta {
+    @apply font-mono text-[11px] uppercase text-muted-foreground;
+    line-height: 1.45;
+    letter-spacing: 0.08em;
+  }
+
+  /* Display serif, shared with the marketing page. */
+  .display {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 1.2rem + 4vw, 4.5rem);
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+  }
+
+  .display-sm {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+  }
+
+  /* Opening paragraph under a display heading. */
+  .lead {
+    @apply text-base leading-relaxed text-muted-foreground md:text-lg;
+    letter-spacing: -0.01em;
+  }
+
+  /* Pill control, matching the marketing page's only button shape. */
+  .pill {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  /* Legacy env-driven theme classes (see lib/functions.ts ThemeSettings).
+     Retained so existing consumers keep working, but now token-based instead
+     of hardcoded black/white. */
+  .controller-stylus-light,
+  .controller-stylus-dark,
+  .controller-stylus-default {
+    @apply border border-border;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Staggered entrance for above-the-fold content. */
+  .animate-rise {
+    animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dotPattern {
-  background-image: radial-gradient(black 1px, transparent 1px);
+  background-image: radial-gradient(hsl(var(--border)) 1px, transparent 1px);
   background-size: 25px 25px;
 }
 
@@ -155,11 +439,144 @@ B (255 */
     opacity: 0;
     transform: scale(0.95);
   }
-
   100% {
     opacity: 1;
     transform: scale(1);
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
+/* ---------------------------------------------------------------------------
+   Marquee tracks. Each marquee renders two identical tracks side by side and
+   slides one full track width, so the loop is seamless at any content width.
+   --------------------------------------------------------------------------- */
+@keyframes marquee-fwd {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Pause every marquee for readers who ask for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  [class*='animate-[marquee'] {
+    animation: none !important;
+  }
+}
+
+/* Slow highlight sweep across the footer wordmark. */
+@keyframes wordmark-sweep {
+  from {
+    -webkit-mask-position: 130% 0;
+    mask-position: 130% 0;
+  }
+  to {
+    -webkit-mask-position: -130% 0;
+    mask-position: -130% 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Loading shimmer. A sweep rather than a pulse, so a grid of skeletons reads
+   as one loading surface instead of many independently blinking boxes.
+   --------------------------------------------------------------------------- */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--foreground) / 0.06),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer::after {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Marketing theme.
+
+   The product theme is the default (see :root), because Radix portals escape
+   any scope below <body>. The marketing site is the exception, so it restores
+   its own palette and type here. It is light-only by design.
+   --------------------------------------------------------------------------- */
+.marketing-theme {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-fraunces);
+
+  --background: 40 20% 97%;            /* #F9F8F6 */
+  --foreground: 0 0% 8%;               /* #141414 */
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 8%;
+  --muted: 40 16% 94%;
+  --muted-foreground: 0 0% 40%;        /* #656565 */
+  --accent: 40 14% 91%;
+  --accent-foreground: 0 0% 8%;
+  --primary: 0 0% 8%;
+  --primary-foreground: 40 20% 97%;
+  --border: 38 14% 87%;
+  --brand: 3 61% 47%;
+  --accent-dot: 3 61% 47%;
+  --ring: 0 0% 8%;
+
+  /* Redefining --font-sans is not enough: `body` already resolved it against
+     the root theme, so the family has to be re-applied here. The marketing
+     site also keeps the larger 16px editorial base. */
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+}
+
+/* Display type in the product: lighter weight and tighter tracking than the
+   marketing serif, matching wizcommerce.com's headings. */
+.font-display,
+.display,
+.display-sm {
+  font-weight: 300;
+  letter-spacing: -0.035em;
+}
+
+.marketing-theme .ori-display,
+.marketing-theme [class*='ori-h'],
+.marketing-theme .ori-marquee {
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}

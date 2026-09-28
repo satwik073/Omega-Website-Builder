@@ -160,7 +160,6 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
             className="flex flex-col gap-4"
           >
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -170,6 +169,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
                     <Input
                       placeholder="Name"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -177,7 +177,6 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
               )}
             />
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="description"
               render={({ field }) => (
@@ -187,6 +186,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
                     <Textarea
                       placeholder="Description"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -194,7 +194,6 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
               )}
             />
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="value"
               render={({ field }) => (
@@ -204,6 +203,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
                     <Input
                       placeholder="Value"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -227,7 +227,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
                     <div className="flex items-center gap-2">
                       <Avatar className="w-8 h-8">
                         <AvatarImage alt="contact" />
-                        <AvatarFallback className="bg-primary text-sm text-white">
+                        <AvatarFallback className="bg-primary text-sm text-primary-foreground">
                           <User2 size={14} />
                         </AvatarFallback>
                       </Avatar>
@@ -251,7 +251,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
                           alt="contact"
                           src={teamMember.avatarUrl}
                         />
-                        <AvatarFallback className="bg-primary text-sm text-white">
+                        <AvatarFallback className="bg-primary text-sm text-primary-foreground">
                           <User2 size={14} />
                         </AvatarFallback>
                       </Avatar>

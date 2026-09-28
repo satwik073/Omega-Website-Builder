@@ -106,7 +106,6 @@ const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({
             className="flex flex-col gap-4"
           >
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -116,6 +115,7 @@ const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({
                     <Input
                       placeholder="Name"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />

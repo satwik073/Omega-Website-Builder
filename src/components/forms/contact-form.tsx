@@ -54,7 +54,6 @@ const ContactForm = ({ apiCall, subTitle, title }: Props) => {
             className="flex flex-col gap-4"
           >
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -64,6 +63,7 @@ const ContactForm = ({ apiCall, subTitle, title }: Props) => {
                     <Input
                       placeholder="Name"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -71,7 +71,6 @@ const ContactForm = ({ apiCall, subTitle, title }: Props) => {
               )}
             />
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -82,6 +81,7 @@ const ContactForm = ({ apiCall, subTitle, title }: Props) => {
                       type="email"
                       placeholder="Email"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />

@@ -9,6 +9,7 @@ import {
 } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
 import { Lane, Ticket } from '@prisma/client'
+import { EmptyState } from '@/components/global/states'
 import { Flag, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -135,15 +136,16 @@ const PipelineView = ({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="bg-white/60 dark:bg-background/60 rounded-xl p-4 use-automation-zoom-in">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl">{pipelineDetails?.name}</h1>
-          <Button
-            className="flex items-center gap-4"
-            onClick={handleAddLane}
-          >
-            <Plus size={15} />
-            Create Lane
+      <div className="use-automation-zoom-in rounded-[var(--radius-card)] border border-border bg-background p-4">
+        {/* The pipeline name is already the page title, so this row carries
+            the board's own context (lane count) rather than repeating it. */}
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <p className="eyebrow">
+            {allLanes.length} {allLanes.length === 1 ? 'lane' : 'lanes'}
+          </p>
+          <Button size="sm" className="gap-2" onClick={handleAddLane}>
+            <Plus className="size-4" />
+            Create lane
           </Button>
         </div>
         <Droppable
@@ -176,16 +178,20 @@ const PipelineView = ({
             </div>
           )}
         </Droppable>
-        {allLanes.length == 0 && (
-          <div className="flex items-center justify-center w-full flex-col">
-            <div className="opacity-100">
-              <Flag
-                width="100%"
-                height="100%"
-                className="text-muted-foreground"
-              />
-            </div>
-          </div>
+        {/* A 100%-wide icon rendered as a giant grey flag filling the board;
+            replaced with the product's standard empty state. */}
+        {allLanes.length === 0 && (
+          <EmptyState
+            icon={<Flag />}
+            title="No lanes yet"
+            description="Lanes are the stages a ticket moves through — for example Lead, Qualified, Won. Create the first one to start tracking work."
+            action={
+              <Button size="sm" className="gap-2" onClick={handleAddLane}>
+                <Plus className="size-4" />
+                Create lane
+              </Button>
+            }
+          />
         )}
       </div>
     </DragDropContext>

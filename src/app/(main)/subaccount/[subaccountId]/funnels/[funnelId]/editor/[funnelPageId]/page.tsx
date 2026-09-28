@@ -5,6 +5,7 @@ import React from 'react'
 import FunnelEditorNavigation from './_components/funnel-editor-navigation'
 import FunnelEditorSidebar from './_components/funnel-editor-sidebar'
 import FunnelEditor from './_components/funnel-editor'
+import FunnelEditorLayers from './_components/funnel-editor-layers'
 
 type Props = {
   params: Promise<{
@@ -21,6 +22,14 @@ const Page = async ({ params }: Props) => {
     where: {
       id: resolvedParams.funnelPageId,
     },
+  })
+
+  // The left rail lists every page in this funnel, so the user can move
+  // between them without leaving the editor.
+  const funnelPages = await db.funnelPage.findMany({
+    where: { funnelId: resolvedParams.funnelId },
+    orderBy: { order: 'asc' },
+    select: { id: true, name: true, pathName: true, order: true },
   })
 
   if (!funnelPageDetails) {
@@ -41,7 +50,13 @@ const Page = async ({ params }: Props) => {
           funnelPageDetails={funnelPageDetails}
           subaccountId={resolvedParams.subaccountId}
         />
-        <div className="h-full flex justify-center">
+        <FunnelEditorLayers
+          pages={funnelPages}
+          funnelId={resolvedParams.funnelId}
+          subaccountId={resolvedParams.subaccountId}
+          activePageId={resolvedParams.funnelPageId}
+        />
+        <div className="flex h-[calc(100%-3.5rem)]">
           <FunnelEditor funnelPageId={resolvedParams.funnelPageId} />
         </div>
         <FunnelEditorSidebar subaccountId={resolvedParams.subaccountId} />

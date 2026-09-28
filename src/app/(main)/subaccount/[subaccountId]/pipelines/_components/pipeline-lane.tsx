@@ -164,7 +164,7 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                         </span>
                       </div>
                       <div className="flex items-center flex-row">
-                        <Badge className="bg-white text-black">
+                        <Badge variant="secondary">
                           {amt.format(laneAmt)}
                         </Badge>
                         <DropdownMenuTrigger>
