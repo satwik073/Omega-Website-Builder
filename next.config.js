@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'uploadthing.com' },
@@ -14,6 +11,9 @@ const nextConfig = {
     ],
   },
   reactStrictMode: false,
+  turbopack: {
+    root: __dirname,
+  },
 }
 
 module.exports = nextConfig

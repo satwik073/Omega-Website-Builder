@@ -1,12 +1,6 @@
-import Loading from '@/components/global/loading'
+import AppShellSkeleton from '@/components/global/app-shell-skeleton'
 import React from 'react'
 
-const LoadingAgencyPage = () => {
-  return (
-    <div className="h-screen w-screen flex justify-center items-center">
-      <Loading></Loading>
-    </div>
-  )
-}
+const LoadingRoute = () => <AppShellSkeleton />
 
-export default LoadingAgencyPage
+export default LoadingRoute

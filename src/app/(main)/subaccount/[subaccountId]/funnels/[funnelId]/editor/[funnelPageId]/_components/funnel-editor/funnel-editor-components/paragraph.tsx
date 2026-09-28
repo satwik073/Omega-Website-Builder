@@ -74,7 +74,7 @@ const ParagraphComponent = (props: Props) => {
       </p>
       {state.editor.selectedElement.id === props.element.id &&
         !state.editor.liveMode && (
-          <div className="absolute bg-[#2e4acd] px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
+          <div className="absolute bg-[#2e4acd] px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-primary-foreground">
             <Trash
               size={16}
               onClick={handleDeleteElement}

@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import PageHeader from '@/components/global/page-header'
 import React from 'react'
 import DataTable from './data-table'
 import { Plus } from 'lucide-react'
@@ -41,6 +42,11 @@ const TeamPage = async ({ params }: Props) => {
   if (!agencyDetails) return null
 
   return (
+    <>
+      <PageHeader
+        title="Team"
+        description="People with access to your agency and its sub accounts."
+      />
     <DataTable
       actionButtonText={
         <>
@@ -49,10 +55,13 @@ const TeamPage = async ({ params }: Props) => {
         </>
       }
       modalChildren={<SendInvitation agencyId={agencyDetails.id} />}
+      searchPlaceholder="Search team…"
+      emptyMessage="No team members yet."
       filterValue="name"
       columns={columns}
       data={teamMembers}
     ></DataTable>
+    </>
   )
 }
 

@@ -2,6 +2,7 @@
 
 import { clerkClient, currentUser } from '@clerk/nextjs/server'
 import { db } from './db'
+import { buildUserName } from './utils'
 import { redirect } from 'next/navigation'
 import {
   Agency,
@@ -158,7 +159,7 @@ export const verifyAndAcceptInvitation = async () => {
       agencyId: invitationExists.agencyId,
       avatarUrl: user.imageUrl,
       id: user.id,
-      name: `${user.firstName} ${user.lastName}`,
+      name: buildUserName(user.firstName, user.lastName, invitationExists.email),
       role: invitationExists.role,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -222,7 +223,11 @@ export const initUser = async (newUser: Partial<User>) => {
       id: user.id,
       avatarUrl: user.imageUrl,
       email: user.emailAddresses[0].emailAddress,
-      name: `${user.firstName} ${user.lastName}`,
+      name: buildUserName(
+        user.firstName,
+        user.lastName,
+        user.emailAddresses[0].emailAddress
+      ),
       role: newUser.role || 'SUBACCOUNT_USER',
     },
   })
@@ -308,82 +313,84 @@ export const getNotificationAndUser = async (agencyId: string) => {
 
 export const upsertSubAccount = async (subAccount: SubAccount) => {
   if (!subAccount.companyEmail) return null
-  const agencyOwner = await db.user.findFirst({
-    where: {
-      Agency: {
-        id: subAccount.agencyId,
+  try {
+    const agencyOwner = await db.user.findFirst({
+      where: {
+        agencyId: subAccount.agencyId,
+        role: 'AGENCY_OWNER',
       },
-      role: 'AGENCY_OWNER',
-    },
-  })
-  if (!agencyOwner) return console.log('🔴Erorr could not create subaccount')
-  const permissionId = v4()
-  const response = await db.subAccount.upsert({
-    where: { id: subAccount.id },
-    update: subAccount,
-    create: {
-      ...subAccount,
-      Permissions: {
-        create: {
-          access: true,
-          email: agencyOwner.email,
-          id: permissionId,
+    })
+    if (!agencyOwner) {
+      console.log('🔴 Error could not create subaccount: agency owner not found')
+      return null
+    }
+    const permissionId = v4()
+    const response = await db.subAccount.upsert({
+      where: { id: subAccount.id },
+      update: subAccount,
+      create: {
+        ...subAccount,
+        Permissions: {
+          create: {
+            access: true,
+            email: agencyOwner.email,
+            id: permissionId,
+          },
         },
-        connect: {
-          subAccountId: subAccount.id,
-          id: permissionId,
+        Pipeline: {
+          create: { name: 'Lead Cycle' },
+        },
+        SidebarOption: {
+          create: [
+            {
+              name: 'Launchpad',
+              icon: 'clipboardIcon',
+              link: `/subaccount/${subAccount.id}/launchpad`,
+            },
+            {
+              name: 'Settings',
+              icon: 'settings',
+              link: `/subaccount/${subAccount.id}/settings`,
+            },
+            {
+              name: 'Funnels',
+              icon: 'pipelines',
+              link: `/subaccount/${subAccount.id}/funnels`,
+            },
+            {
+              name: 'Media',
+              icon: 'database',
+              link: `/subaccount/${subAccount.id}/media`,
+            },
+            {
+              name: 'Automations',
+              icon: 'chip',
+              link: `/subaccount/${subAccount.id}/automations`,
+            },
+            {
+              name: 'Pipelines',
+              icon: 'flag',
+              link: `/subaccount/${subAccount.id}/pipelines`,
+            },
+            {
+              name: 'Contacts',
+              icon: 'person',
+              link: `/subaccount/${subAccount.id}/contacts`,
+            },
+            {
+              name: 'Dashboard',
+              icon: 'category',
+              link: `/subaccount/${subAccount.id}`,
+            },
+          ],
         },
       },
-      Pipeline: {
-        create: { name: 'Lead Cycle' },
-      },
-      SidebarOption: {
-        create: [
-          {
-            name: 'Launchpad',
-            icon: 'clipboardIcon',
-            link: `/subaccount/${subAccount.id}/launchpad`,
-          },
-          {
-            name: 'Settings',
-            icon: 'settings',
-            link: `/subaccount/${subAccount.id}/settings`,
-          },
-          {
-            name: 'Funnels',
-            icon: 'pipelines',
-            link: `/subaccount/${subAccount.id}/funnels`,
-          },
-          {
-            name: 'Media',
-            icon: 'database',
-            link: `/subaccount/${subAccount.id}/media`,
-          },
-          {
-            name: 'Automations',
-            icon: 'chip',
-            link: `/subaccount/${subAccount.id}/automations`,
-          },
-          {
-            name: 'Pipelines',
-            icon: 'flag',
-            link: `/subaccount/${subAccount.id}/pipelines`,
-          },
-          {
-            name: 'Contacts',
-            icon: 'person',
-            link: `/subaccount/${subAccount.id}/contacts`,
-          },
-          {
-            name: 'Dashboard',
-            icon: 'category',
-            link: `/subaccount/${subAccount.id}`,
-          },
-        ],
-      },
-    },
-  })
-  return response
+    })
+    return response
+  } catch (error) {
+    console.log('🔴 Error upserting subaccount', error)
+    return null
+  }
 }
 
 export const getUserPermissions = async (userId: string) => {

@@ -9,21 +9,21 @@ type Props = {
   subaccountId: string
 }
 
-const CraeteContactButton = ({ subaccountId }: Props) => {
+const CreateContactButton = ({ subaccountId }: Props) => {
   const { setOpen } = useModal()
 
   const handleCreateContact = async () => {
     setOpen(
       <CustomModal
-        title="Create Or Update Contact information"
-        subheading="Contacts are like customers."
+        title="Create a contact"
+        subheading="Contacts are the people who came through a funnel on this sub account."
       >
         <ContactUserForm subaccountId={subaccountId} />
       </CustomModal>
     )
   }
 
-  return <Button onClick={handleCreateContact}>Create Contact</Button>
+  return <Button onClick={handleCreateContact}>Create contact</Button>
 }
 
-export default CraeteContactButton
+export default CreateContactButton

@@ -1,7 +1,7 @@
-
-import BlurPage from '@/components/global/blur-page'
+import PageHeader from '@/components/global/page-header'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getFunnel } from '@/lib/queries'
+import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
@@ -20,19 +20,22 @@ const FunnelPage = async ({ params }: Props) => {
     return redirect(`/subaccount/${resolvedParams.subaccountId}/funnels`)
 
   return (
-    <BlurPage>
+    <>
       <Link
         href={`/subaccount/${resolvedParams.subaccountId}/funnels`}
-        className="flex justify-between gap-4 mb-4 text-muted-foreground"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
-        Back
+        <ChevronLeft className="size-4" />
+        All funnels
       </Link>
-      <h1 className="text-3xl mb-8">{funnelPages.name}</h1>
-      <Tabs
-        defaultValue="steps"
-        className="w-full"
-      >
-        <TabsList className="grid  grid-cols-2 w-[50%] bg-transparent ">
+
+      <PageHeader
+        title={funnelPages.name}
+        description="Build the steps in this funnel, then publish it to a domain."
+      />
+
+      <Tabs defaultValue="steps" className="w-full">
+        <TabsList className="mb-6 bg-transparent p-0">
           <TabsTrigger value="steps">Steps</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
@@ -51,7 +54,7 @@ const FunnelPage = async ({ params }: Props) => {
           />
         </TabsContent>
       </Tabs>
-    </BlurPage>
+    </>
   )
 }
 

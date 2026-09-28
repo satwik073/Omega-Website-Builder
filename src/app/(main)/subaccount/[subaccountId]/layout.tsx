@@ -1,3 +1,4 @@
+import BlurPage from '@/components/global/blur-page'
 import InfoBar from '@/components/global/infobar'
 import Sidebar from '@/components/sidebar'
 import Unauthorized from '@/components/unauthorized'
@@ -57,19 +58,16 @@ const SubaccountLayout = async ({ children, params }: Props) => {
   }
 
   return (
-    <div className="h-screen overflow-hidden">
-      <Sidebar
-        id={resolvedParams.subaccountId}
-        type="subaccount"
-      />
+    <div className="min-h-screen bg-background">
+      <Sidebar id={resolvedParams.subaccountId} type="subaccount" />
 
-      <div className="md:pl-[300px]">
+      <div className="md:pl-[272px]">
         <InfoBar
           notifications={notifications}
           role={user.privateMetadata.role as Role}
           subAccountId={resolvedParams.subaccountId}
         />
-        <div className="relative">{children}</div>
+        <BlurPage>{children}</BlurPage>
       </div>
     </div>
   )

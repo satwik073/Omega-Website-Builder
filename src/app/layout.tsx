@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { DM_Sans } from 'next/font/google'
+import { Fraunces, Geist_Mono, Inter, Newsreader } from 'next/font/google'
 import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
@@ -8,7 +8,38 @@ import ModalProvider from '@/providers/modal-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as SonnarToaster } from '@/components/ui/sonner'
 import ClientProvider from '../../ClientProvider'
-const font = DM_Sans({ subsets: ['latin'] })
+// Reference type system: Inter for UI/body, Fraunces for display, Geist Mono
+// for the small uppercase metadata labels.
+const font = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-inter',
+})
+
+// Display serif. The reference runs the variable face at wght 400 with a low
+// optical size, which keeps the terminals sharp at 56-128px.
+const displayFont = Fraunces({
+  subsets: ['latin'],
+  weight: 'variable',
+  axes: ['SOFT', 'WONK', 'opsz'],
+  variable: '--font-fraunces',
+})
+
+// Product display serif. WizCommerce sets its headings in Recife Text, a
+// licensed face we can't redistribute; Newsreader is the closest free
+// equivalent — a low-contrast transitional serif with real light weights.
+const appDisplayFont = Newsreader({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-newsreader',
+})
+
+const monoFont = Geist_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
+})
 
 export const metadata: Metadata = {
   title: 'Arobix  | All in one Agency Solution ',
@@ -25,8 +56,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Font variables live on <html>, not <body>: :root resolves --font-sans and
+  // --font-display against them, and a custom property referenced from :root
+  // cannot see a declaration made on a descendant.
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${font.variable} ${displayFont.variable} ${appDisplayFont.variable} ${monoFont.variable}`}
+    >
       <head>
         <meta charSet="UTF-8" />
         <title>Arobix  | All in one Agency Solution</title>
@@ -55,9 +93,17 @@ export default function RootLayout({
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
 
+        {/* General Sans — WizCommerce's UI face, free under the Fontshare
+            licence and served from their CDN. */}
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap"
+        />
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.17.0/css/grapes.min.css" />
       </head>
-      <body className={font.className}>
+      <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientProvider>
             <ModalProvider>

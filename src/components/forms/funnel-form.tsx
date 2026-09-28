@@ -102,7 +102,6 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
             className="flex flex-col gap-4"
           >
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -112,13 +111,13 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
                     <Input
                       placeholder="Name"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="description"
               render={({ field }) => (
@@ -128,13 +127,13 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
                     <Textarea
                       placeholder="Tell us a little bit more about this funnel."
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="subDomainName"
               render={({ field }) => (
@@ -144,13 +143,13 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
                     <Input
                       placeholder="Sub domain for funnel"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="favicon"
               render={({ field }) => (

@@ -112,7 +112,6 @@ const LaneForm: React.FC<CreateLaneFormProps> = ({
             className="flex flex-col gap-4"
           >
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -122,6 +121,7 @@ const LaneForm: React.FC<CreateLaneFormProps> = ({
                     <Input
                       placeholder="Lane Name"
                       {...field}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />

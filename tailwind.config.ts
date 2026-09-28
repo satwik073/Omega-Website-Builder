@@ -19,6 +19,11 @@ module.exports = withUt({
   		}
   	},
   	extend: {
+  		fontFamily: {
+  			sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+  			mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+  			display: ['var(--font-display)', 'Georgia', 'serif'],
+  		},
   		colors: {
   			tremor: {
   				brand: {
@@ -123,12 +128,50 @@ module.exports = withUt({
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			brand: {
+  				DEFAULT: 'hsl(var(--brand))',
+  				foreground: 'hsl(var(--brand-foreground))'
+  			},
+  			success: {
+  				DEFAULT: 'hsl(var(--success))',
+  				foreground: 'hsl(var(--success-foreground))'
+  			},
+  			warning: {
+  				DEFAULT: 'hsl(var(--warning))',
+  				foreground: 'hsl(var(--warning-foreground))'
   			}
   		},
   		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			xs: 'var(--radius-xs)',
+  			sm: 'var(--radius-sm)',
+  			md: 'var(--radius-md)',
+  			lg: 'var(--radius-lg)',
+  			xl: 'var(--radius-xl)',
+  			pill: 'var(--radius-pill)',
+  			card: 'var(--radius-card)'
+  		},
+  		boxShadow: {
+  			xs: 'var(--shadow-xs)',
+  			sm: 'var(--shadow-sm)',
+  			md: 'var(--shadow-md)',
+  			lg: 'var(--shadow-lg)'
+  		},
+  		transitionTimingFunction: {
+  			expressive: 'var(--ease-expressive)',
+  			standard: 'var(--ease-standard)'
+  		},
+  		transitionDuration: {
+  			fast: 'var(--dur-fast)',
+  			base: 'var(--dur-base)',
+  			slow: 'var(--dur-slow)',
+  			page: 'var(--dur-page)'
+  		},
+  		height: {
+  			'control-xs': 'var(--control-xs)',
+  			'control-sm': 'var(--control-sm)',
+  			'control-md': 'var(--control-md)',
+  			'control-lg': 'var(--control-lg)'
   		},
   		keyframes: {
   			'accordion-down': {

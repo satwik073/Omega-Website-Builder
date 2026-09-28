@@ -49,37 +49,58 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
     dispatch({ type: 'TOGGLE_PREVIEW_MODE' })
     dispatch({ type: 'TOGGLE_LIVE_MODE' })
   }
+  const isPreview =
+    state.editor.previewMode === true || state.editor.liveMode === true
+  const device = state.editor.device
+
   return (
+    // Scroll container. The rail offsets live here rather than on the parent
+    // because only this client component knows about preview mode, where the
+    // rails are hidden and the canvas should take the whole viewport.
     <div
       className={clsx(
-        'use-automation-zoom-in h-full overflow-scroll no-scrollbar dark:text-white  gap-5 mr-[385px] bg-background transition-all rounded-md',
-        {
-          '!p-0 !mr-0':
-            state.editor.previewMode === true || state.editor.liveMode === true,
-          '!w-[850px]': state.editor.device === 'Tablet',
-          '!w-[420px]': state.editor.device === 'Mobile',
-          'w-full': state.editor.device === 'Desktop',
-        }
+        'no-scrollbar h-full w-full overflow-y-auto transition-[padding] duration-slow ease-standard',
+        isPreview
+          ? 'bg-background p-0'
+          : 'bg-muted/40 pr-[376px] lg:pl-[260px]'
       )}
       onClick={handleClick}
     >
-      {state.editor.previewMode && state.editor.liveMode && (
+      {isPreview && (
         <Button
-          variant={'ghost'}
-          size={'icon'}
-          className="w-6 h-6 bg-slate-600 p-[2px] fixed top-0 left-0 z-[100]"
+          variant="outline"
+          size="icon-sm"
+          aria-label="Exit preview"
+          className="fixed left-3 top-3 z-[100] shadow-sm"
           onClick={handleUnpreview}
         >
           <EyeOff />
         </Button>
       )}
-      {Array.isArray(state.editor.elements) &&
-        state.editor.elements.map((childElement) => (
-          <Recursive
-            key={childElement.id}
-            element={childElement}
-          />
-        ))}
+
+      {/* Device frame. Desktop fills the available width; the narrower
+          breakpoints float as a centred surface so the user can see the edges
+          of the viewport they are designing for. */}
+      <div
+        className={clsx(
+          'mx-auto min-h-full bg-background transition-[width,margin] duration-slow ease-standard',
+          {
+            'w-full': device === 'Desktop' || isPreview,
+            'w-[850px] max-w-full': device === 'Tablet' && !isPreview,
+            'w-[420px] max-w-full': device === 'Mobile' && !isPreview,
+            'my-6 min-h-[calc(100%-3rem)] rounded-md border border-border shadow-md':
+              device !== 'Desktop' && !isPreview,
+          }
+        )}
+      >
+        {Array.isArray(state.editor.elements) &&
+          state.editor.elements.map((childElement) => (
+            <Recursive
+              key={childElement.id}
+              element={childElement}
+            />
+          ))}
+      </div>
     </div>
   )
 }
