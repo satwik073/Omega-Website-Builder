@@ -8,6 +8,7 @@ import ModalProvider from '@/providers/modal-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as SonnarToaster } from '@/components/ui/sonner'
 import ClientProvider from '../../ClientProvider'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 // Reference type system: Inter for UI/body, Fraunces for display, Geist Mono
 // for the small uppercase metadata labels.
 const font = Inter({
@@ -113,6 +114,7 @@ export default function RootLayout({
             </ModalProvider>
           </ClientProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   )
