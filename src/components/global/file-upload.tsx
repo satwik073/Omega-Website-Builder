@@ -63,10 +63,14 @@ const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
           console.log(error);
         }}
         content={{
+          // UploadThing already renders a <button> here, so this slot must
+          // return its *label*, not another Button — a nested button is
+          // invalid HTML and was throwing a hydration error on every form
+          // that mounts an uploader.
           button({ ready, isUploading }) {
-            if (ready) return <Button  className='-tracking-normal !text-sm '>Browse Files</Button>;
-            if ( isUploading) return  <Button  className='-tracking-normal !text-sm '>Uploading...</Button>
-            return "Getting ready...";
+            if (isUploading) return 'Uploading…'
+            if (ready) return 'Browse files'
+            return 'Getting ready…'
           },
           uploadIcon({ready}){
             if ( ready)return <div><IconCloudUp size={60}/></div>

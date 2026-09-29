@@ -1,5 +1,7 @@
 import AgencyDetails from '@/components/forms/agency-details'
-import PageHeader from '@/components/global/page-header'
+import { PageToolbar } from '@/components/admin/toolbar'
+import SettingsSection from '@/components/admin/settings-section'
+import { ErrorState } from '@/components/global/states'
 import UserDetails from '@/components/forms/user-details'
 import { db } from '@/lib/db'
 import { currentUser } from '@clerk/nextjs/server'
@@ -60,32 +62,44 @@ const SettingsPage = async ({ params }: Props) => {
 
     return (
       <>
-        <PageHeader
-          title="Settings"
-          description="Manage your agency profile and the people who can access it."
-        />
-        <div className="grid gap-6 lg:grid-cols-2">
-        {/* Render agency details */}
-        <AgencyDetails data={agencyDetails}  titleContent='Agency Information'
-            descriptionContent='Create an agency for your business. You can change these settings
-            later from the agency settings tab.'/>
+        <PageToolbar title="Settings" />
 
-        {/* Render user details with sub-accounts */}
-        <UserDetails
-          type="AGENCY_OWNER"
-          id={resolvedParams.agencyId}
-          subAccounts={subAccounts}
-          userData={userDetails}
-        />
+        <div className="max-w-5xl">
+          <SettingsSection
+            title="Agency profile"
+            description="Your agency's name, logo and contact details. These appear on invoices and anywhere a client sees who built their site."
+          >
+            <AgencyDetails data={agencyDetails} />
+          </SettingsSection>
+
+          <SettingsSection
+            title="Your account"
+            description="How you appear to your team and on activity logs across the agency."
+          >
+            <UserDetails
+              type="AGENCY_OWNER"
+              id={resolvedParams.agencyId}
+              subAccounts={agencyDetails.SubAccount}
+              userData={userDetails}
+            />
+          </SettingsSection>
         </div>
       </>
     )
   } catch (error) {
-    console.error('Error loading settings page:', error)
+    console.error('Settings page failed to load:', error)
     return (
-      <p className="text-sm text-muted-foreground">
-        An error occurred while loading the settings. Please try again later.
-      </p>
+      <>
+        <PageToolbar title="Settings" />
+        <div className="py-6">
+          <ErrorState
+            title="We couldn't load your settings"
+            description="The request didn't complete. Reload the page, or come back in a moment."
+            backHref={`/agency/${(await params).agencyId}`}
+            backLabel="Back to dashboard"
+          />
+        </div>
+      </>
     )
   }
 }

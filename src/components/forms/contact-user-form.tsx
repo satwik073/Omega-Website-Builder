@@ -5,23 +5,17 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import {
   Form,
+  FormBody,
   FormControl,
-  FormDescription,
   FormField,
+  FormFooter,
   FormItem,
   FormLabel,
   FormMessage,
+  SubmitButton,
 } from '@/components/ui/form'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import Loading from '../global/loading'
 import { ContactUserFormSchema } from '@/lib/types'
 import { saveActivityLogsNotification, upsertContact } from '@/lib/queries'
 import { toast } from '../ui/use-toast'
@@ -32,6 +26,7 @@ interface ContactUserFormProps {
   subaccountId: string
 }
 
+/** Renders bare — CustomModal supplies the heading. */
 const ContactUserForm: React.FC<ContactUserFormProps> = ({ subaccountId }) => {
   const { setClose, data } = useModal()
   const router = useRouter()
@@ -50,8 +45,6 @@ const ContactUserForm: React.FC<ContactUserFormProps> = ({ subaccountId }) => {
     }
   }, [data, form.reset])
 
-  const isLoading = form.formState.isLoading
-
   const handleSubmit = async (
     values: z.infer<typeof ContactUserFormSchema>
   ) => {
@@ -68,85 +61,75 @@ const ContactUserForm: React.FC<ContactUserFormProps> = ({ subaccountId }) => {
       })
       toast({
         title: 'Success',
-        description: 'Saved funnel details',
+        description: 'Saved contact details',
       })
       setClose()
       router.refresh()
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Oppse!',
-        description: 'Could not save funnel details',
+        title: 'Oops!',
+        description: 'Could not save contact details',
       })
     }
   }
 
   return (
-    <Card className=" w-full">
-      <CardHeader>
-        <CardTitle>Contact Info</CardTitle>
-        <CardDescription>
-          You can assign tickets to contacts and set a value for each contact in
-          the ticket.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex flex-col gap-4"
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Name"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <FormBody>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel required>Name</FormLabel>
+                <FormControl>
+                  <Input
+                    autoComplete="name"
+                    placeholder="Jordan Reyes"
+                    disabled={form.formState.isSubmitting}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel required>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    autoComplete="email"
+                    placeholder="jordan@company.com"
+                    disabled={form.formState.isSubmitting}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          <FormFooter>
             <Button
-              className="mt-4"
-              disabled={isLoading}
-              type="submit"
+              type="button"
+              variant="outline"
+              onClick={setClose}
+              disabled={form.formState.isSubmitting}
             >
-              {form.formState.isSubmitting ? (
-                <Loading />
-              ) : (
-                'Save Contact Details!'
-              )}
+              Cancel
             </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            <SubmitButton pendingText="Saving…">Save contact</SubmitButton>
+          </FormFooter>
+        </FormBody>
+      </form>
+    </Form>
   )
 }
 

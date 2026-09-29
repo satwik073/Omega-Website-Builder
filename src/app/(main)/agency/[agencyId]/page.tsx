@@ -1,5 +1,5 @@
 import CircleProgress from '@/components/global/circle-progress'
-import PageHeader from '@/components/global/page-header'
+import { PageToolbar } from '@/components/admin/toolbar'
 import StatCard from '@/components/global/stat-card'
 import EntityLogo from '@/components/global/entity-logo'
 import { EmptyState } from '@/components/global/states'
@@ -133,11 +133,10 @@ const Page = async ({ params }: Props) => {
 
   return (
     <>
-      <PageHeader
+      <PageToolbar
         title="Dashboard"
-        description={`Performance across your agency for ${currentYear}.`}
-        actions={
-          <Button size="sm" variant="outline" asChild>
+        action={
+          <Button variant="outline" asChild>
             <Link href={`/agency/${resolvedParams.agencyId}/all-subaccounts`}>
               <Building2 />
               Sub accounts
@@ -145,6 +144,10 @@ const Page = async ({ params }: Props) => {
           </Button>
         }
       />
+
+      <p className="py-5 text-[13px] text-muted-foreground">
+        Performance across your agency for {currentYear}.
+      </p>
 
       {!agencyDetails.connectAccountId && (
         <div className="mb-6 flex flex-col gap-3 rounded-card border border-brand/25 bg-brand/[0.06] p-4 sm:flex-row sm:items-center sm:justify-between">

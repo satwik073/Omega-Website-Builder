@@ -580,3 +580,72 @@
   font-weight: 400;
   letter-spacing: -0.04em;
 }
+
+/* ---------------------------------------------------------------------------
+   Page-builder widget effects
+   ---------------------------------------------------------------------------
+   Driven by the Advanced tab (see components/builder/elementor/advanced.ts).
+   They live here rather than in the editor stylesheet because a published
+   page loads only globals.css — an animation that ran only in the editor
+   would be a lie about what visitors see. Duration and delay arrive as
+   inline styles; this supplies the keyframes and the fill behaviour.
+*/
+@keyframes ax-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ax-fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes ax-fade-in-down {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes ax-fade-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes ax-fade-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes ax-zoom-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes ax-slide-up {
+  from { transform: translateY(40px); }
+  to   { transform: none; }
+}
+
+[data-anim] {
+  animation-name: var(--ax-anim);
+  animation-fill-mode: both;
+  animation-timing-function: var(--ease-expressive, cubic-bezier(0.16, 1, 0.3, 1));
+}
+[data-anim='fade-in']       { --ax-anim: ax-fade-in; }
+[data-anim='fade-in-up']    { --ax-anim: ax-fade-in-up; }
+[data-anim='fade-in-down']  { --ax-anim: ax-fade-in-down; }
+[data-anim='fade-in-left']  { --ax-anim: ax-fade-in-left; }
+[data-anim='fade-in-right'] { --ax-anim: ax-fade-in-right; }
+[data-anim='zoom-in']       { --ax-anim: ax-zoom-in; }
+[data-anim='slide-up']      { --ax-anim: ax-slide-up; }
+
+/* An entrance animation that replays on every scroll is a distraction, and
+   one that hides content from a reader who cannot tolerate motion is a bug. */
+@media (prefers-reduced-motion: reduce) {
+  [data-anim] { animation: none !important; }
+}
+
+/* Responsive visibility. Breakpoints match the Advanced tab's labels:
+   mobile < 768, tablet 768–1024, desktop > 1024. */
+@media (min-width: 1025px) {
+  .ax-hide-desktop { display: none !important; }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .ax-hide-tablet { display: none !important; }
+}
+@media (max-width: 767px) {
+  .ax-hide-mobile { display: none !important; }
+}
