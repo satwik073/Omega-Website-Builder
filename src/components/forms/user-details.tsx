@@ -19,21 +19,17 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../ui/card'
-
-import {
   Form,
+  FormBody,
   FormControl,
   FormDescription,
   FormField,
+  FormFooter,
   FormItem,
   FormLabel,
   FormMessage,
+  FormRow,
+  SubmitButton,
 } from '@/components/ui/form'
 import FileUpload from '../global/file-upload'
 import { Input } from '../ui/input'
@@ -44,9 +40,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
-import { Button } from '../ui/button'
-import Loading from '../global/loading'
-import { Separator } from '../ui/separator'
 import { Switch } from '../ui/switch'
 import { v4 } from 'uuid'
 
@@ -210,47 +203,40 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>User Details</CardTitle>
-        <CardDescription>Add or update your information</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
-            <FormField
-              control={form.control}
-              name="avatarUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Profile picture</FormLabel>
-                  <FormControl>
-                    <FileUpload
-                      apiEndpoint="avatar"
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormBody>
+          <FormField
+            control={form.control}
+            name="avatarUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Profile picture</FormLabel>
+                <FormControl>
+                  <FileUpload
+                    apiEndpoint="avatar"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          <FormRow>
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>User full name</FormLabel>
+                <FormItem>
+                  <FormLabel required>Full name</FormLabel>
                   <FormControl>
                     <Input
-                      required
-                      placeholder="Full Name"
-                      {...field}
+                      autoComplete="name"
+                      placeholder="Jordan Reyes"
                       disabled={form.formState.isSubmitting}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -260,95 +246,100 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
             <FormField
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      readOnly={
-                        userData?.role === 'AGENCY_OWNER' ||
-                        form.formState.isSubmitting
-                      }
-                      placeholder="Email"
-                      {...field}
-                      disabled={form.formState.isSubmitting}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel> User Role</FormLabel>
-                  <Select
-                    disabled={
-                      field.value === 'AGENCY_OWNER' ||
-                      form.formState.isSubmitting
-                    }
-                    onValueChange={(value) => {
-                      if (
-                        value === 'SUBACCOUNT_USER' ||
-                        value === 'SUBACCOUNT_GUEST'
-                      ) {
-                        setRoleState(
-                          'You need to have subaccounts to assign Subaccount access to team members.'
-                        )
-                      } else {
-                        setRoleState('')
-                      }
-                      field.onChange(value)
-                    }}
-                    defaultValue={field.value}
-                  >
+              render={({ field }) => {
+                const locked = userData?.role === 'AGENCY_OWNER'
+                return (
+                  <FormItem>
+                    <FormLabel required>Email</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select user role..." />
-                      </SelectTrigger>
+                      <Input
+                        type="email"
+                        autoComplete="email"
+                        readOnly={locked || form.formState.isSubmitting}
+                        placeholder="jordan@company.com"
+                        disabled={form.formState.isSubmitting}
+                        {...field}
+                      />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="AGENCY_ADMING">
-                        Agency Admin
-                      </SelectItem>
-                      {(data?.user?.role === 'AGENCY_OWNER' ||
-                        userData?.role === 'AGENCY_OWNER') && (
-                        <SelectItem value="AGENCY_OWNER">
-                          Agency Owner
-                        </SelectItem>
-                      )}
-                      <SelectItem value="SUBACCOUNT_USER">
-                        Sub Account User
-                      </SelectItem>
-                      <SelectItem value="SUBACCOUNT_GUEST">
-                        Sub Account Guest
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="text-muted-foreground">{roleState}</p>
-                </FormItem>
-              )}
+                    {locked && (
+                      <FormDescription>
+                        The agency owner&rsquo;s email is tied to the login and
+                        cannot be changed here.
+                      </FormDescription>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
             />
+          </FormRow>
 
-            <Button
-              disabled={form.formState.isSubmitting}
-              type="submit"
-            >
-              {form.formState.isSubmitting ? <Loading /> : 'Save User Details'}
-            </Button>
-            {authUserData?.role === 'AGENCY_OWNER' && (
-              <div>
-                <Separator className="my-4" />
-                <FormLabel> User Permissions</FormLabel>
-                <FormDescription className="mb-4">
-                  You can give Sub Account access to team member by turning on
-                  access control for each Sub Account. This is only visible to
-                  agency owners
-                </FormDescription>
-                <div className="flex flex-col gap-4">
-                  {subAccounts?.map((subAccount) => {
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
+                <Select
+                  disabled={
+                    field.value === 'AGENCY_OWNER' ||
+                    form.formState.isSubmitting
+                  }
+                  onValueChange={(value) => {
+                    if (
+                      value === 'SUBACCOUNT_USER' ||
+                      value === 'SUBACCOUNT_GUEST'
+                    ) {
+                      setRoleState(
+                        'Sub account roles need at least one sub account to be granted access below.'
+                      )
+                    } else {
+                      setRoleState('')
+                    }
+                    field.onChange(value)
+                  }}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role…" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {/* Was "AGENCY_ADMING" — not a value in the Role enum, so
+                        choosing Agency Admin failed to save. */}
+                    <SelectItem value="AGENCY_ADMIN">Agency admin</SelectItem>
+                    {(data?.user?.role === 'AGENCY_OWNER' ||
+                      userData?.role === 'AGENCY_OWNER') && (
+                      <SelectItem value="AGENCY_OWNER">Agency owner</SelectItem>
+                    )}
+                    <SelectItem value="SUBACCOUNT_USER">
+                      Sub account user
+                    </SelectItem>
+                    <SelectItem value="SUBACCOUNT_GUEST">
+                      Sub account guest
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                {roleState && <FormDescription>{roleState}</FormDescription>}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {authUserData?.role === 'AGENCY_OWNER' && (
+            <section className="border-t border-border pt-5">
+              {/* Plain label/description: FormLabel and FormDescription read
+                  field state from context and there is no field here. */}
+              <h3 className="text-[13px] font-medium">Sub account access</h3>
+              <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
+                Grant this person access to individual sub accounts. Only
+                agency owners can see this.
+              </p>
+
+              {subAccounts?.length ? (
+                <div className="mt-4 divide-y divide-border rounded-card border border-border">
+                  {subAccounts.map((subAccount) => {
                     const subAccountPermissionsDetails =
                       subAccountPermissions?.Permissions.find(
                         (p) => p.subAccountId === subAccount.id
@@ -356,14 +347,15 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
                     return (
                       <div
                         key={subAccount.id}
-                        className="flex items-center justify-between rounded-lg border p-4"
+                        className="flex items-center justify-between gap-4 p-4"
                       >
-                        <div>
-                          <p>{subAccount.name}</p>
-                        </div>
+                        <p className="min-w-0 truncate text-[13px]">
+                          {subAccount.name}
+                        </p>
                         <Switch
+                          aria-label={`Access to ${subAccount.name}`}
                           disabled={loadingPermissions}
-                          checked={subAccountPermissionsDetails?.access}
+                          checked={!!subAccountPermissionsDetails?.access}
                           onCheckedChange={(permission) => {
                             onChangePermission(
                               subAccount.id,
@@ -376,12 +368,20 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
                     )
                   })}
                 </div>
-              </div>
-            )}
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              ) : (
+                <p className="mt-4 rounded-card border border-dashed border-border p-4 text-[12.5px] text-muted-foreground">
+                  No sub accounts yet. Create one to grant access.
+                </p>
+              )}
+            </section>
+          )}
+
+          <FormFooter>
+            <SubmitButton pendingText="Saving…">Save details</SubmitButton>
+          </FormFooter>
+        </FormBody>
+      </form>
+    </Form>
   )
 }
 

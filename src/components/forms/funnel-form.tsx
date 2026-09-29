@@ -3,21 +3,20 @@ import React, { useEffect } from 'react'
 import { z } from 'zod'
 import {
   Form,
+  FormBody,
   FormControl,
   FormDescription,
   FormField,
+  FormFooter,
   FormItem,
   FormLabel,
   FormMessage,
+  SubmitButton,
 } from '@/components/ui/form'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { useForm } from 'react-hook-form'
 import { Funnel } from '@prisma/client'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
-
-import { Button } from '../ui/button'
-import Loading from '../global/loading'
 import { CreateFunnelFormSchema } from '@/lib/types'
 import { saveActivityLogsNotification, upsertFunnel } from '@/lib/queries'
 import { v4 } from 'uuid'
@@ -32,8 +31,7 @@ interface CreateFunnelProps {
   subAccountId: string
 }
 
-//CHALLENGE: Use favicons
-
+/** Renders bare — the host supplies the heading (modal or settings card). */
 const FunnelForm: React.FC<CreateFunnelProps> = ({
   defaultData,
   subAccountId,
@@ -62,121 +60,132 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
     }
   }, [defaultData])
 
-  const isLoading = form.formState.isLoading
-
   const onSubmit = async (values: z.infer<typeof CreateFunnelFormSchema>) => {
     if (!subAccountId) return
-    const response = await upsertFunnel(
-      subAccountId,
-      { ...values, liveProducts: defaultData?.liveProducts || '[]' },
-      defaultData?.id || v4()
-    )
-    await saveActivityLogsNotification({
-      agencyId: undefined,
-      description: `Update funnel | ${response.name}`,
-      subaccountId: subAccountId,
-    })
-    if (response)
+    try {
+      const response = await upsertFunnel(
+        subAccountId,
+        { ...values, liveProducts: defaultData?.liveProducts || '[]' },
+        defaultData?.id || v4()
+      )
+      await saveActivityLogsNotification({
+        agencyId: undefined,
+        description: `Updated funnel | ${response.name}`,
+        subaccountId: subAccountId,
+      })
       toast({
         title: 'Success',
         description: 'Saved funnel details',
       })
-    else
+      setClose()
+      router.refresh()
+    } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Oppse!',
+        title: 'Oops!',
         description: 'Could not save funnel details',
       })
-    setClose()
-    router.refresh()
+    }
   }
+
+  const busy = form.formState.isSubmitting
+
   return (
-    <Card className="flex-1">
-      <CardHeader>
-        <CardTitle>Funnel Details</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Funnel Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Name"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Funnel Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us a little bit more about this funnel."
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="subDomainName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sub domain</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Sub domain for funnel"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="favicon"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Favicon</FormLabel>
-                  <FormControl>
-                    <FileUpload
-                      apiEndpoint="subaccountLogo"
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              className="w-20 mt-4"
-              disabled={isLoading}
-              type="submit"
-            >
-              {form.formState.isSubmitting ? <Loading /> : 'Save'}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormBody>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel required>Funnel name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Spring campaign"
+                    disabled={busy}
+                    {...field}
+                  />
+                </FormControl>
+                {/* These three fields previously had no FormMessage, so a
+                    validation failure blocked submit with nothing on screen
+                    to explain why. */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="What is this funnel for?"
+                    disabled={busy}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Internal only — visitors never see this.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="subDomainName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sub domain</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="spring"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    disabled={busy}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  The funnel will be published at this sub domain.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="favicon"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Favicon</FormLabel>
+                <FormControl>
+                  <FileUpload
+                    apiEndpoint="subaccountLogo"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormFooter>
+            <SubmitButton pendingText="Saving…">
+              {defaultData ? 'Save changes' : 'Create funnel'}
+            </SubmitButton>
+          </FormFooter>
+        </FormBody>
+      </form>
+    </Form>
   )
 }
 

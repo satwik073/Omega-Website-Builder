@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button'
-import PageHeader from '@/components/global/page-header'
+import { PageToolbar } from '@/components/admin/toolbar'
+import SetupChecklist from '@/components/admin/setup-checklist'
 import { db } from '@/lib/db'
 import { getStripeOAuthLink } from '@/lib/utils'
-import { CheckCircleIcon } from 'lucide-react'
-import EntityLogo from '@/components/global/entity-logo'
-import Image from 'next/image'
+import { Building2, CreditCard, Smartphone } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { stripe } from '@/lib/stripe'
@@ -64,77 +63,60 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
 
   return (
     <>
-      <PageHeader
-        title="Launchpad"
-        description="Finish these steps to get your account fully set up."
-      />
-      <div className="max-w-3xl">
-        <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-background p-5">
-              <div className="flex md:items-center gap-4 flex-col md:!flex-row">
-                <Image
-                  src="/appstore.png"
-                  alt="app logo"
-                  height={40}
-                  width={40}
-                  className="rounded-md object-contain"
-                />
-                <p>Save the website as a shortcut on your mobile device</p>
-              </div>
-              <Button>Start</Button>
-            </div>
-            <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-background p-5">
-              <div className="flex md:items-center gap-4 flex-col md:!flex-row">
-                <Image
-                  src="/stripelogo.png"
-                  alt="Stripe logo"
-                  height={40}
-                  width={40}
-                  className="rounded-md object-contain"
-                />
-                <p>
-                  Connect your Stripe account to accept payments and see your
-                  dashboard.
-                </p>
-              </div>
-              {agencyDetails.connectAccountId || connectedStripeAccount ? (
-                <CheckCircleIcon
-                  size={22}
-                  className="shrink-0 text-foreground"
-                />
-              ) : (
-                <Link
-                  className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius)] bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/85"
-                  href={stripeOAuthLink}
-                >
+      <PageToolbar title="Launchpad" />
+
+      <div className="py-6">
+        <p className="mb-6 max-w-xl text-[13px] leading-relaxed text-muted-foreground">
+          Finish these steps to get your agency fully set up. You can come back
+          to this list at any time.
+        </p>
+
+        <SetupChecklist
+          steps={[
+            {
+              id: 'shortcut',
+              title: 'Save the site to your home screen',
+              description:
+                'Add Arobix as a shortcut so it opens like an app on mobile.',
+              done: false,
+              icon: <Smartphone className="size-4" />,
+              action: (
+                <Button size="sm" variant="outline">
                   Start
-                </Link>
-              )}
-            </div>
-            <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-background p-5">
-              <div className="flex md:items-center gap-4 flex-col md:!flex-row">
-                <EntityLogo
-                  src={agencyDetails.agencyLogo}
-                  name={agencyDetails.name}
-                  size={40}
-                />
-                <p>Fill in all your business details</p>
-              </div>
-              {allDetailsExist ? (
-                <CheckCircleIcon
-                  size={22}
-                  className="shrink-0 text-foreground"
-                />
-              ) : (
-                <Link
-                  className="inline-flex h-10 shrink-0 items-center rounded-[var(--radius)] bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/85"
-                  href={`/agency/${resolvedParams.agencyId}/settings`}
-                >
-                  Start
-                </Link>
-              )}
-            </div>
-        </div>
+                </Button>
+              ),
+            },
+            {
+              id: 'stripe',
+              title: 'Connect your Stripe account',
+              description:
+                'Accept payments through your funnels and see revenue on the dashboard.',
+              done:
+                !!agencyDetails.connectAccountId || connectedStripeAccount,
+              icon: <CreditCard className="size-4" />,
+              action: (
+                <Button size="sm" asChild>
+                  <Link href={stripeOAuthLink}>Connect</Link>
+                </Button>
+              ),
+            },
+            {
+              id: 'details',
+              title: 'Fill in your business details',
+              description:
+                'Name, address and contact details appear on invoices and published sites.',
+              done: !!allDetailsExist,
+              icon: <Building2 className="size-4" />,
+              action: (
+                <Button size="sm" asChild>
+                  <Link href={`/agency/${agencyDetails.id}/settings`}>
+                    Complete
+                  </Link>
+                </Button>
+              ),
+            },
+          ]}
+        />
       </div>
     </>
   )
