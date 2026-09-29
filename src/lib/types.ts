@@ -142,6 +142,22 @@ export type StripeCustomerType = {
 
 export type PricesList = Stripe.ApiList<Stripe.Price>
 
+/**
+ * Plain projection of a Stripe Price.
+ *
+ * Stripe's own objects carry `toJSON` and Decimal-valued fields, so React
+ * refuses to serialise them across the server/client boundary ("Only plain
+ * objects can be passed to Client Components"). Server pages narrow prices to
+ * this before handing them to any client component. Keys match the ones the
+ * subscription form already reads, so nothing downstream changes.
+ */
+export type PlanPrice = {
+  id: string
+  nickname: string | null
+  unit_amount: number | null
+  currency: string
+}
+
 export type FunnelsForSubAccount = Prisma.PromiseReturnType<
   typeof getFunnels
 >[0]

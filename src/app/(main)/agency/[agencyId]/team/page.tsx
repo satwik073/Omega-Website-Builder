@@ -1,11 +1,8 @@
 import { db } from '@/lib/db'
-import PageHeader from '@/components/global/page-header'
 import React from 'react'
-import DataTable from './data-table'
-import { Plus } from 'lucide-react'
 import { currentUser } from '@clerk/nextjs/server'
-import { columns } from './columns'
-import SendInvitation from '@/components/forms/send-invitation'
+import InviteButton from './_components/invite-button'
+import TeamList from './_components/team-list'
 
 type Props = {
   params: Promise<{ agencyId: string }>
@@ -42,26 +39,10 @@ const TeamPage = async ({ params }: Props) => {
   if (!agencyDetails) return null
 
   return (
-    <>
-      <PageHeader
-        title="Team"
-        description="People with access to your agency and its sub accounts."
-      />
-    <DataTable
-      actionButtonText={
-        <>
-          <Plus size={15} />
-          Add
-        </>
-      }
-      modalChildren={<SendInvitation agencyId={agencyDetails.id} />}
-      searchPlaceholder="Search team…"
-      emptyMessage="No team members yet."
-      filterValue="name"
-      columns={columns}
-      data={teamMembers}
-    ></DataTable>
-    </>
+    <TeamList
+      members={teamMembers as never}
+      onInvite={<InviteButton agencyId={agencyDetails.id} />}
+    />
   )
 }
 

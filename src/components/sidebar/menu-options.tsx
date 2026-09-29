@@ -13,6 +13,11 @@ import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { icons } from '@/lib/constants'
+import {
+  AGENCY_GROUPS,
+  SUBACCOUNT_GROUPS,
+  buildNav,
+} from './nav-groups'
 import { cn, displayName } from '@/lib/utils'
 import { useModal } from '@/providers/modal-provider'
 import SubAccountDetails from '../forms/subaccount-details'
@@ -78,6 +83,46 @@ const AccountRow = ({
   </div>
 )
 
+/** A single navigation row. Shared by the grouped nav and the footer. */
+const NavLink = ({
+  option,
+  active,
+}: {
+  option: { id: string; name: string; link: string; icon: string }
+  active: boolean
+}) => {
+  const result = icons.find((icon) => icon.value === option.icon)
+  const Glyph = result?.path
+
+  return (
+    <Link
+      href={option.link}
+      aria-current={active ? 'page' : undefined}
+      className={cn(
+        'group relative flex items-center gap-2.5 rounded-md py-2 pl-3 pr-2.5 text-[13px] transition-colors duration-fast ease-standard',
+        active
+          ? 'bg-accent font-medium text-foreground'
+          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+      )}
+    >
+      {/* Accent rule on the active row, echoing the marketing eyebrow. */}
+      <span
+        aria-hidden
+        className={cn(
+          'absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full bg-brand transition-opacity duration-fast',
+          active ? 'opacity-100' : 'opacity-0'
+        )}
+      />
+      {Glyph && (
+        <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
+          <Glyph />
+        </span>
+      )}
+      <span className="truncate">{option.name}</span>
+    </Link>
+  )
+}
+
 const MenuOptions = ({
   details,
   id,
@@ -123,6 +168,11 @@ const MenuOptions = ({
   const isAgencyStaff =
     user?.role === 'AGENCY_OWNER' || user?.role === 'AGENCY_ADMIN'
   const isAgencyContext = pathname.startsWith('/agency')
+
+  const nav = buildNav(
+    sidebarOpt as { id: string; name: string; link: string; icon: string }[],
+    isAgencyContext ? AGENCY_GROUPS : SUBACCOUNT_GROUPS
+  )
 
   return (
     <Sheet modal={false} {...openState}>
@@ -248,50 +298,39 @@ const MenuOptions = ({
           </Popover>
         </div>
 
-        {/* Primary navigation */}
+        {/* Primary navigation, grouped. A flat list of eight links reads as
+            a pile; the grouping comes from nav-groups.ts. */}
         <nav className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-2.5 pb-4">
-          <ul className="flex flex-col gap-0.5">
-            {sidebarOpt.map((option) => {
-              const result = icons.find((icon) => icon.value === option.icon)
-              const Glyph = result?.path
-              const active = option.link === activeLink
-
-              return (
-                <li key={option.id}>
-                  <Link
-                    href={option.link}
-                    aria-current={active ? 'page' : undefined}
-                    className={cn(
-                      'group relative flex items-center gap-2.5 rounded-md py-2 pl-3 pr-2.5 text-[13px] transition-colors duration-fast ease-standard',
-                      active
-                        ? 'bg-accent font-medium text-foreground'
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                    )}
-                  >
-                    {/* Accent rule on the active row, echoing the marketing
-                        eyebrow dot. */}
-                    <span
-                      aria-hidden
-                      className={cn(
-                        'absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full bg-brand transition-opacity duration-fast',
-                        active ? 'opacity-100' : 'opacity-0'
-                      )}
-                    />
-                    {Glyph && (
-                      <span className="flex size-4 shrink-0 items-center justify-center [&_svg]:size-4">
-                        <Glyph />
-                      </span>
-                    )}
-                    <span className="truncate">{option.name}</span>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
+          {nav.primary.map((group, groupIndex) => (
+            <div key={group.label ?? `group-${groupIndex}`} className="mb-1">
+              {group.label && (
+                <p className="px-3 pb-1 pt-3 text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground/70">
+                  {group.label}
+                </p>
+              )}
+              <ul className="flex flex-col gap-0.5">
+                {group.items.map((option) => (
+                  <li key={option.id}>
+                    <NavLink option={option} active={option.link === activeLink} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </nav>
 
-        {/* Footer: who you are, and a way back out to the public site. */}
+        {/* Footer: pinned utilities, who you are, and the way back out. */}
         <div className="mt-auto border-t border-border p-2.5">
+          {nav.footer.length > 0 && (
+            <ul className="mb-1 flex flex-col gap-0.5">
+              {nav.footer.map((option) => (
+                <li key={option.id}>
+                  <NavLink option={option} active={option.link === activeLink} />
+                </li>
+              ))}
+            </ul>
+          )}
+
           {user?.name && (
             <div className="mb-1 flex items-center gap-2.5 rounded-md px-3 py-2">
               <div className="relative size-6 shrink-0 overflow-hidden rounded-full">

@@ -2,19 +2,16 @@
 import React from 'react'
 import { z } from 'zod'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../ui/card'
-import {
   Form,
+  FormBody,
   FormControl,
+  FormDescription,
   FormField,
+  FormFooter,
   FormItem,
   FormLabel,
   FormMessage,
+  SubmitButton,
 } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,8 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
-import { Button } from '../ui/button'
-import Loading from '../global/loading'
 import { saveActivityLogsNotification, sendInvitation } from '@/lib/queries'
 import { useToast } from '../ui/use-toast'
 
@@ -35,10 +30,29 @@ interface SendInvitationProps {
   agencyId: string
 }
 
+const ROLES = [
+  {
+    value: 'AGENCY_ADMIN',
+    label: 'Agency admin',
+    hint: 'Full access to every sub account and to billing.',
+  },
+  {
+    value: 'SUBACCOUNT_USER',
+    label: 'Sub account user',
+    hint: 'Can edit the sub accounts they are given access to.',
+  },
+  {
+    value: 'SUBACCOUNT_GUEST',
+    label: 'Sub account guest',
+    hint: 'Read-only access to the sub accounts they are given.',
+  },
+] as const
+
+/** Renders bare — CustomModal supplies the heading. */
 const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
   const { toast } = useToast()
   const userDataSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email({ message: 'Enter a valid email address' }),
     role: z.enum(['AGENCY_ADMIN', 'SUBACCOUNT_USER', 'SUBACCOUNT_GUEST']),
   })
 
@@ -60,92 +74,89 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
         subaccountId: undefined,
       })
       toast({
-        title: 'Success',
-        description: 'Created and sent invitation',
+        title: 'Invitation sent',
+        description: `${res.email} will get an email shortly.`,
       })
+      form.reset()
     } catch (error) {
       console.log(error)
       toast({
         variant: 'destructive',
-        title: 'Oppse!',
-        description: 'Could not send invitation',
+        title: 'Could not send invitation',
+        description: 'Check the address and try again.',
       })
     }
   }
 
+  const selectedRole = form.watch('role')
+  const roleHint = ROLES.find((r) => r.value === selectedRole)?.hint
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Invitation</CardTitle>
-        <CardDescription>
-          An invitation will be sent to the user. Users who already have an
-          invitation sent out to their email, will not receive another
-          invitation.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-6"
-          >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Email"
-                      {...field}
-                      disabled={form.formState.isSubmitting}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>User role</FormLabel>
-                  <Select
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormBody>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel required>Email address</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    autoComplete="email"
+                    placeholder="teammate@company.com"
                     disabled={form.formState.isSubmitting}
-                    onValueChange={(value) => field.onChange(value)}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select user role..." />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="AGENCY_ADMIN">Agency Admin</SelectItem>
-                      <SelectItem value="SUBACCOUNT_USER">
-                        Sub Account User
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Someone who already has a pending invitation will not be sent
+                  another one.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel required>Role</FormLabel>
+                <Select
+                  disabled={form.formState.isSubmitting}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role…" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {ROLES.map((role) => (
+                      <SelectItem key={role.value} value={role.value}>
+                        {role.label}
                       </SelectItem>
-                      <SelectItem value="SUBACCOUNT_GUEST">
-                        Sub Account Guest
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              disabled={form.formState.isSubmitting}
-              type="submit"
-            >
-              {form.formState.isSubmitting ? <Loading /> : 'Send Invitation'}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {/* The hint tracks the selection, so the consequence of the
+                    choice is visible before the invitation goes out. */}
+                <FormDescription>{roleHint}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormFooter>
+            <SubmitButton pendingText="Sending…">Send invitation</SubmitButton>
+          </FormFooter>
+        </FormBody>
+      </form>
+    </Form>
   )
 }
 

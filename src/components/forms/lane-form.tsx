@@ -3,35 +3,25 @@ import React, { useEffect } from 'react'
 import { z } from 'zod'
 import {
   Form,
+  FormBody,
   FormControl,
-  FormDescription,
   FormField,
+  FormFooter,
   FormItem,
   FormLabel,
   FormMessage,
+  SubmitButton,
 } from '@/components/ui/form'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card'
 import { useForm } from 'react-hook-form'
-import { Funnel, Lane, Pipeline } from '@prisma/client'
+import { Lane } from '@prisma/client'
 import { Input } from '../ui/input'
-
 import { Button } from '../ui/button'
-import Loading from '../global/loading'
 import { LaneFormSchema } from '@/lib/types'
 import {
   getPipelineDetails,
   saveActivityLogsNotification,
-  upsertFunnel,
   upsertLane,
-  upsertPipeline,
 } from '@/lib/queries'
-import { v4 } from 'uuid'
 import { toast } from '../ui/use-toast'
 import { useModal } from '@/providers/modal-provider'
 import { useRouter } from 'next/navigation'
@@ -42,6 +32,7 @@ interface CreateLaneFormProps {
   pipelineId: string
 }
 
+/** Renders bare — CustomModal supplies the heading. */
 const LaneForm: React.FC<CreateLaneFormProps> = ({
   defaultData,
   pipelineId,
@@ -63,8 +54,6 @@ const LaneForm: React.FC<CreateLaneFormProps> = ({
       })
     }
   }, [defaultData])
-
-  const isLoading = form.formState.isLoading
 
   const onSubmit = async (values: z.infer<typeof LaneFormSchema>) => {
     if (!pipelineId) return
@@ -94,52 +83,51 @@ const LaneForm: React.FC<CreateLaneFormProps> = ({
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Oppse!',
+        title: 'Oops!',
         description: 'Could not save pipeline details',
       })
     }
     setClose()
   }
-  return (
-    <Card className="w-full ">
-      <CardHeader>
-        <CardTitle>Lane Details</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Lane Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Lane Name"
-                      {...field}
-                      disabled={isLoading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormBody>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel required>Lane name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Qualified leads"
+                    disabled={form.formState.isSubmitting}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormFooter>
             <Button
-              className="w-20 mt-4"
-              disabled={isLoading}
-              type="submit"
+              type="button"
+              variant="outline"
+              onClick={setClose}
+              disabled={form.formState.isSubmitting}
             >
-              {form.formState.isSubmitting ? <Loading /> : 'Save'}
+              Cancel
             </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            <SubmitButton pendingText="Saving…">
+              {defaultData ? 'Save changes' : 'Create lane'}
+            </SubmitButton>
+          </FormFooter>
+        </FormBody>
+      </form>
+    </Form>
   )
 }
 

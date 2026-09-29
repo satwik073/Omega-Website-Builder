@@ -1,0 +1,68 @@
+/*
+  Puck theme overrides.
+
+  Puck ships its own CSS variables; mapping them onto the Arobix tokens makes
+  the editor chrome part of the product rather than a third-party panel bolted
+  onto it. Only surface, border, type and accent are remapped — layout and
+  behaviour are left alone.
+*/
+:root {
+  --puck-color-azure-01: hsl(var(--brand));
+  --puck-color-azure-04: hsl(var(--brand));
+  --puck-color-azure-05: hsl(var(--brand));
+  --puck-color-azure-06: hsl(var(--brand) / 0.7);
+  --puck-color-azure-07: hsl(var(--brand) / 0.35);
+  --puck-color-azure-08: hsl(var(--brand) / 0.2);
+  --puck-color-azure-09: hsl(var(--brand) / 0.12);
+  --puck-color-azure-10: hsl(var(--brand) / 0.08);
+  --puck-color-azure-11: hsl(var(--brand) / 0.05);
+
+  --puck-color-grey-01: hsl(var(--foreground));
+  --puck-color-grey-02: hsl(var(--foreground));
+  --puck-color-grey-03: hsl(var(--foreground));
+  --puck-color-grey-04: hsl(var(--muted-foreground));
+  --puck-color-grey-05: hsl(var(--muted-foreground));
+  --puck-color-grey-06: hsl(var(--muted-foreground));
+  --puck-color-grey-08: hsl(var(--border));
+  --puck-color-grey-09: hsl(var(--border));
+  --puck-color-grey-10: hsl(var(--border));
+  --puck-color-grey-11: hsl(var(--muted));
+  --puck-color-grey-12: hsl(var(--muted));
+
+  --puck-color-white: hsl(var(--card));
+  --puck-color-black: hsl(var(--foreground));
+
+  --puck-font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --puck-font-size-xxxs: 11px;
+  --puck-font-size-xxs: 12px;
+  --puck-font-size-xs: 13px;
+  --puck-font-size-s: 14px;
+}
+
+/* Puck's surfaces read from --puck-color-white; keep panels on the card
+   surface and the canvas gutter on the page surface. */
+.Puck {
+  background: hsl(var(--background));
+}
+
+.Puck-portal,
+.Puck-frame {
+  color-scheme: inherit;
+}
+
+/*
+  Blocks use container queries so they collapse based on the width they
+  actually have — which, inside the editor, is the device frame rather than
+  the browser window.
+*/
+@container (max-width: 720px) {
+  .puck-columns {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .puck-columns {
+    grid-template-columns: 1fr !important;
+  }
+}

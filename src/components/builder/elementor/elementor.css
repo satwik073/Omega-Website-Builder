@@ -1,0 +1,95 @@
+/*
+  Elementor-style editor chrome.
+
+  Presentation only — Puck keeps ownership of drag sources, selection, field
+  state and history. Selectors target Puck's CSS-module class *prefixes*
+  (`_Drawer_`, `_ComponentList-content_`) because the hash suffix changes
+  between builds; the prefixes are part of the component names and stable.
+*/
+
+/* ---------------------------------------------------------------------------
+   Widget browser — two-column tile grid per category
+   --------------------------------------------------------------------------- */
+
+/* One `_Drawer_` per category holds that category's draggables. */
+[class*='_ComponentList-content_'] [class*='_Drawer_'] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* Puck's own item chrome — a card background, border and padding, plus the
+   drag-handle row — is replaced wholesale by the tile in `drawerItem`. Left
+   in place it showed through as a second card behind/inside each tile. */
+[class*='_Drawer-draggableBg_'],
+[class*='_Drawer-draggable_'],
+[class*='_DrawerItem_'],
+[class*='_DrawerItem-draggable_'] {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  min-width: 0;
+}
+
+/* The tile is the full cell, so the drag layers must not add their own box. */
+[class*='_DrawerItem-draggableWrapper_'] {
+  display: contents;
+}
+
+/* Category header reads as Elementor's collapsible group title. */
+[class*='_ComponentList-title_'] {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  padding: 14px 0 6px;
+}
+
+[class*='_ComponentList-content_'] {
+  padding-bottom: 10px;
+}
+
+/* ---------------------------------------------------------------------------
+   Settings panel — one tab's fields at a time
+   --------------------------------------------------------------------------- */
+
+/*
+  Match the *direct* child only.
+
+  An `object` field (Typography, Margin, Transform…) renders its sub-fields
+  through the same `fieldLabel` override, so they are stamped with a group
+  too — usually the default, `content`. A descendant selector would therefore
+  hide the inside of every group whenever its own tab was not the active one,
+  emptying the Advanced tab. The label is a direct child of Puck's field
+  wrapper, so `> ` keeps this to top-level fields and leaves nested groups to
+  their parent.
+*/
+[data-active-group='content']
+  [class*='_PuckFields-field_']:not(:has(> [data-field-group='content'])),
+[data-active-group='style']
+  [class*='_PuckFields-field_']:not(:has(> [data-field-group='style'])),
+[data-active-group='advanced']
+  [class*='_PuckFields-field_']:not(:has(> [data-field-group='advanced'])) {
+  display: none;
+}
+
+[data-active-group] [class*='_PuckFields_'] {
+  border: 0;
+}
+
+/* Nested groups read as Elementor's popover sections. */
+[class*='_ObjectField-fieldset_'] {
+  border-left: 2px solid hsl(var(--border));
+  margin-left: 2px;
+  padding-left: 6px;
+}
+
+/* ---------------------------------------------------------------------------
+   Outline inside the floating Structure panel
+   --------------------------------------------------------------------------- */
+[aria-label='Structure'] [class*='_PuckLayout-outline_'] {
+  padding: 0;
+}

@@ -1,4 +1,3 @@
-import PageHeader from '@/components/global/page-header'
 import { getAuthUserDetails } from '@/lib/queries'
 import React from 'react'
 import CreateSubaccountButton from './_components/create-subaccount-btn'
@@ -31,19 +30,11 @@ const AllSubaccountsPage = async ({ params }: Props) => {
   )
 
   return (
-    <>
-      <PageHeader
-        title="Sub accounts"
-        description="Every client workspace your agency manages."
-        actions={createButton}
-      />
-
-      <SubaccountsGrid
-        subaccounts={subaccounts}
-        accessibleIds={accessibleIds}
-        createAction={createButton}
-      />
-    </>
+    <SubaccountsGrid
+      subaccounts={subaccounts}
+      accessibleIds={accessibleIds}
+      createAction={createButton}
+    />
   )
 }
 
